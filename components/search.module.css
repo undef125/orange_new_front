@@ -1,0 +1,76 @@
+
+.inputpopcontainer{
+    position: absolute;
+    top: 0;
+    display: grid;
+    grid-template-columns: 94% 6%;
+    z-index: 1;
+    width: 100%;
+    /* height: 3rem; */
+    height: 3.4rem;
+    border-bottom: 1px solid #e06331;
+    background-color: white;
+
+  }
+  .searchbarcontainer{
+    display: flex;
+  }
+  .inputholder {
+    height: 100%;
+    width: 90%;
+  }
+  .inputholder  > input{
+    height: 100%;
+    width: 100%;
+    padding: 0 2rem;
+    outline: none;
+    border: 0px;
+
+  }
+  .crossholder{
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  .singleproduct{
+    width: 90%;
+    margin: auto;
+    padding: .1rem 2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  .singleproduct:hover{
+    box-shadow: .4px .4px 5px black;
+  }
+  .searchedimageholder{
+    height: 50px;
+    width: 50px
+  }
+  .searchedimageholder > img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .displayresult{
+    position: absolute;
+    top: 3.4rem;
+    width: 100%;
+    z-index: 1;
+    background-color: white;
+  }
+  .searchedtextcontainer{
+    font-size: 1.2rem;
+  }
+  @media screen and (max-width: 768px) {
+  .searchedtextcontainer{
+    font-size: 1rem;
+  }
+}
+

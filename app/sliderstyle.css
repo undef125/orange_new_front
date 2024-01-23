@@ -1,0 +1,24 @@
+.rsis-image{
+    height: 500px !important;
+    width: 500px !important;
+}
+.slideContainer  button img{
+    /* filter: invert();
+    border: 1px solid rgb(0, 0, 0) !important; */
+    filter: hue-rotate(90deg)
+    /* opacity: 0; */
+    /* -1px -1px 1px black) ; */
+}
+.slideContainer  button img:before{
+    content: url(http://i.stack.imgur.com/yZgGX.png);
+
+    position: absolute;
+    /* filter: invert();
+    border: 1px solid rgb(0, 0, 0) !important; */
+    /* -1px -1px 1px black) ; */
+}
+.slideContainer > div > div > div:last-child > button{
+    /* height: 2rem;
+    background-color: black;
+    box-shadow: 2px 2px 12px rgb(12, 64, 160); */
+}

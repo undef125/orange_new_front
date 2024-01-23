@@ -1,0 +1,162 @@
+.imagecontainer {
+  height: 30rem;
+  width: 100vw;
+}
+.sliderHolder {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  margin-left: 0;
+}
+.sliderHolder i {
+  font-size: 3rem;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.sliderHolder i:hover,
+.sliderHolderHome i:hover {
+  transform: scale(1.2);
+  transition: 0.2s;
+}
+
+.categoriesholder {
+  display: grid;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  width: 500px;
+}
+
+.catimageholder {
+  height: 500px;
+  width: 500px;
+}
+.catimageholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.bulletholder {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 0.5rem 0;
+}
+.bullet {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 2px solid #ff8800;
+}
+/* .bullet:hover{
+  background-color: #ab16167d;
+} */
+.active {
+  background-color: #55a4e0;
+}
+.inactive {
+  background-color: #1b2aff;
+}
+
+/******************** homeslider ******************/
+.slideContainerHome {
+  width: 100vw;
+  background-color: #d7e9f9;
+}
+.sliderHolderHome {
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 85.6vw;
+  margin: auto;
+  font-size: 3rem;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.categoriesholderhome {
+  display: grid;
+  overflow-x: hidden;
+  gap: 0.4rem;
+  scroll-behavior: smooth;
+}
+.catimageholderhome {
+  height: 200px;
+  width: 200px;
+}
+.catimageholderhome > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .sliderHolderHome {
+    width: 100vw;
+  }
+  .categoriesholderhome {
+    overflow-x: scroll;
+  }
+  .categoriesholderhome::-webkit-scrollbar{
+    display: none;
+  }
+  .catimageholderhome {
+    height: 100px;
+    width: 100px;
+  }
+  .catimageholderhome > img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+  .sliderHolderHome i::before {
+    height: 10px;
+    width: 10px;
+  }
+  .slideContainer {
+    margin-top: 3rem;
+  }
+  .sliderHolder {
+    width: 100vw;
+    height: 400px;
+    display: grid;
+    grid-template-columns: 5% 90% 5%;
+  }
+  .categoriesholder {
+    width: 90vw;
+    height: 100%;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+  }
+  .categoriesholder::-webkit-scrollbar {
+    display: none;
+  }
+  .catimageholder {
+    height: 100%;
+    width: 90vw;
+    scroll-snap-align: start;
+  }
+  .bulletholder{
+    display: none;
+  }
+  .catimageholder > img {
+    height: 400px;
+    width: 100%;
+    object-fit: cover;
+  }
+  .sliderHolder i {
+    font-size: 1.2rem;
+    transform: scale(2);
+    transition: 0.5s;
+  }
+  .sliderHolderHome {
+    font-size: 2rem;
+  }
+  .sliderHolder i:hover {
+    transform: scale(2);
+    transition: 0.2s;
+  }
+}

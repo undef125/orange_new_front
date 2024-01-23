@@ -1,0 +1,148 @@
+.productContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 80%;
+  margin: 0.5rem 0;
+}
+.galleryContainer {
+  width: 100%;
+}
+.slidersection {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.categoryContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 910px;
+}
+.categoryContainer > i {
+  font-size: 3rem;
+  cursor: pointer;
+  transition: 0.5s;
+}
+/* .categoryContainer > i:hover {
+  transform: scale(1.2);
+  transition: 0.5s;
+} */
+.categoriesholder {
+  display: flex;
+  min-width: 120px;
+  max-width: 880px;
+  overflow: hidden;
+  gap: 20px;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  margin: 1rem 0;
+  padding: 0;
+}
+.categoriesholder::-webkit-scrollbar {
+  display: none;
+}
+.category {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 190px;
+  height: 170px;
+  padding: 0;
+}
+.catimageholder {
+  height: 100px;
+  width: 200px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.catimageholder > img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.textcontainer {
+  height: 70px;
+}
+
+.locationbuttonholder {
+  display: flex;
+  margin: 0.5rem 0 0 0;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.category > p {
+  margin: 0;
+}
+.category > img {
+  width: 6rem;
+  height: 6rem;
+}
+.contactContainer > p {
+  margin: 2px 0;
+}
+.categoryHeader {
+  margin-top: 2rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+}
+.copyrightText {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+}
+@media screen and (max-width: 768px) {
+  .productContainer {
+    width: 100%;
+  }
+  .categoryContainer > i {
+    font-size: 2rem;
+  }
+
+  .category > img {
+    width: 100px;
+    height: 100px;
+  }
+  .category > p {
+    font-size: 1rem;
+  }
+  .categoryHeader {
+    font-size: 1.4rem;
+  }
+}
+@media screen and (max-width: 768px) {
+  /* .categoryContainer > i:hover {
+    transform: scale(0);
+    transition: 0s;
+  } */
+  .categoryContainer {
+    width: 100vw;
+  }
+  .categoriesholder {
+    display: flex;
+    width: 65vw;
+    gap: 0px;
+  }
+  .category {
+    width: 130px;
+    height: 120px;
+  }
+  .copyrightText {
+    width: 100vw;
+    font-size: 1rem;
+    margin-bottom: 1rem;;
+  }
+  .category {
+    height: 180px;
+  }
+}

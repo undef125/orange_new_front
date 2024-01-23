@@ -1,0 +1,60 @@
+/* .textContainer {
+  max-width: 60vw;
+  flex-grow: 1;
+}
+
+.textContainer > h1 {
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.textContainer > p {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+.goodimgholder {
+  display: none;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+} */
+/* @media only screen and (max-width: 1024px) {
+  .textContainer > h1 {
+    font-size: 2.2rem;
+  }
+  .textContainer > p {
+    font-size: 1.2rem;
+  }
+  .buttonholder {
+    width: 70%;
+  }
+
+  .textContainer {
+    max-width: 100vw;
+  }
+  .textContainer h1{
+    font-size: 3rem;
+  }
+} */
+/* @media only screen and (max-width: 568px) {
+  .landingparent{
+    width: 90%;
+    background-color: red;
+  }
+  .textContainer{
+    background-color: #fff;
+    width: 100%;
+    column-span: 3;
+  }
+  .textContainer h1{
+    font-size: 1.2rem;
+  }
+  .rightimg {
+    display: block;
+  }
+
+} */

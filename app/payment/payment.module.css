@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+.wholepaymentholder{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.sectionone{
+  margin-top: 2rem;
+  display: flex;
+  width: 70vw;
+}
+.paymentholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .boardandimageholder {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .paymentholder img {
+    height: 1rem;
+  }
+  .amountdetail {
+    border: 1px solid black;
+    box-shadow: 1px 1px 4px black;
+  }
+  .tauko {
+    background-color: #fe8b00;
+    padding: 0.6rem 1rem;
+    border-radius: 0px;
+    box-shadow: 1px 1px 4px black;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+  .sectiontwo{
+    margin: auto;
+    display: flex;
+    width: 60vw;
+    gap: 4rem;
+    justify-content: flex-end;
+  }
+  .imageholder{
+    height: 300px;
+    padding-top: 1rem;
+  }
+  .imageholder > img {
+    height: 100%;
+    object-fit: cover;
+  }
+  .sarir {
+    padding: 1.2rem 0 0 0;
+  }
+  .sarir > div {
+    display: flex;
+    align-items: center;
+    padding-left: 2rem;
+    padding-bottom: 1.2rem;
+    gap: 1rem;
+  }
+  .textandiconholder {
+    display: flex;
+    flex-direction: column;
+  }
+  .uppersection {
+    display: flex;
+    /* justify-content: center; */
+    gap: 0.6rem;
+    align-items: center;
+    text-align: start;
+  }
+  .uppersection img {
+    height: 2rem;
+  }
+  .lowersection p {
+    font-size: .8rem;
+    text-align: start;
+  }
+  .checkbox {
+    width: 1.4rem;
+    height: 1.4rem;
+    background-color: #fff;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #3e3d3d;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+  }
+  .checkbox:checked {
+    background-color: #ff8800;
+  }
+  .cardimage img{
+    height: 15rem;
+  }
+  .formimageholder{
+    width: 100vw;
+    display: flex;
+    gap: 2rem;
+  }
+  .formimageholder form{
+    width: 55%;
+  }
+  .heading{
+    margin: 1rem 0;
+    font-size: 1.4rem;
+    font-weight: 1000;
+  }
+  .instructions{
+    margin-top: 2rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
+  .instructions > p {
+    margin: .6rem 0;
+  }
+  .submitbtnholder{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  .finalizingbuttons{
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+  .sendreqbtn > button{
+    color: black;
+    background-color: rgb(10, 109, 185);
+    outline: none;
+    border: 0px;
+    padding: .3rem .8rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 5px;
+  }
+  .finalizebtn > button{
+    border-radius: 5px;
+    color: black;
+    outline: none;
+    border: 0px;
+    padding: .2rem .5rem;
+    font-size: 1.1rem;
+    background-color: #ec6a0e;
+    font-weight: 600;
+    margin-bottom: .4rem;
+  }
+  .finalizingbuttons button:hover{
+    transition: .2s ease-in-out;
+    box-shadow: 1px 1px 4px black;
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 768px) {
+    .sectionone{
+      width: 97vw;
+      margin: auto;
+    }
+    .text{
+      margin: auto;
+    }
+    .imageholder{
+      display: none;
+    }
+    .heading{
+      margin: 1rem 0 .5rem 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .instructions{
+      margin-top: .5rem;
+      font-size: 1.2rem;
+    }
+    .instructions > p {
+      margin: .3rem 0;
+    }
+    .sectiontwo{
+      flex-direction: column;
+      width: 96vw;
+    }
+    .finalizingbuttons{
+      display: flex;
+      gap: 1rem;
+      flex-direction: column;
+      align-items: center;
+    }
+    .tauko {
+      font-size: 1.6rem;
+      padding: .4rem 2rem;
+    }
+    .uppersection > h2{
+      font-size: 1.4rem;
+    }
+  }

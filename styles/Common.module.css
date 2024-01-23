@@ -1,0 +1,129 @@
+.heading {
+  font-size: 1.9rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 1rem;
+}
+.tableheadcontainer,
+.listcontainer,
+.tableheadcontaineruser,
+.listcontaineruser {
+  width: 95vw;
+  display: grid;
+  grid-template-columns: 5% 22.5% 22.5% 25% 25%;
+  margin: auto;
+  margin-top: 1rem;
+  background-color: #e06331;
+  text-align: center;
+  color: white;
+}
+.tableheadcontainer > div,
+.tableheadcontaineruser > div {
+  border-top: 1px solid black;
+}
+.tableheadcontainer > div,
+.tableheadcontaineruser > div,
+.listcontainer > div,
+.listcontaineruser > div {
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 0.4rem;
+  font-weight: 600;
+}
+.actions,
+.actionslist {
+  border-right: 1px solid black;
+}
+.listcontainerholder {
+  height: 78vh;
+  overflow-y: scroll;
+}
+.listcontainerholder::-webkit-scrollbar {
+  width: 0;
+}
+.listcontainer,
+.listcontaineruser {
+  background-color: aliceblue;
+  margin-top: 0rem;
+  color: #3e3d3d;
+}
+.tableheadcontaineruser,
+.listcontaineruser {
+  grid-template-columns: 5% 15% 15% 15% 20% 30%;
+}
+.listcontainer > div {
+  border-top: 0px;
+}
+.actionslist {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+}
+.actionslist > button {
+  background-color: rgb(210, 12, 12);
+  border: 0px;
+  padding: 0.3rem 0.8rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.actionslist > button:hover {
+  transform: scale(1.02);
+}
+.searchinput {
+  width: fit-content;
+  margin: auto;
+  margin-top: 1rem;
+}
+.searchinput > input {
+  background-color: inherit;
+  outline: 0;
+  border: 0px;
+  color: black;
+  font-size: 1rem;
+  border-bottom: 1px solid black;
+}
+.searchinput > button {
+  background-color: #e06331;
+  outline: 0;
+  border: 0px;
+  padding: 0.2rem 0.8rem;
+  font-size: 1.1rem;
+  margin: auto;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.searchinput > button:hover {
+  color: black;
+}
+.loadercontainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+
+  background-color: rgba(240, 248, 255, 0.603);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.tabsholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  margin: 1rem 0;
+}
+.tabsholder > button {
+  /* background-color: #e06331; */
+  border: 0px;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.active {
+  background-color: #e06331;
+}

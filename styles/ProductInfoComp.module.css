@@ -1,0 +1,207 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.coverImageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  width: 79%;
+  height: 38vh;
+}
+.coverImageContainer > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 2px solid #3e3d3d;
+}
+.searchIcon,.cartIcon {
+  position: absolute;
+  top: 10px;
+  right: 200px;
+  font-size: 3rem;
+  color: #4aad96;
+  background-color: white;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+}
+.infoContainer {
+  height: 11rem;
+  position: relative;
+  display: flex;
+  width: 75%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* margin-top: -.1rem; */
+}
+.logoimagecontainer{
+  position: absolute;
+  left: 0;
+  top: 0rem;
+  display: flex;
+}
+.logoimagecontainer > img {
+
+  /* margin-top: 4.4rem; */
+  width: 200px;
+  height: 200px;
+  border: 2px solid #3e3d3d;
+  border-radius: 20px;
+  background-color: white;
+  object-fit: cover;
+}
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 11rem;
+  margin-left: 14rem;
+  margin-top: 1rem;
+}
+.textContainer > h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0;
+}
+.textContainer > p {
+  font-size: 1.9rem;
+  font-weight: 400;
+  margin: 0 0 .2rem 0;
+}
+
+.linkContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.linkContainer > div {
+  margin: auto 5px;
+  cursor: pointer;
+}
+
+
+.description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 75%;
+  padding: 2rem 4%;
+  margin: 0;
+}
+.description > h2 {
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: rgb(62, 62, 62)
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  transition: .2s ease-in-out;
+}
+.locationicon:hover, .icon:hover{
+  filter: drop-shadow( 1px 1px 4px #ff8800);
+}
+.locationicon{
+  width: 45.2px;
+  height: 45.2px;
+}
+
+@media screen and (max-width: 768px) {
+  .coverImageContainer {
+    width: 98vw;
+  }
+  /* .coverImageContainer > img {
+    width: 100%;
+  } */
+  .infoContainer {
+    flex-direction: column;
+  }
+
+  .textContainer > h1 {
+    font-size: 2.5rem;
+  }
+  .textContainer > p {
+    font-size: 1.4rem;
+  }
+  .description {
+    width: 95%;
+  }
+  .description > h2 {
+    font-size: 1.4rem;
+  }
+  .searchIcon {
+    right: 100px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .container{
+    width: 100vw;
+  }
+  .coverImageContainer {
+    width: 100%;
+    height: 20vh;
+  }
+  .searchIcon,.cartIcon {
+    right: 10px;
+  }
+  .cartIcon{
+    top: 1rem;
+  }
+  .infoContainer{
+    height: fit-content;
+    display: flex;
+    width: 100%;
+  }
+  .logoimagecontainer{
+    position: absolute;
+    left: 32%;
+    top: -1px;
+  }
+  .logoimagecontainer > img {
+    width: 150px;
+    height: 150px;
+  }
+  .textContainer {
+    margin-top: 150px;
+    margin-left: 0px;
+    justify-content: flex-start;
+    height: fit-content;
+  }
+  .textContainer > h1 {
+    font-size: 1.2rem;
+  }
+  .textContainer > p {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+  .linkContainer > div {
+    margin: .1rem 1px;
+  }
+  .description > h2 {
+    font-size: 1.2rem;
+  }
+  .icon {
+    width: 45px;
+    height: 45px;
+  }
+  .locationicon{
+    width: 42.2px;
+    height: 42.2px;
+  }
+}
+

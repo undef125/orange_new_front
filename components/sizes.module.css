@@ -1,0 +1,43 @@
+.sizespopcontainer{
+    position: absolute;
+    height: fit-content;
+    background-color: rgb(255, 255, 255);
+    width: 100vw;
+    text-align: center;
+    bottom: 6rem;
+    z-index: 1;
+    border: 1px solid gray;
+}
+.wholecontainer{
+   padding: 0 .6rem 0 0;
+   display: flex;
+   flex-direction: column;
+}
+.crossholder{
+    position:relative;
+    align-self: flex-end;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.imageholder{
+    position: absolute;
+    right: 0;
+    top: 1px;
+    right: 10px
+}
+.crossholder  img{
+    cursor: pointer;
+    z-index: 100;
+}
+.singlesizeholder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3rem;
+    cursor: pointer;
+}
+.singlesizeholder:hover{
+    box-shadow: .2px .2px 4px black;
+}

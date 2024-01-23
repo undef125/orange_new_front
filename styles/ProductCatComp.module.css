@@ -1,0 +1,174 @@
+.textContainer {
+  height: 100vh;
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: center;
+}
+.textContainer > h2 {
+  margin-left: 2rem;
+  font-size: 3.4rem;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+.button {
+  color: #fff;
+  background-color: #ff8800;
+  padding: 0.3rem 3rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  border: 3px solid #3e3d3d;
+  border-radius: 18px;
+  padding: 2.5rem auto;
+  cursor: pointer;
+  width: 240px;
+  margin: 2rem 0;
+}
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.image,
+.image2 {
+  z-index: 100;
+  margin: 2rem 3rem;
+  text-align: center;
+}
+.image > h1,
+.image2 > h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  width: 90%;
+  margin-top: 0;
+}
+.image > img {
+  width: 100%;
+  height: 100vh;
+}
+.image2 > img {
+  width: 90%;
+  height: 84.5vh;
+}
+.image2 > h1 {
+  font-size: 2rem;
+  margin: 1rem 0;
+}
+
+/**********changes*************/
+.crackimageholder,
+.orangeimageholder {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+.orangeimageholder {
+  width: 100vw;
+  height: 100vh;
+}
+.crackimageholder > img {
+  height: 120vh;
+  width: 100%;
+}
+.orangeimageholder > img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.areyousurecontainer {
+  height: 100vh;
+}
+.navbuttons {
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  margin: 1rem 0;
+}
+.navbuttons:hover {
+  filter: drop-shadow(0.2px 0.2px 1px #000000);
+}
+.signupbtnholder {
+  margin-top: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .textContainer {
+    width: 60vw;
+  }
+  .textContainer > h2 {
+    font-size: 1.8rem;
+    margin-left: 0;
+  }
+  .button {
+    font-size: 1rem;
+    width: 150px;
+    padding: 5px;
+  }
+  .imageContainer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .image > h1 {
+    font-size: 2rem;
+  }
+  .areyousurecontainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  .image  {
+    width: 80vw;
+    height: auto;
+  }
+  .image2 {
+    width: 80vw;
+    height: auto;
+  }
+}
+@media screen and (max-width: 560px) {
+  .textContainer > h2 {
+    font-size: 1.5rem;
+  }
+  .orangeimageholder{
+    width: 100vw;
+  }
+  .orangeimageholder img{
+    width: 100vw;
+  }
+  .thehomepageimage{
+    width: 100vw;
+  }
+ .image2 h1{
+    display: none
+  }
+  .crackimageholder{
+    display: none;
+  }
+  .image  {
+    width: 98vw;
+    height: auto;
+  }
+  .image2 {
+    width: 98vw;
+    height: auto;
+  }
+  .image,
+.image2 {
+  z-index: 100;
+  margin: 0rem;
+  text-align: center;
+}
+}

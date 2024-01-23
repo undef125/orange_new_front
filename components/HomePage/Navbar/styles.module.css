@@ -1,0 +1,16 @@
+@media only screen and (max-width : 1024px) {
+    .navcontainer{
+        padding: 0;
+        padding: 0px 4%;
+    }
+    .navcontainer img{
+        margin-left: 0;
+    }
+    .hamicon{
+        display: block;
+    }
+    .rightnav{
+        display: none;
+    }
+   
+}
