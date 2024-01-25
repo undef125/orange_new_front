@@ -45,9 +45,9 @@ const ProductsPage = () => {
           </InputGroup>
         </div>
         <div className="flex gap-8 w-[100%] px-4 mt-[2rem]">
-          {dummyCategories.map((category) => {
+          {dummyCategories.map((category,index) => {
             return (
-              <div className=" transition-all duration-500 ease-in-out bg-white cursor-pointer group flex flex-col h-[20rem] w-[18rem] rounded hover:shadow-md hover:shadow-slate-500 border-[1px] border-slate-300">
+              <div key={index} className=" transition-all duration-500 ease-in-out bg-white cursor-pointer group flex flex-col h-[20rem] w-[18rem] rounded hover:shadow-md hover:shadow-slate-500 border-[1px] border-slate-300">
                 <div className=" p-4 flex justify-center rounded  ">
                   <Image
                     src={category.catImg}

@@ -9,7 +9,7 @@ import PageLoader from "@/components/PageLoader";
 import axios from "./api/axiosinterceptor";
 import { useState, useEffect } from "react";
 
-export default function index() {
+export default function Page() {
   const [orange, setorange] = useState([]);
 
   const getCompanyDetails = async () => {
