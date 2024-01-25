@@ -70,10 +70,10 @@ const OurFeatures = () => {
         Our Features
       </div>
       <div className="flex flex-wrap gap-x-16  justify-center " id="box">
-        {features.map((feature) => {
+        {features.map((feature,index) => {
           return (
             <div
-              
+              key={index}
               className={` ${styles.onefeature} group flex flex-col transition-all ease-in-out duration-200 rounded-lg w-[30rem] px-6 py-4 mt-10 gap-1 cursor-pointer bg-white shadow-lg hover:shadow-2xl `}
             >
               <div className=" w-[100%] flex justify-center h-[6.5rem]">
