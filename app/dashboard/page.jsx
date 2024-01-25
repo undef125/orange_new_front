@@ -10,7 +10,7 @@ import PersonalizePage from "@/components/dashboardcomponents/PersonalizePage";
 import CategoriesPage from "@/components/dashboardcomponents/CategoriesPage";
 import ProductsPage from "@/components/dashboardcomponents/ProductsPage";
 
-const page = () => {
+const Page = () => {
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState();
   const [whichPage, setWhichPage] = useState(2);
@@ -111,4 +111,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
