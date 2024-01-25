@@ -4,14 +4,14 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import styles from "@/styles/Login.module.css";
 import { GoEye, GoEyeClosed } from "react-icons/go";
 import Link from "next/link";
-import { IndexContext } from "../../../context";
+import { IndexContext } from "../../context";
 import * as yup from "yup";
-import axios from "../../api/axiosinterceptor";
+import axios from "../api/axiosinterceptor";
 import { toast } from "react-toastify";
 import Router from "next/router";
 import { setCookie } from "cookies-next";
 import { Oval } from "react-loader-spinner";
-import BackBtnPop from "../../../components/BackBtnPop";
+import BackBtnPop from "../../components/BackBtnPop";
 
 const withemail = yup.object().shape({
   email: yup
@@ -165,7 +165,6 @@ const Login = () => {
                     <GoEye
                       className="cursor-pointer text-[25px] absolute right-2 top-[50%]"
                       onClick={() => {
-                        console.log("gggggggggg");
                         setPasswordShow(!passwordShow);
                       }}
                     />
@@ -182,9 +181,11 @@ const Login = () => {
               </p>
               <p className="mt-4 text-center">
                 Don't have an account?{" "}
+                <Link href="/signup">
                 <span className="cursor-pointer text-orange-400 font-semibold ">
                   Register Now!
                 </span>{" "}
+                </Link>
               </p>
             </div>
           </div>

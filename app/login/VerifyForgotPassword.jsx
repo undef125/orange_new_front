@@ -2,11 +2,11 @@ import Image from "next/image";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import styles from "../../styles/Login.module.css";
 import { FaRegCommentAlt, FaLock, FaEye } from "react-icons/fa";
-import axios from "../../api/axiosinterceptor";
+import axios from "../api/axiosinterceptor";
 import { toast } from "react-toastify";
 import Router from "next/router";
 import { Oval } from "react-loader-spinner";
-import BackBtnPop from "../../../components/BackBtnPop";
+import BackBtnPop from "../../components/BackBtnPop";
 
 const VerifyForgotPassword = () => {
   const [passwordShow, setPasswordShow] = useState(false);

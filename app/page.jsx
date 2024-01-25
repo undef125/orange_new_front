@@ -6,7 +6,7 @@ import OurFeatures from "@/components/HomePage/OurFeatures/OurFeatures";
 import ManageOrange from "@/components/HomePage/ManageOrange/ManageOrange";
 import Footer from "@/components/HomePage/Footer/Footer";
 import PageLoader from "@/components/PageLoader";
-import axios from "../api/axiosinterceptor";
+import axios from "./api/axiosinterceptor";
 import { useState, useEffect } from "react";
 
 export default function index() {
@@ -48,12 +48,6 @@ export default function index() {
           <MobileGif />
           <ManageOrange />
           <Footer />
-
-          {/* <Explosion /> */}
-          {/* <Benefits />
-      <HomeProductComponent />
-      <SignHomeUp />
-      <Footer orange={orange}/> */}
         </>
       )}
     </div>

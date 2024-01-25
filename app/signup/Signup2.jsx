@@ -1,13 +1,9 @@
 import Link from "next/link";
-import React, { useContext, useRef, useState, useEffect } from "react";
-import { IndexContext } from "../../../context";
-import styles from "@/styles/Signup.module.css";
-import styles2 from "@/styles/Signup2.module.css";
-import styles3 from "@/styles/ButtonDesign.module.css";
-import axios from "../../api/axiosinterceptor";
+import React, { useContext, useRef, useState } from "react";
+import { IndexContext } from "../../context";
+import axios from "../api/axiosinterceptor";
 import Router from "next/router";
 import { toast } from "react-toastify";
-// import compressImage from "../../utilis/imageCompressor";
 
 const Signup2 = ({ passwordShow, setPasswordShow }) => {
   const optionals = [

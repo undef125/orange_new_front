@@ -2,11 +2,11 @@ import Image from "next/image";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import styles from "../../styles/Login.module.css";
 import styles2 from "../../styles/ButtonDesign.module.css";
-import axios from "../../api/axiosinterceptor";
+import axios from "../api/axiosinterceptor";
 import { toast } from "react-toastify";
 import Router from "next/router";
 import { Oval } from "react-loader-spinner";
-import BackBtnPop from "../../../components/BackBtnPop";
+import BackBtnPop from "../../components/BackBtnPop";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");

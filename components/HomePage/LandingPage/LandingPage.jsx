@@ -58,7 +58,7 @@ export default function LandingPage() {
                   </div>
                 </div>
               </Link>
-              <Link href="/login/Signup">
+              <Link href="/signup">
                 <div className="flex justify-center bg-orange-400 py-2 px-3 md:px-5 rounded text-lg gap-2 md:gap-4 cursor-pointer transition-all duration-300 ease-in-out hover:bg-orange-500 w-full md:w-[13rem]">
                   <div className="">
                     <button type="submit">Regístrate</button>

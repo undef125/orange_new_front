@@ -79,7 +79,7 @@ export default function NavBar() {
             </div>
           </div>
         </Link>
-        <Link href="/login/Signup">
+        <Link href="/signup">
           <div className="flex bg-orange-400 w-[13rem] py-2 px-5 rounded text-lg gap-4 cursor-pointer transition-all duration-300 ease-in-out hover:bg-orange-500">
             <div className="">
               <button type="submit">Regístrate</button>
@@ -150,7 +150,7 @@ const SideNav = () => {
             </div>
           </div>
         </Link>
-        <Link href="/login/Signup">
+        <Link href="/signup">
           <div className="flex bg-orange-400 w-[13rem] py-2 px-5 rounded text-lg gap-4 cursor-pointer transition-all duration-300 ease-in-out hover:bg-orange-500">
             <div className="">
               <button type="submit">Regístrate</button>
