@@ -1,4 +1,6 @@
+'use client'
 import React, { useRef, useState, useEffect } from 'react';
+
 import styles from "./payment.module.css";
 import styles2 from "../../styles/ButtonDesign.module.css";
 import { toast } from 'react-toastify';
@@ -9,7 +11,8 @@ import ReactWhatsapp from 'react-whatsapp';
 import Router from 'next/router';
 import decode from "jwt-decode";
 
-export default function Payment() {
+
+export default function page() {
 
   const [checkcrypto, setcheckcrypto] = useState(false);
   const [checkother, setcheckother] = useState(false);

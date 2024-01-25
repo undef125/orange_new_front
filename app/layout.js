@@ -1,5 +1,6 @@
 import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
 import "rsuite/dist/rsuite-no-reset.min.css";
 import { CustomProvider } from "rsuite";
 

@@ -4,119 +4,24 @@ import { IndexContext } from "../../context";
 import axios from "../api/axiosinterceptor";
 import Router from "next/router";
 import { toast } from "react-toastify";
+import toBase64 from "@/utilis/FileToBase64";
 
-const Signup2 = ({ passwordShow, setPasswordShow }) => {
-  const optionals = [
-    "facebook",
-    "instagram",
-    "tiktok",
-    "twitter",
-    "website",
-    "youtube",
-  ];
-  let checkboxRef = useRef();
-  const formRef = useRef();
+const Signup2 = ({
+  values,
+  handleBlur,
+  handleChange,
+  errors,
+  passwordShow,
+  setFieldValue,
+}) => {
   const toastId = useRef(null);
-  let errors = useRef({});
-
-  const [errorstate, seterrorstate] = useState({});
-
-  // const { signupData, setSignupData } = useContext(IndexContext);
-
-  const handleSubmit = async () => {
-    //check if signupdata is filled cause it can be route directly
-    toastId.current = toast.loading("Enviando pedido...", { autoClose: false });
-    try {
-      for (const pair of signupData.entries()) {
-      }
-      //aba yo thik xa bhane aagadi ko kam garne natra else ma route to signup page
-      const data = new FormData(formRef.current);
-      errors = {};
-      for (const pair of data.entries()) {
-        optionals.includes(pair[0])
-          ? null
-          : pair[1] === ""
-          ? (errors[`${pair[0]}`] = `${pair[0]} can't be empty `)
-          : null;
-      }
-      seterrorstate({ ...errors });
-      let length = Object.keys(errors).length;
-      if (length !== 0) {
-        //errror xa bhanee
-      } else {
-        //append two form datas
-        let alreadyAppended = false;
-        for (var pair of signupData.entries()) {
-          if (pair[0] === "country") {
-            alreadyAppended = true;
-          }
-        }
-        if (!alreadyAppended) {
-          for (var pair of signupData.entries()) {
-            data.append(pair[0], pair[1]);
-          }
-        }
-
-        //signup gar
-        try {
-          //compressing imagesss
-          for (let pair of data.entries()) {
-            if (pair[0] === "coverimage" && pair[1].size > 0) {
-              let compressed = await compressImage(pair[1]);
-              data.delete("coverimage");
-              data.append("coverimage", compressed, compressed.name);
-              break;
-            }
-          }
-          for (let pair of data.entries()) {
-            if (pair[0] === "logoimage" && pair[1].size > 0) {
-              let compressed = await compressImage(pair[1]);
-              data.delete("logoimage");
-              data.append("logoimage", compressed, compressed.name);
-              break;
-            }
-          }
-
-          await axios.post("/register", data);
-          toast.update(toastId.current, {
-            render: "Registro realizado con éxito",
-            type: toast.TYPE.SUCCESS,
-            autoClose: 1000,
-            isLoading: false,
-          });
-          Router.push("/login");
-        } catch (error) {
-          error.response !== undefined
-            ? toast.update(toastId.current, {
-                render: error.response.data.msg,
-                type: toast.TYPE.ERROR,
-                autoClose: 1000,
-                isLoading: false,
-              })
-            : // error.error.keyValue.includes()
-              toast.update(toastId.current, {
-                render: "¡Error al registrarse! ",
-                type: toast.TYPE.ERROR,
-                autoClose: 1000,
-                isLoading: false,
-              });
-        }
-      }
-    } catch (error) {
-      toast.error("¡Por favor, no enrute directamente!", {
-        autoClose: 1000,
-        toastId: "don't route directly",
-      });
-      Router.push("/login/Signup");
-    }
-  };
-
   const inputStyle =
     "focus:border-orange-500 focus:outline-none px-2 text-[.9rem] md:text-[1.2rem]  border-2 rounded-lg border-orange-200 w-[95vw] md:w-[38rem] lg:w-[24rem] xl:w-[30rem] 2xl:w-[36rem] h-[2.5rem]";
 
   return (
     <>
-      <div className="flex flex-wrap gap-y-2 lg:gap-y-4 lg:grid lg:grid-cols-2 ">
+      {/* {console.log(values)} */}
+      <div className=" flex flex-wrap gap-y-2 lg:gap-y-4 lg:grid lg:grid-cols-2 ">
         <div className="flex flex-col">
           <label htmlFor="country" className="text-[.9rem] md:text-[1.2rem]">
             País *
@@ -126,7 +31,12 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
             id="country"
             name="country"
             placeholder="Escribe el país..."
-            className={inputStyle}
+            value={values.country}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            className={`${inputStyle} ${
+              errors.country ? "border-red-500 shadow-sm shadow-red-500" : ""
+            } `}
           />
         </div>
         <div className="flex flex-col">
@@ -138,7 +48,12 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
             id="postalcode"
             name="postalcode"
             placeholder="Escribe el Código postal..."
-            className={inputStyle}
+            value={values.postalcode}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            className={`${inputStyle} ${
+              errors.postalcode ? "border-red-500 shadow-sm shadow-red-500" : ""
+            }`}
           />
         </div>
         <div className="flex gap-[1vw] md:gap-[1rem]">
@@ -154,7 +69,14 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
               id="stateprovince"
               name="stateprovince"
               placeholder="Estado / Provincia / Departamento..."
-              className="focus:border-orange-500 focus:outline-none px-2 text-[.9rem] md:text-[1.2rem]  border-2 rounded-lg border-orange-200 w-[47vw] md:w-[18.5rem] lg:w-[11.5rem] xl:w-[14.5rem] 2xl:w-[17.5rem] h-[2.5rem]"
+              value={values.stateprovince}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              className={`${
+                errors.stateprovince
+                  ? "border-red-500 shadow-sm shadow-red-500"
+                  : ""
+              } focus:border-orange-500 focus:outline-none px-2 text-[.9rem] md:text-[1.2rem]  border-2 rounded-lg border-orange-200 w-[47vw] md:w-[18.5rem] lg:w-[11.5rem] xl:w-[14.5rem] 2xl:w-[17.5rem] h-[2.5rem]`}
             />
           </div>
           <div className="flex flex-col">
@@ -166,7 +88,12 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
               id="city"
               name="city"
               placeholder="Escribe la ciudad..."
-              className="focus:border-orange-500 focus:outline-none px-2 text-[.9rem] md:text-[1.2rem]  border-2 rounded-lg border-orange-200 w-[47vw] md:w-[18.5rem] lg:w-[11.5rem] xl:w-[14.5rem] 2xl:w-[17.5rem] h-[2.5rem]"
+              value={values.city}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              className={`${
+                errors.city ? "border-red-500 shadow-sm shadow-red-500" : ""
+              } focus:border-orange-500 focus:outline-none px-2 text-[.9rem] md:text-[1.2rem]  border-2 rounded-lg border-orange-200 w-[47vw] md:w-[18.5rem] lg:w-[11.5rem] xl:w-[14.5rem] 2xl:w-[17.5rem] h-[2.5rem]`}
             />
           </div>
         </div>
@@ -182,7 +109,14 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
             id="description"
             name="description"
             placeholder="Escribe la descripción completa de tu empresa..."
-            className={`${inputStyle}`}
+            value={values.description}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            className={`${inputStyle} ${
+              errors.description
+                ? "border-red-500 shadow-sm shadow-red-500"
+                : ""
+            }`}
           />
         </div>
         <div className="flex flex-col">
@@ -194,7 +128,12 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
             id="short"
             name="short"
             placeholder="Escribe una reseña corta de tu empresa..."
-            className={`${inputStyle}`}
+            value={values.short}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            className={`${inputStyle} ${
+              errors.short ? "border-red-500 shadow-sm shadow-red-500" : ""
+            }`}
           />
         </div>
 
@@ -212,6 +151,12 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
                 id="coverimage"
                 name="coverImage"
                 placeholder="State/Province"
+                onChange={async (e) => {
+                  setFieldValue(
+                    "coverImage",
+                    await toBase64(e.target.files[0])
+                  );
+                }}
                 className="focus:border-orange-500 focus:outline-none px-2 text-[.9rem] md:text-[1.2rem]  border-2 rounded-lg border-orange-200 w-[47vw] md:w-[18.5rem] lg:w-[11.5rem] xl:w-[14.5rem] 2xl:w-[17.5rem] h-[2.5rem]"
               />
             </div>
@@ -227,6 +172,11 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
                 id="logoimage"
                 name="logoImage"
                 placeholder="City"
+                // value={values.logoImage}
+                onBlur={handleBlur}
+                onChange={async (e) => {
+                  setFieldValue("logoImage", await toBase64(e.target.files[0]));
+                }}
                 className="focus:border-orange-500 focus:outline-none px-2 text-[.9rem] md:text-[1.2rem]  border-2 rounded-lg border-orange-200 w-[47vw] md:w-[18.5rem] lg:w-[11.5rem] xl:w-[14.5rem] 2xl:w-[17.5rem] h-[2.5rem]"
               />
             </div>
@@ -246,7 +196,12 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
                 id="telephonecc"
                 name="telephonecc"
                 placeholder="+1"
-                className="focus:border-orange-500 focus:outline-none px-2 text-[.9rem] md:text-[1.2rem]  border-2 rounded-lg border-orange-200 w-[15vw] md:w-[5rem]  lg:w-[4rem] xl:w-[5rem] 2xl:w-[5rem] h-[2.5rem]"
+                value={values.telephonecc}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                className={`${
+                  errors.short ? "border-red-500 shadow-sm shadow-red-500" : ""
+                } focus:border-orange-500 focus:outline-none px-2 text-[.9rem] md:text-[1.2rem]  border-2 rounded-lg border-orange-200 w-[15vw] md:w-[5rem]  lg:w-[4rem] xl:w-[5rem] 2xl:w-[5rem] h-[2.5rem]`}
               />
               {/* lg:w-[24rem] xl:w-[30rem] 2xl:w-[36rem] */}
               <input
@@ -254,7 +209,12 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
                 id="telephonenum"
                 name="telephonenum"
                 placeholder="Escribe tu número de teléfono..."
-                className="focus:border-orange-500 focus:outline-none px-2 text-[.9rem] md:text-[1.2rem]  border-2 rounded-lg border-orange-200 w-[79vw] md:w-[32rem] lg:w-[1rem] xl:w-[24rem] 2xl:w-[30rem] h-[2.5rem]"
+                value={values.telephonenum}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                className={`${
+                  errors.short ? "border-red-500 shadow-sm shadow-red-500" : ""
+                } focus:border-orange-500 focus:outline-none px-2 text-[.9rem] md:text-[1.2rem]  border-2 rounded-lg border-orange-200 w-[79vw] md:w-[32rem] lg:w-[1rem] xl:w-[24rem] 2xl:w-[30rem] h-[2.5rem]`}
               />
             </div>
           </div>
@@ -268,6 +228,9 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
             id="facebook"
             name="facebook"
             placeholder="Facebook"
+            value={values.facebook}
+            onBlur={handleBlur}
+            onChange={handleChange}
             className={`${inputStyle}`}
           />
         </div>
@@ -280,6 +243,9 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
             id="instagram"
             name="instagram"
             placeholder="Instagram"
+            value={values.instagram}
+            onBlur={handleBlur}
+            onChange={handleChange}
             className={`${inputStyle}`}
           />
         </div>
@@ -292,6 +258,9 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
             id="youtube"
             name="youtube"
             placeholder="Youtube"
+            value={values.youtube}
+            onBlur={handleBlur}
+            onChange={handleChange}
             className={`${inputStyle}`}
           />
         </div>
@@ -304,6 +273,9 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
             id="twitter"
             name="twitter"
             placeholder="Twitter"
+            value={values.twitter}
+            onBlur={handleBlur}
+            onChange={handleChange}
             className={`${inputStyle}`}
           />
         </div>
@@ -316,6 +288,9 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
             id="website"
             name="website"
             placeholder="Website"
+            value={values.website}
+            onBlur={handleBlur}
+            onChange={handleChange}
             className={`${inputStyle}`}
           />
         </div>
@@ -328,17 +303,23 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
             id="tiktok"
             name="tiktok"
             placeholder="Tiktok"
+            value={values.tiktok}
+            onBlur={handleBlur}
+            onChange={handleChange}
             className={`${inputStyle}`}
           />
         </div>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 mt-5">
         <input
-          ref={checkboxRef}
           type="checkbox"
           name="termsandcondition"
           id="termsandcondition"
-          className=""
+          checked={values.isAgreed}
+          onBlur={handleBlur}
+          onChange={(e) => {
+            setFieldValue("isAgreed", e.target.checked);
+          }}
         />
         <label
           htmlFor="termsandcondition"
@@ -362,7 +343,11 @@ const Signup2 = ({ passwordShow, setPasswordShow }) => {
           <span className="text-orange-500"> Orange Publicity</span>
         </label>
       </div>
-
+      {errors.isAgreed ? (
+        <div className="text-red-500">{errors.isAgreed}</div>
+      ) : (
+        ""
+      )}
     </>
     // <div className="signuppage1holder">
     //   {/* heading text section */}
