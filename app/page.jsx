@@ -25,12 +25,24 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const handleLoad = () => {
+      setLoading(false);
+    };
+
     if (document.readyState === 'complete') {
-      setLoading(false)
-    } else{
-      setLoading(true)
+      handleLoad();
+    } else {
+      setLoading(true);
+
+      // Listen for the load event
+      window.addEventListener('load', handleLoad);
     }
-  }, []);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('load', handleLoad);
+    };
+  }, [])
 
   return (
     <div className="relative overflow-hidden">
