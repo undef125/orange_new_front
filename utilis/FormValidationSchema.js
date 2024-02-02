@@ -6,7 +6,7 @@ export const signUpValidationOne = Yup.object({
   email: Yup.string()
     .email("Please enter a valid email")
     .required("Please enter email"),
-  userName: Yup.string().min(3).required("Please enter username"),
+  userName: Yup.string().min(3).required("Please enter username").matches(/^[a-zA-Z0-9]+$/, 'Username should not contain special characters'),
   password: Yup.string().min(3).max(15).required("Please enter password"),
   businessName: Yup.string()
     .min(3)
@@ -27,4 +27,15 @@ export const signUpValidationTwo = Yup.object({
   telephonecc: Yup.number().required("Telephone country code is required"),
   telephonenum: Yup.number().required("Telephone number is required"),
   isAgreed: Yup.boolean().oneOf([true], "You must accept the terms"),
+});
+
+export const loginValidationSchema = Yup.object({
+  emailorusername: Yup.string().required("Email/Username is required"),
+  password: Yup.string().required("Please enter password"),
+});
+
+export const categoriesValidationSchema = Yup.object({
+  categoryName: Yup.string().required("Category name is required"),
+  categoryImage: Yup.string().required("Category image is required"),
+  categoryDescription: Yup.string(),
 });

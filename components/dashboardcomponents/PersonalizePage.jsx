@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useEffect } from "react";
 
 const PersonalizePage = () => {
-  return (
-    <div>
-        yoooooooooooooooooooooooooooooooooooooooooooooooooooooo
-    </div>
-  )
-}
+  useEffect(() => {
+    //
+  }, []);
 
-export default PersonalizePage
+  return <div>yoooooooooooooooooooooooooooooooooooooooooooooooooooooo</div>;
+};
+
+export default PersonalizePage;

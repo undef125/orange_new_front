@@ -1,192 +1,184 @@
-'use client'
-import React, { useRef, useState, useEffect } from 'react';
-
-import styles from "./payment.module.css";
-import styles2 from "../../styles/ButtonDesign.module.css";
-import { toast } from 'react-toastify';
+"use client";
+import React, { useRef, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import axios from "../api/axiosinterceptor";
-import cookieCutter from "cookie-cutter";
-import Cookies from "js-cookie"
-import ReactWhatsapp from 'react-whatsapp';
-import Router from 'next/router';
-import decode from "jwt-decode";
-
+import { getCookie, deleteCookie } from "cookies-next";
+import Router from "next/router";
+import Image from "next/image";
+import PaymentVerificationUpload from "@/components/paymentpagecomponents/PaymentVerificationUpload";
+import { Modal, Button, ButtonToolbar, Placeholder } from "rsuite";
+import { makeStripePayment, makePaypalPayment } from "./paymentUtilities";
 
 export default function page() {
-
-  const [checkcrypto, setcheckcrypto] = useState(false);
-  const [checkother, setcheckother] = useState(false);
-  const [decoded, setdecoded] = useState(0);
   const [price, setPrice] = useState(0);
+  const toastId = useRef(null);
+  const [open, setOpen] = useState(false);
+  const [size, setSize] = useState();
+  const [gateway, setGateway] = useState("");
+  const handleOpen = (value) => {
+    setSize(value);
+    setOpen(true);
+  };
+  const handleClose = () => setOpen(false);
 
   const [orange, setorange] = useState([]);
-
 
   const getCompanyDetails = async () => {
     try {
       let resp = await axios.get("/getorange");
       setorange(resp.data.data[0]);
-    } catch (error) {
-    }
-  }
-
-
-  const logOut = () => {
-    Cookies.remove('accesstoken', { path: '/' });
-    Router.push("/orange");
-    toast.success("Desconectado", { autoClose: 1000, toastId: "loggedout" })
+    } catch (error) {}
   };
 
-  const toastId = useRef(null);
+  const logOut = () => {
+    deleteCookie("accesstoken", { path: "/" });
+    Router.push("/orange");
+    toast.success("Desconectado", { autoClose: 1000, toastId: "loggedout" });
+  };
 
   const getPrice = async () => {
     try {
       let resp = await axios.get("/getprice", {
         headers: {
-          Authorization: `Bearer ${cookieCutter.get("accesstoken")}`,
-        }
+          Authorization: `Bearer ${getCookie("accesstoken")}`,
+        },
       });
       setPrice(resp.data.data[0].price);
-    } catch (error) {
-
-    }
-  }
+    } catch (error) {}
+  };
 
   const sendVerReq = async () => {
     toastId.current = toast.loading("Enviando pedido...", { autoClose: false });
     try {
       await axios.get("/verifyreq", {
         headers: {
-          Authorization: `Bearer ${cookieCutter.get("accesstoken")}`,
-        }
+          Authorization: `Bearer ${getCoookie("accesstoken")}`,
+        },
       });
-      toast.update(toastId.current, { render: "Solicitud enviada", type: toast.TYPE.SUCCESS, autoClose: 1000, isLoading: false })
+      toast.update(toastId.current, {
+        render: "Solicitud enviada",
+        type: toast.TYPE.SUCCESS,
+        autoClose: 1000,
+        isLoading: false,
+      });
     } catch (error) {
       error.response !== undefined
-        ? toast.update(toastId.current, { render: error.response.data.msg, type: toast.TYPE.ERROR, autoClose: 1000, isLoading: false })
-        : toast.update(toastId.current, { render: "Fallido", type: toast.TYPE.ERROR, autoClose: 1000, isLoading: false })
+        ? toast.update(toastId.current, {
+            render: error.response.data.msg,
+            type: toast.TYPE.ERROR,
+            autoClose: 1000,
+            isLoading: false,
+          })
+        : toast.update(toastId.current, {
+            render: "Fallido",
+            type: toast.TYPE.ERROR,
+            autoClose: 1000,
+            isLoading: false,
+          });
     }
-  }
+  };
 
   useEffect(() => {
     getPrice();
     getCompanyDetails();
-    let token = cookieCutter.get("accesstoken");
-    setdecoded(decode(token));
-  }, [])
+  }, []);
 
   return (
-    <div className={styles.wholepaymentholder}>
-      <div className={styles.sectionone}>
-        <div className={styles.imageholder}>
-          <img
-            src="/payment/card.png"
-          />
-        </div>
-        <div className={styles.text}>
-          <div className={styles.heading}>
-            PASOS PARA CONVERTIRTE EN UN CLIENTE
-            VERIFICADO:
+    <div className="h-[100vh] w-[100vw] flex  items-center justify-center px-[10vw] gap-10">
+      <div className="flex justify-center  items-center h-[100%]">
+        <div className="w-fit  ">
+          <div className="text-[2rem] font-semibold text-start">
+            Choose Payment Method:
           </div>
-          <div className={styles.instructions}>
-            <p>1. Selecciona la opción de pago</p>
-            <p>2. Da click al botón: <b>Realizar pago</b></p>
-            <p>3. Da click al botón: <b>Envíar solicitud de verificación</b></p>
-            <p>4. Da click al botón: <b>Finalizar</b></p>
-            <p>5. Espera la notificación por WhatsApp, para <b>iniciar sesión</b></p>
-
-          </div>
-        </div>
-      </div>
-      {/* yo section ma hunxa chat ani send verification request */}
-      <div className={styles.sectiontwo}>
-        <div className={styles.box}>
-          <div className={styles.heading}>
-            <span className="secondary-color" style={{ fontSize: "1.1rem", fontWeight: "600" }}>
-              ESCOGE UNA DE LAS OPCIONES
-              DE PAGO
-            </span>
-          </div>
-          <div className={styles.boardandimageholder}>
-            <div className={styles.amountdetail}>
-              <div className={styles.tauko}>
-                ${price} Dólares / 1 Año
+          <div className=" flex flex-col gap-6" >
+            <div
+              onClick={makeStripePayment}
+              className="bg-white flex justify-between px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
+            >
+              <div className="flex justify-between items-center">
+                <Image src="/payment/stripe.png" height={100} width={100} alt="" />
+                <Image src="/payment/stripe2.png" height="1013" width="10126" className="h-[60%] w-[70%] "  alt="" />
               </div>
-              <div className={styles.sarir}>
-                <div className={styles.crypto}>
-                  <div className={styles.checkboxholder}>
-                    <input type="checkbox" name="" id="crypto" className={styles.checkbox} checked={checkcrypto} onChange={() => {
-                      if (checkother) {
-                        setcheckother(false)
-                        setcheckcrypto(true)
-                      } else setcheckcrypto(true)
-                    }} />
-                  </div>
-                  <div className={styles.textandiconholder}>
-                    <div className={styles.uppersection}>
-                      <h2>${price} USDT</h2>
-                      <img src="/payment/crypto.png" alt="" />
-                    </div>
-                    <div className={styles.lowersection}>
-                      <p>Red: TRC20</p>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.other}>
-                  <div className={styles.checkboxholder}>
-                    <input type="checkbox" name="" id="money" className={styles.checkbox} checked={checkother} onChange={() => {
-                      if (checkcrypto) {
-                        setcheckcrypto(false)
-                        setcheckother(true)
-                      } else setcheckother(true)
-                    }} />
-                  </div>
-                  <div className={styles.textandiconholder}>
-                    <div className={styles.uppersection}>
-                      <h2>${price} USD</h2>
-                      <img src="/payment/otherpayment.png" />
-                    </div>
-                    <div className={styles.lowersection}>
-                      <p>Otras opciones de pago</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="chatbtnholder">
-                  {orange?.whatsapp ?
-                    <ReactWhatsapp number={orange?.whatsapp}
-                      style={{ backgroundColor: "white", outline: "none", border: "0px" }}
-                      message={`HOLA
-                 quiero activar mi tienda virtual, mi correo es: ${decoded.email}\n Mi método de pago es: ${checkcrypto ? 'Criptomonedas' : checkother ? 'Otras opciones de pago' : null} `}
-                    >
-                      <div className={styles2.loginbuttonholder}>
-                        <div className={styles2.buttonholder} >
-                          <button type="submit" className={`${styles2.button}`} style={{ fontSize: "1rem" }}>
-                            Realizar Pago
-                          </button>
-                        </div>
-                        <div className={styles2.logoimageholder}>
-                          <img src="/whatsapp.png" alt="" />
-                        </div>
-                      </div>
-                    </ReactWhatsapp>
-                    : <></>
-                  }
-                </div>
+            </div>
+            <div
+              onClick={makePaypalPayment}
+              className="bg-white flex justify-between px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
+            >
+              <div>
+                <Image src="/payment/paypal.png" height={100} width={100} alt="" />
+              </div>
+            </div>
+            <div
+              onClick={() => {
+                handleOpen("calc(100% - 120px)");
+                setGateway('zille')
+              }}
+              className="bg-white flex justify-between px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
+            >
+              <div>
+                <Image src="/payment/zille.png" height={100} width={100} alt="" />
+              </div>
+            </div>
+            <div
+              onClick={() => {
+                handleOpen("calc(100% - 120px)");
+                setGateway('nequi')
+              }}
+              className="bg-white flex justify-between px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
+            >
+              <div>
+                <Image src="/payment/nequi.png" height={100} width={100} alt="" />
               </div>
             </div>
           </div>
         </div>
-        <div className={styles.finalizingbuttons}>
-          <div className={styles.sendreqbtn}>
-            <button onClick={sendVerReq}>Enviar solicitud
-              De verificación </button>
-          </div>
-          <div className={styles.finalizebtn}>
-            <button onClick={logOut}>Finalizar</button>
+      </div>
+      <div className="flex justify-center h-[100%] items-center">
+        <div className="">
+          <div className="w-[30vw] px-6 rounded-xl  flex flex-col  bg-white">
+            <h1 className="font-semibold text-orange-500 text-[1.6rem] py-4">
+              Orange Subscription
+            </h1>
+            <hr />
+            <div className="flex justify-between items-center py-6">
+              <p className=" text-[1.2rem] ">Orange Subscription</p>
+              <p>1x</p>
+              <p className="  text-[1.2rem]">$300/year</p>
+            </div>
+            <hr />
+            <div className="py-6">
+              <div className="flex justify-between">
+                <p className=" text-[1.2rem] ">Subtotal</p>
+                <p className="  text-[1.2rem]">$300</p>
+              </div>
+              <div className="flex justify-between">
+                <p className=" text-[1.2rem] ">Discount</p>
+                <p className="  text-[1.2rem]">$0</p>
+              </div>
+            </div>
+            <hr />
+            <div className="flex justify-between py-4 font-semibold">
+              <p className=" text-[1.2rem] ">Total Cost</p>
+              <p className="  text-[1.2rem]">$300</p>
+            </div>
           </div>
         </div>
       </div>
-
+      <Modal size={size} open={open} onClose={handleClose}>
+        <Modal.Header>
+          <Modal.Title>
+            <div className="py-4">
+              <p className="text-[1.5rem] text-slate-600 ">
+                Payment information
+              </p>
+            </div>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <PaymentVerificationUpload gateway={gateway}/>
+        </Modal.Body>
+        <Modal.Footer></Modal.Footer>
+      </Modal>
     </div>
-  )
+  );
 }
