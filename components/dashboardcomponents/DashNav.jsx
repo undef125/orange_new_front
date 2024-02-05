@@ -3,9 +3,10 @@ import { Navbar, Nav } from "rsuite";
 // import CogIcon from "@rsuite/icons/legacy/Cog";
 import { IoMdMenu } from "react-icons/io";
 import { FaRegUserCircle } from "react-icons/fa";
+import Skeleton from "react-loading-skeleton";
 
-const DashNav = ({ handleOpen, user,company }) => {
-
+const DashNav = ({ handleOpen, user, company,loading }) => {
+  console.log(loading)
   return (
     <div className="bg-red-500 shadow-sm shadow-[#0000002d]">
       <Navbar style={{ backgroundColor: "white" }}>
@@ -22,7 +23,13 @@ const DashNav = ({ handleOpen, user,company }) => {
             <FaRegUserCircle className="h-10 w-10 text-slate-500" />
             <div className="flex flex-col py-[1rem] ml-4">
               <p className="text-[1.2rem] font-medium text-left">
-                {user?.name} {user?.surname}
+                {!loading ? (
+                  <>
+                    {user?.name} {user?.surname}
+                  </>
+                ) : (
+                  <Skeleton />
+                )}
               </p>
               <p className="text-[1rem] text-gray-400 ">{user?.email}</p>
             </div>

@@ -39,3 +39,18 @@ export const categoriesValidationSchema = Yup.object({
   categoryImage: Yup.string().required("Category image is required"),
   categoryDescription: Yup.string(),
 });
+
+export const productsValidationSchema = Yup.object({
+  images: Yup.array().of(Yup.string()).required("Please provide images for your product"),
+  name: Yup.string().required("Name of product is required"),
+  description: Yup.string().required("Product description is required"),
+  price: Yup.number().required("Product price is required"),
+  discountPrice: Yup.number(),
+  categoryId: Yup.string().required("Please select any category"),
+  model: Yup.string(),
+  servesFor: Yup.string(),
+  howToUse: Yup.string(),
+  sizes: Yup.string(),
+  buttonText: Yup.string(),
+  checkoutText: Yup.string(),
+});

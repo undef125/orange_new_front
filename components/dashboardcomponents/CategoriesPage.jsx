@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { TbEdit } from "react-icons/tb";
 import SearchIcon from "@rsuite/icons/Search";
+import { ToastContainer, toast } from "react-toastify";
 import { Input, InputGroup, Button } from "rsuite";
 import AddCategories from "./categoriespage/AddCategories";
 import axios from "@/app/api/axiosinterceptor";
-import UpdateCategories from "./categoriespage/UpdateCategories";
 import toBase64 from "@/utilis/FileToBase64";
-
+import { InfinitySpin, Oval } from "react-loader-spinner";
+import { MdDeleteForever } from "react-icons/md";
 const styles = {
   width: 300,
   marginBottom: 10,
@@ -19,10 +20,13 @@ const CategoriesPage = ({ company }) => {
   const [size, setSize] = useState();
   const [name, setname] = useState(false);
   const [image, setimage] = useState(false);
+  const [updateLoading, setupdateLoading] = useState(false);
+  const [loadingCat, setloadingCat] = useState(false);
   const [currentCatIndex, setcurrentCatIndex] = useState(-1);
   const [updateValues, setupdateValues] = useState({});
-
   const [categories, setcategories] = useState([]);
+  const [backupCats, setbackupCats] = useState([]);
+
   const handleOpen = (value) => {
     setSize(value);
     setOpen(true);
@@ -30,23 +34,53 @@ const CategoriesPage = ({ company }) => {
   const handleClose = () => setOpen(false);
 
   const getCategories = async () => {
+    setloadingCat(true);
     try {
       let response = await axios.get(`getcompanycategories/${company?._id}`);
       setcategories(response.data);
+      setbackupCats(response.data);
+      setupdateLoading(false);
+      setloadingCat(false);
     } catch (error) {
+      setloadingCat(false);
       console.log(`error: ${error}`);
     }
   };
 
   const updateCategory = async (catId) => {
+    setupdateLoading(true);
     try {
-      const response = await axios.put(
-        `/updatecategory/${catId}`,
-        updateValues
-      );
-      console.log(response);
-    } catch (error) {}
+      await axios.put(`/updatecategory/${catId}`, updateValues);
+      getCategories();
+      setname(false);
+      setimage(false);
+      toast.success("Successfully Updated the Category", {
+        autoClose: 2000,
+      });
+    } catch (error) {
+      setupdateLoading(false);
+    }
   };
+
+  const deleteCategory = async (catId) => {
+    setupdateLoading(true);
+    try {
+      await axios.delete(`/deletecategory/${catId}`);
+      getCategories();
+      // setname(false);
+      // setimage(false);
+      toast.success("Successfully Deleted the Category", {
+        autoClose: 2000,
+      });
+    } catch (error) {
+      toast.error(" Deletion failed", {
+        autoClose: 2000,
+      });
+      setupdateLoading(false);
+    }
+  };
+
+  useEffect(() => {}, [categories]);
 
   useEffect(() => {
     getCategories();
@@ -54,6 +88,7 @@ const CategoriesPage = ({ company }) => {
 
   return (
     <div className="w-[100vw] h-screen flex justify-center bg-slate-200">
+      <ToastContainer />
       <div className="w-[80%] flex flex-col items-center mt-[1rem]">
         <div>
           <h1 className="text-[2.5rem] text-orange-500 ">
@@ -62,7 +97,22 @@ const CategoriesPage = ({ company }) => {
         </div>
         <div>
           <InputGroup inside style={styles}>
-            <Input />
+            <Input
+              onChange={(searchText) => {
+                if (searchText.trim("") === "") {
+                  // console.log(backupCats)
+                  setcategories(backupCats);
+                } else {
+                  const filteredArray = backupCats?.filter((category) =>
+                    category.categoryName
+                      .toLowerCase()
+                      .includes(searchText.toLowerCase())
+                  );
+                  console.log(filteredArray);
+                  setcategories(filteredArray);
+                }
+              }}
+            />
             <InputGroup.Button>
               <SearchIcon />
             </InputGroup.Button>
@@ -72,121 +122,168 @@ const CategoriesPage = ({ company }) => {
           </Button>
         </div>
         <div className="flex gap-8 w-[100%] px-4 mt-[2rem]">
-          {categories.map((category, index) => {
-            return (
-              <div
-                key={index}
-                className=" transition-all duration-500 ease-in-out bg-white cursor-pointer group flex flex-col min-h-[20rem] w-[18rem] rounded hover:shadow-md hover:shadow-slate-500 border-[1px] border-slate-300"
-              >
-                <div className=" p-4 flex flex-col rounded  ">
-                  <div className=" flex justify-between  "> 
-
-                  <Image
-                    src={image? `${updateValues.categoryImage}` :`https://ecommerce-backend-eight.vercel.app/${category.categoryImage}`}
-                    height="1600"
-                    width="1574"
-                    alt="category related image"
-                    className="w-[10rem] h-[10rem] object-cover transition-all duration-300 ease-in-out group-hover:scale-105"
-                  />
-                  <TbEdit
-                    className="text-[1.6rem] hover:text-orange-500 cursor-pointer "
-                    onClick={() => {
-                      setcurrentCatIndex(index);
-                      setimage(true);
-                    }}
-                  />
-                  {console.log(updateValues)}
+          {loadingCat ? (
+            <InfinitySpin
+              visible={true}
+              width="200"
+              color="#4fa94d"
+              ariaLabel="infinity-spin-loading"
+            />
+          ) : (
+            categories.map((category, index) => {
+              return (
+                <div
+                  key={index}
+                  className=" transition-all duration-500 ease-in-out bg-white cursor-pointer group flex flex-col min-h-[20rem] w-[18rem] rounded hover:shadow-md hover:shadow-slate-500 border-[1px] border-slate-300"
+                >
+                  <div className=" flex flex-col rounded   relative">
+                    <div className=" flex justify-center  group/image">
+                      <Image
+                        src={
+                          image && currentCatIndex === index
+                            ? `${
+                                updateValues.categoryImage === undefined
+                                  ? ""
+                                  : updateValues.categoryImage
+                              }`
+                            : `http://localhost:5000/${category.categoryImage}`
+                        }
+                        height="1600"
+                        width="1574"
+                        alt="category related image "
+                        className="p-4 w-[10rem] h-[10rem] object-cover transition-all duration-300 ease-in-out group-hover:scale-105"
+                      />
+                      <div className="absolute hidden group-hover/image:flex justify-center items-center h-[10rem] w-[100%] bg-[#f8f8f8d6] ">
+                        <TbEdit
+                          className="text-[2.3rem] hover:text-orange-500 cursor-pointer "
+                          onClick={() => {
+                            setcurrentCatIndex(index);
+                            setimage(true);
+                          }}
+                        />
+                      </div>
+                    </div>
+                    {image && currentCatIndex === index ? (
+                      <>
+                        <input
+                          type="file"
+                          onChange={async (e) => {
+                            setupdateValues({
+                              ...updateValues,
+                              categoryImage: await toBase64(e.target.files[0]),
+                            });
+                          }}
+                        />
+                        {console.log(currentCatIndex, index)}
+                      </>
+                    ) : null}
                   </div>
-                  {image ? (
-                    <input
-                      type="file"
-                      onChange={async (e) => {
-                        setupdateValues({
-                          ...updateValues,
-                          categoryImage: await toBase64(e.target.files[0]),
-                        });
-                      }}
-                    />
+                  <hr />
+                  <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
+                    <div className="flex justify-between items-center ">
+                      <input
+                        type="text"
+                        className={`font-semibold text-[1.2rem] placeholder-black w-auto outline-0 ${
+                          name && currentCatIndex === index
+                            ? "border-b-2 border-black"
+                            : ""
+                        }`}
+                        value={
+                          name && currentCatIndex === index
+                            ? updateValues.categoryName
+                            : category.categoryName
+                        }
+                        readOnly={!name}
+                        onChange={(e) => {
+                          setupdateValues({
+                            ...updateValues,
+                            categoryName: e.target.value,
+                          });
+                        }}
+                      />
+                    </div>
+
+                    <div className="flex justify-between items-center ">
+                      <input
+                        type="text"
+                        className={`font-semibold text-[1.2rem] placeholder-gray-500 outline-0 ${
+                          name && currentCatIndex === index
+                            ? "border-b-2 border-black"
+                            : ""
+                        }`}
+                        value={
+                          name && currentCatIndex === index
+                            ? updateValues.categoryDescription
+                            : category.categoryDescription
+                        }
+                        readOnly={!name}
+                        onChange={(e) => {
+                          setupdateValues({
+                            ...updateValues,
+                            categoryDescription: e.target.value,
+                          });
+                        }}
+                      />
+                    </div>
+                    <div className="flex w-[80%] m-auto justify-between">
+                      <TbEdit
+                        className="text-[1.8rem] hover:text-orange-500 cursor-pointer "
+                        onClick={() => {
+                          setcurrentCatIndex(index);
+                          setname(true);
+                        }}
+                      />
+                      <MdDeleteForever
+                        className="text-[1.8rem] text-red-500 hover:text-orange-500 cursor-pointer "
+                        onClick={() => {
+                          deleteCategory(category._id);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {updateLoading ? (
+                    <>
+                      <div className="px-6 py-2 text-[1.1rem] bg-orange-500 rounded-xl w-[70%] mb-2 m-auto flex gap-4 ">
+                        <p>Updating</p>
+
+                        <Oval
+                          visible={true}
+                          height="30"
+                          width="30"
+                          color="#4fa94d"
+                          ariaLabel="oval-loading"
+                          wrapperStyle={{}}
+                          wrapperClass=""
+                        />
+                      </div>
+                    </>
+                  ) : (name || image) && currentCatIndex === index ? (
+                    <div className="flex flex-col">
+                      <button
+                        className="px-6 py-2 text-[1.1rem] bg-orange-500 rounded-xl w-[70%] mb-2 m-auto "
+                        onClick={() => {
+                          updateCategory(category._id);
+                        }}
+                      >
+                        Update Value
+                      </button>
+                      <button
+                        className="px-6 py-2 text-[1.1rem] bg-orange-500 rounded-xl w-[70%] mb-2 m-auto "
+                        onClick={() => {
+                          setname(false);
+                          setimage(false);
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   ) : null}
                 </div>
-                <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                  <div className="flex justify-between items-center ">
-                    <input
-                      type="text"
-                      className={`font-semibold text-[1.2rem] placeholder-black w-auto outline-0 ${
-                        name && currentCatIndex === index
-                          ? "border-b-2 border-black"
-                          : ""
-                      }`}
-                      value={
-                        name && currentCatIndex === index
-                          ? updateValues.categoryName
-                          : category.categoryName
-                      }
-                      readOnly={!name}
-                      onChange={(e) => {
-                        setupdateValues({
-                          ...updateValues,
-                          categoryName: e.target.value,
-                        });
-                      }}
-                    />
+              );
+            })
+          )}
 
-                    <TbEdit
-                      className="text-[1.6rem] hover:text-orange-500 cursor-pointer "
-                      onClick={() => {
-                        setcurrentCatIndex(index);
-                        setname(true);
-                      }}
-                    />
-                  </div>
-                  <div className="flex justify-between items-center ">
-                    <input
-                      type="text"
-                      className={`font-semibold text-[1.2rem] placeholder-gray-500 outline-0 ${
-                        name && currentCatIndex === index
-                          ? "border-b-2 border-black"
-                          : ""
-                      }`}
-                      value={
-                        name && currentCatIndex === index
-                          ? updateValues.categoryDescription
-                          : category.categoryDescription
-                      }
-                      readOnly={!name}
-                      onChange={(e) => {
-                        setupdateValues({
-                          ...updateValues,
-                          categoryDescription: e.target.value,
-                        });
-                      }}
-                    />
-                  </div>
-                </div>
-                {(name || image) && currentCatIndex === index ? (
-                  <div className="flex flex-col">
-                    <button
-                      className="px-6 py-2 text-[1.1rem] bg-orange-500 rounded-xl w-[70%] mb-2 m-auto "
-                      onClick={() => {
-                        updateCategory(category._id);
-                      }}
-                    >
-                      Update Value
-                    </button>
-                    <button
-                      className="px-6 py-2 text-[1.1rem] bg-orange-500 rounded-xl w-[70%] mb-2 m-auto "
-                      onClick={() => {
-                        setname(false);
-                        setimage(false)
-                      }}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                ) : null}
-              </div>
-            );
-          })}
+          {}
         </div>
       </div>
       <AddCategories
@@ -194,6 +291,8 @@ const CategoriesPage = ({ company }) => {
         size={size}
         open={open}
         company={company}
+        setOpen={setOpen}
+        getCategories={getCategories}
       />
     </div>
   );

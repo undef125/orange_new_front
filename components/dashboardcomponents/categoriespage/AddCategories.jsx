@@ -1,16 +1,24 @@
-import React, { useLayoutEffect, useState } from "react";
+import React from "react";
 import { categoriesValidationSchema } from "@/utilis/FormValidationSchema";
 import { Modal } from "rsuite";
 import { useFormik } from "formik";
 import toBase64 from "@/utilis/FileToBase64";
 import axios from "@/app/api/axiosinterceptor";
+import { toast, ToastContainer } from "react-toastify";
 
 const initialValues = {
   categoryName: "",
   categoryImage: "",
   categoryDescription: "",
 };
-const AddCategories = ({ open, handleClose, size, company }) => {
+const AddCategories = ({
+  open,
+  handleClose,
+  size,
+  company,
+  setOpen,
+  getCategories,
+}) => {
   const {
     values,
     handleBlur,
@@ -18,20 +26,33 @@ const AddCategories = ({ open, handleClose, size, company }) => {
     handleSubmit,
     errors,
     setFieldValue,
+    resetForm,
   } = useFormik({
     initialValues: initialValues,
     validationSchema: categoriesValidationSchema,
     onSubmit: async (values) => {
-      const response = await axios.post("/addcategory", {
-        ...values,
-        companyId: company?._id,
-      });
+      try {
+        const response = await axios.post("/addcategory", {
+          ...values,
+          companyId: company?._id,
+        });
+        setOpen(false);
+        getCategories();
+        toast.success("Category Added Successfully", {
+          autoClose: 1000,
+        });
+        resetForm();
+      } catch (error) {
+        toast.error("Error adding category!", {
+          autoClose: 1000,
+        });
+      }
     },
   });
 
-
   return (
     <div>
+      <ToastContainer />
       <Modal size={size} open={open} onClose={handleClose}>
         <Modal.Header>
           <Modal.Title>Add New Category</Modal.Title>
@@ -85,14 +106,6 @@ const AddCategories = ({ open, handleClose, size, company }) => {
             </div>
           </form>
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button onClick={handleClose} appearance="subtle">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} appearance="primary">
-            Ok
-          </Button>
-        </Modal.Footer> */}
       </Modal>
     </div>
   );
