@@ -7,6 +7,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { PiStackLight } from "react-icons/pi";
 import { BsHddStack } from "react-icons/bs";
 import PersonalizePage from "@/components/dashboardcomponents/PersonalizePage";
+import CustomizePage from "@/components/dashboardcomponents/CustomizePage";
 import CategoriesPage from "@/components/dashboardcomponents/CategoriesPage";
 import ProductsPage from "@/components/dashboardcomponents/ProductsPage";
 import axios from "@/app/api/axiosinterceptor";
@@ -63,7 +64,12 @@ const Page = () => {
     // </>
     <div>
       <>
-        <DashNav handleOpen={handleOpen} user={user} company={company} loading={loading} />
+        <DashNav
+          handleOpen={handleOpen}
+          user={user}
+          company={company}
+          loading={loading}
+        />
 
         <Drawer
           size={"20rem"}
@@ -92,23 +98,31 @@ const Page = () => {
                   </p>
                 </div>
               </div>
-              <div
-                className="flex flex-col gap-y-[1rem]"
-                onClick={() => {
-                  setWhichPage(1);
-                  setOpen(false);
-                }}
-              >
+              <div className="flex flex-col gap-y-[1rem]">
                 <h1 className="font-semibold text-[1.3rem]">Personalize</h1>
-                <div>
-                  <div className=" flex items-center gap-2 cursor-pointer text-[1.05rem] transition-all duration-300 ease-in-out text-slate-400 font-medium hover:text-orange-600">
-                    <FaRegEdit className="text-[1.4rem]" />
-                    <p
-                      className={`${whichPage === 1 ? "text-orange-500" : ""}`}
-                    >
-                      My Store
-                    </p>
-                  </div>
+                <div
+                  onClick={() => {
+                    setWhichPage(1);
+                    setOpen(false);
+                  }}
+                  className=" flex items-center gap-2 cursor-pointer text-[1.05rem] transition-all duration-300 ease-in-out text-slate-400 font-medium hover:text-orange-600"
+                >
+                  <FaRegEdit className="text-[1.4rem]" />
+                  <p className={`${whichPage === 1 ? "text-orange-500" : ""}`}>
+                    Customize Store
+                  </p>
+                </div>
+                <div
+                  onClick={() => {
+                    setWhichPage(2);
+                    setOpen(false);
+                  }}
+                  className=" flex items-center gap-2 cursor-pointer text-[1.05rem] transition-all duration-300 ease-in-out text-slate-400 font-medium hover:text-orange-600"
+                >
+                  <FaRegEdit className="text-[1.4rem]" />
+                  <p className={`${whichPage === 2 ? "text-orange-500" : ""}`}>
+                    My Store
+                  </p>
                 </div>
               </div>
               <div className="flex flex-col gap-y-[1rem]">
@@ -116,14 +130,14 @@ const Page = () => {
                 <div
                   className=""
                   onClick={() => {
-                    setWhichPage(2);
+                    setWhichPage(3);
                     setOpen(false);
                   }}
                 >
                   <div className=" flex items-center gap-2 cursor-pointer text-[1.05rem] transition-all duration-300 ease-in-out text-slate-400 font-medium hover:text-orange-600">
                     <BiCategory className="text-[1.4rem]" />
                     <p
-                      className={`${whichPage === 2 ? "text-orange-500" : ""}`}
+                      className={`${whichPage === 3 ? "text-orange-500" : ""}`}
                     >
                       Categories
                     </p>
@@ -131,14 +145,14 @@ const Page = () => {
                 </div>
                 <div
                   onClick={() => {
-                    setWhichPage(3);
+                    setWhichPage(4);
                     setOpen(false);
                   }}
                 >
                   <div className=" flex items-center gap-2 cursor-pointer text-[1.05rem] transition-all duration-300 ease-in-out text-slate-400 font-medium hover:text-orange-600">
                     <PiStackLight className="text-[1.4rem]" />
                     <p
-                      className={`${whichPage === 3 ? "text-orange-500" : ""}`}
+                      className={`${whichPage === 4 ? "text-orange-500" : ""}`}
                     >
                       Products
                     </p>
@@ -156,10 +170,15 @@ const Page = () => {
               bhaneko hai
             </div>
           ) : whichPage === 1 ? (
-            <PersonalizePage company={company}/>
+            <CustomizePage company={company} />
           ) : whichPage === 2 ? (
-            <CategoriesPage company={company} />
+            <PersonalizePage
+              getUserAndComapnyDetail={getUserAndComapnyDetail}
+              company={company}
+            />
           ) : whichPage === 3 ? (
+            <CategoriesPage company={company} />
+          ) : whichPage === 4 ? (
             <ProductsPage company={company} />
           ) : null}
         </>
