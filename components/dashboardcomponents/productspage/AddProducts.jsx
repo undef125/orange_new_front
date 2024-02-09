@@ -78,7 +78,6 @@ const AddProducts = ({
                 name="images"
                 onChange={(e) => {
                   Array.from(e.target.files).forEach(async (file) => {
-                    console.log(file)
                     values.images = [];
                     values.images.push(await toBase64(file));
                   });

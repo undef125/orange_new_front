@@ -8,41 +8,48 @@ import Footer from "@/components/HomePage/Footer/Footer";
 import PageLoader from "@/components/PageLoader";
 import axios from "./api/axiosinterceptor";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import protectRoute from "@/utilis/protectRoute";
 
 export default function Page() {
+  const router = useRouter();
   const [orange, setorange] = useState([]);
 
-  const getCompanyDetails = async () => {
-    try {
-      let resp = await axios.get("/getorange");
-      setorange(resp.data.data[0]);
-    } catch (error) {}
-  };
+  // const getCompanyDetails = async () => {
+  //   try {
+  //     let resp = await axios.get("/getorange");
+  //     setorange(resp.data.data[0]);
+  //   } catch (error) {}
+  // };
   useEffect(() => {
-    getCompanyDetails();
+    // getCompanyDetails();
   }, []);
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const handleRouteProtection = async () => {
+      if (await protectRoute()) router.push("/dashboard");
+    };
+    handleRouteProtection();
     const handleLoad = () => {
       setLoading(false);
     };
 
-    if (document.readyState === 'complete') {
+    if (document.readyState === "complete") {
       handleLoad();
     } else {
       setLoading(true);
 
       // Listen for the load event
-      window.addEventListener('load', handleLoad);
+      window.addEventListener("load", handleLoad);
     }
 
     // Cleanup the event listener on component unmount
     return () => {
-      window.removeEventListener('load', handleLoad);
+      window.removeEventListener("load", handleLoad);
     };
-  }, [])
+  }, []);
 
   return (
     <div className="relative overflow-hidden">

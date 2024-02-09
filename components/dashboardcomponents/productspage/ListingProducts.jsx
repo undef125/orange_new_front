@@ -4,11 +4,9 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
 import { Modal } from "rsuite";
@@ -72,7 +70,7 @@ const ListingProducts = ({ products, catNames, getProducts }) => {
                   <Td>
                     <div className=" flex flex-col rounded   relative">
                       <Image
-                        src={`http://localhost:5000/${product.images[0]}`}
+                        src={`https://ecommerce-backend-eight.vercel.app${product.images[0]}`}
                         height="200"
                         width="200"
                         alt="category related image "
@@ -148,7 +146,7 @@ const ProductEditModal = ({
     try {
       await axios.put(`updateproduct/${product?._id}`, updateValues);
       getProducts();
-      console.log("updated");
+
     } catch (error) {
       console.log("error: " + error);
     }
@@ -159,7 +157,6 @@ const ProductEditModal = ({
         imageName,
       });
       getProducts();
-      console.log("updated");
     } catch (error) {
       console.log("error: " + error);
     }
@@ -179,7 +176,7 @@ const ProductEditModal = ({
                 <div className="relative group">
                   <div className=" flex flex-col flex-wrap rounded   relative">
                     <Image
-                      src={`http://localhost:5000/${image}`}
+                      src={`https://ecommerce-backend-eight.vercel.app${image}`}
                       height="200"
                       width="200"
                       alt="category related image "

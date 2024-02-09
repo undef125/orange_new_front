@@ -31,7 +31,7 @@ const ProductsPage = ({ company }) => {
 
   const getCategoriesNameList = async () => {
     try {
-      let response = await axios.get(`getcategoriesname/${company?._id}`);
+      let response = await axios.get(`getcategories/${company?._id}`);
       let managedArrayForSelect = response?.data?.map((item) => ({
         label: item.categoryName,
         value: item._id,

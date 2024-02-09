@@ -8,12 +8,18 @@ import { IndexContext } from "../../context";
 import * as yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { getCookie, setCookie } from "cookies-next";
+import {  setCookie } from "cookies-next";
 import axios from "../api/axiosinterceptor";
 import { Oval } from "react-loader-spinner";
 import BackBtnPop from "../../components/BackBtnPop";
 import { useFormik } from "formik";
 import { loginValidationSchema } from "@/utilis/FormValidationSchema";
+import protectRoute from "@/utilis/protectRoute";
+import {
+  toastError,
+  toastStarter,
+  toastSuccess,
+} from "@/utilis/promiseToaster";
 
 const initialValuesLogin = {
   emailorusername: "",
@@ -28,37 +34,20 @@ const Login = () => {
     initialValues: initialValuesLogin,
     validationSchema: loginValidationSchema,
     onSubmit: async (values) => {
-      console.log("submit bhayo aba login api call gar haaai");
-      // handleLogin();
       try {
-        toastId.current = toast.loading("Enviando pedido...", {
-          autoClose: false,
-        });
+        toastId.current = toastStarter("boom boommmmmmmmmmmmmmmmmmmmmmmm");
         const resp = await axios.post("/login", values);
-        console.log(resp.data);
-        toast.update(toastId.current, {
-          render: "Login Successful",
-          type: toast.TYPE.SUCCESS,
-          autoClose: 1000,
-          isLoading: false,
-        });
-        if(resp.data.isVerified) {
-          router.push("/dashboard")
+        toastSuccess(toastId, "login bhayo haaai taa");
+        if (resp.data.isVerified) {
+          router.push("/dashboard");
         } else {
-          router.push("/payment")
+          router.push("/payment");
         }
-        setCookie('token', resp.data.token, {
+        setCookie("token", resp.data.token, {
           // httpOnly: true,
-        })
-        
-        console.log(getCookie('token'))
-      } catch (error) {
-        toast.update(toastId.current, {
-          render: error.response.data.error,
-          type: toast.TYPE.ERROR,
-          autoClose: 1000,
-          isLoading: false,
         });
+      } catch (error) {
+        toastError(toastId, error);
       }
     },
   });
@@ -66,7 +55,12 @@ const Login = () => {
   const [isLoading, setisLoading] = useState(false);
   const [passwordShow, setPasswordShow] = useState(true);
 
-  useEffect(() => {}, [isLoading]);
+  useEffect(() => {
+    const handleRouteProtection = async () => {
+      if (await protectRoute()) router.push("/dashboard");
+    };
+    handleRouteProtection();
+  }, [isLoading]);
 
   return (
     <>

@@ -16,9 +16,8 @@ const PaymentVerificationUpload = ({ gateway }) => {
     try {
       if (formValues.method && formValues.receiptImage) {
         const resp = await axios.post("/sendverificationrequest", formValues);
-        console.log(resp)
       } else {
-        console.log("Error aayo hai");
+
         setisError(true);
         return;
       }

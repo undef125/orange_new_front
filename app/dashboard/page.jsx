@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Drawer } from "rsuite";
 import DashNav from "@/components/dashboardcomponents/DashNav";
 import { BiCategory } from "react-icons/bi";
@@ -11,8 +12,9 @@ import CustomizePage from "@/components/dashboardcomponents/CustomizePage";
 import CategoriesPage from "@/components/dashboardcomponents/CategoriesPage";
 import ProductsPage from "@/components/dashboardcomponents/ProductsPage";
 import axios from "@/app/api/axiosinterceptor";
-
+import protectRoute from "@/utilis/protectRoute";
 const Page = () => {
+  const router = useRouter()
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState();
   const [whichPage, setWhichPage] = useState(1);
@@ -35,33 +37,34 @@ const Page = () => {
       console.log(error);
     }
   };
-  // useEffect(() => {
-  //   //call an api that get's the user detail
-  // }, []);
+ 
 
   useEffect(() => {
-    getUserAndComapnyDetail();
-    const handleLoad = () => {
-      setLoading(false);
+    const handleRouteProtection = async () => {
+      console.log(`gggggggggggggggggggggggggggggggggg: ${await protectRoute()}`)
+      if (!await protectRoute()) router.push("/payment");
+      else getUserAndComapnyDetail();
     };
+    handleRouteProtection();
 
-    if (document.readyState === "complete") {
-      handleLoad();
-    } else {
-      setLoading(true);
+    // const handleLoad = () => {
+    //   setLoading(false);
+    // };
+    
+    // if (document.readyState === "complete") {
+    //   handleLoad();
+    // } else {
+    //   setLoading(true);
 
-      window.addEventListener("load", handleLoad);
-    }
+    //   window.addEventListener("load", handleLoad);
+    // }
 
-    return () => {
-      window.removeEventListener("load", handleLoad);
-    };
+    // return () => {
+    //   window.removeEventListener("load", handleLoad);
+    // };
   }, []);
 
   return (
-    // <>
-    // <CategoriesPage company={company} />
-    // </>
     <div>
       <>
         <DashNav

@@ -17,7 +17,7 @@ const PersonalizePage = ({ getUserAndComapnyDetail,company }) => {
  const updateCompanyDetails = async() => {
   try {
     await axios.post(`updatecompanydetails/${company?._id}`, updateValues)
-    changesMade(false);
+    setchangesMade(false);
     setediting("");
   } catch (error) {
     console.log(error)
@@ -134,7 +134,6 @@ const PersonalizePage = ({ getUserAndComapnyDetail,company }) => {
                     ) : (
                       <div>
                         <InputGroup size="lg" inside style={styles}>
-                          {console.log(updateValues)}
                           <Input
                            type={["postalCode"].includes(item) ? "number" : "text"}
                             value={company[`${item}`]}

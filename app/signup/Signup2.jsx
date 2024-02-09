@@ -20,7 +20,6 @@ const Signup2 = ({
 
   return (
     <>
-      {/* {console.log(values)} */}
       <div className=" flex flex-wrap gap-y-2 lg:gap-y-4 lg:grid lg:grid-cols-2 ">
         <div className="flex flex-col">
           <label htmlFor="country" className="text-[.9rem] md:text-[1.2rem]">

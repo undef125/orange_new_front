@@ -25,11 +25,16 @@ module.exports = {
           '0%': { width: '0vw', opacity: "0"},
           '100%': { width: '15vw',opacity: "1" },
         },
+        bevisible: {
+          '0%': {  opacity: "0"},
+          '100%': { opacity: "1" },
+        },
       },
       animation: {
         wiggle: 'wiggle .8s ease-in-out',
         slidein: 'slidein 1s ease-in-out',
         slideinfromleft: 'slideinfromleft 2s ease-in-out',
+        bevisible: 'bevisible .8s ease-in-out',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

@@ -2,7 +2,7 @@
 const nextConfig = {
     // output: "export",
     images: {
-        domains: ['localhost'],
+        domains: ['192.168.1.85','localhost','https://ecommerce-backend-eight.vercel.app/','ecommerce-backend-eight.vercel.app'],
     },
 }
 

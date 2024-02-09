@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import { IndexContext } from "../../context";
-import Router from "next/router";
+import { useRouter } from "next/navigation";
 import axios from "../api/axiosinterceptor";
 import { ToastContainer, toast } from "react-toastify";
 import Image from "next/image";
@@ -14,6 +14,7 @@ import {
   signUpValidationOne,
   signUpValidationTwo,
 } from "@/utilis/FormValidationSchema";
+import protectRoute from "@/utilis/protectRoute";
 
 const stepOneinitialValues = {
   name: "",
@@ -48,6 +49,7 @@ const stepTwoinitialValues = {
 };
 
 export default function Signup() {
+  const router = useRouter();
   const [stepOne, setStepOne] = useState(true);
   const [formData, setformData] = useState({});
   const toastId = useRef(null);
@@ -103,10 +105,16 @@ export default function Signup() {
   };
 
   const [passwordShow, setPasswordShow] = useState(false);
+  useEffect(() => {
+    const handleRouteProtection = async() => {
+      if(await protectRoute()) router.push("/dashboard")
+    }
+    handleRouteProtection()
+  }, [])
+  
 
   return (
     <div className=" h-fit py-6 max-w-[100%] flex flex-col justify-center items-center text-[">
-      {console.log(formData)}
       <BackBtnPop />
       {/* making multi-step form */}
       <div className="hidden md:flex">

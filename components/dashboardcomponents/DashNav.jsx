@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { Navbar, Nav } from "rsuite";
-// import CogIcon from "@rsuite/icons/legacy/Cog";
 import { IoMdMenu } from "react-icons/io";
 import { FaRegUserCircle } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
+import { deleteCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import { toast,ToastContainer } from "react-toastify";
 
-const DashNav = ({ handleOpen, user, company,loading }) => {
-  console.log(loading)
+const DashNav = ({ handleOpen, user, company, loading }) => {
+  const router = useRouter();
+
   return (
     <div className="bg-red-500 shadow-sm shadow-[#0000002d]">
+      <ToastContainer />
       <Navbar style={{ backgroundColor: "white" }}>
         <Navbar.Brand href="#">{company?.companyName} Store</Navbar.Brand>
         <Nav>
@@ -18,7 +22,6 @@ const DashNav = ({ handleOpen, user, company,loading }) => {
         </Nav>
         <Nav pullRight className="pr-16">
           <Nav.Item
-          // icon={<FaRegUserCircle className="h-8 w-8" />}
           >
             <FaRegUserCircle className="h-10 w-10 text-slate-500" />
             <div className="flex flex-col py-[1rem] ml-4">
@@ -35,7 +38,15 @@ const DashNav = ({ handleOpen, user, company,loading }) => {
             </div>
           </Nav.Item>
           <Nav.Menu title="">
-            <Nav.Item>Log out</Nav.Item>
+            <Nav.Item
+              onClick={() => {
+                deleteCookie("token");
+                toast.error("Logout Successfull", { autoClose: 2000})
+                router.push("/login");
+              }}
+            >
+              <p>Log out</p>
+            </Nav.Item>
           </Nav.Menu>
         </Nav>
       </Navbar>

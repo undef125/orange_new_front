@@ -16,7 +16,6 @@ export const makeStripePayment = async () => {
       }
     );
 
-    console.log(response);
     const result = stripe.redirectToCheckout({
       sessionId: response.data.id,
     });
@@ -26,7 +25,6 @@ export const makeStripePayment = async () => {
 };
 
 export const makePaypalPayment = async (req, res) => {
-    console.log("gggggggggggggggggggggggggg")
   try {
     const response = await axios.post(
       "/paypal-order",
@@ -37,7 +35,6 @@ export const makePaypalPayment = async (req, res) => {
         },
       }
     );
-      console.log(response)
     window.location.href = response?.data?.redirectUrl;
   } catch (error) {
     console.log(`error: ${error}`);

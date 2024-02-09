@@ -16,7 +16,6 @@ const CustomizePage = ({ company }) => {
   const updateCompanyImage = async () => {
     try {
       await axios.put(`updatecompanyimage/${company?._id}`, updateValues);
-      console.log("updated");
     } catch (error) {
       console.log(error);
     }
@@ -190,7 +189,6 @@ const CustomizePage = ({ company }) => {
           <button onClick={updateCompanyImage}>UPDATE BUTTON</button>
           <button
             onClick={() => {
-              console.log(backup);
               setchangesMade(false);
               seteditImage(false);
               setupdateValues({});

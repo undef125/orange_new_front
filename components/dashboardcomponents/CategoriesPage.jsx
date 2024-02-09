@@ -15,7 +15,7 @@ const styles = {
 };
 
 const CategoriesPage = ({ company }) => {
-  //for add category (moddal)
+
   const [open, setOpen] = useState(false);
   const [size, setSize] = useState();
   const [name, setname] = useState(false);
@@ -36,7 +36,8 @@ const CategoriesPage = ({ company }) => {
   const getCategories = async () => {
     setloadingCat(true);
     try {
-      let response = await axios.get(`getcompanycategories/${company?._id}`);
+      let response = await axios.get(`getcategories/${company?._id}`);
+
       setcategories(response.data);
       setbackupCats(response.data);
       setupdateLoading(false);
@@ -80,7 +81,8 @@ const CategoriesPage = ({ company }) => {
     }
   };
 
-  useEffect(() => {}, [categories]);
+  useEffect(() => {
+  }, [categories]);
 
   useEffect(() => {
     getCategories();
@@ -100,7 +102,7 @@ const CategoriesPage = ({ company }) => {
             <Input
               onChange={(searchText) => {
                 if (searchText.trim("") === "") {
-                  // console.log(backupCats)
+  
                   setcategories(backupCats);
                 } else {
                   const filteredArray = backupCats?.filter((category) =>
@@ -108,7 +110,6 @@ const CategoriesPage = ({ company }) => {
                       .toLowerCase()
                       .includes(searchText.toLowerCase())
                   );
-                  console.log(filteredArray);
                   setcategories(filteredArray);
                 }
               }}
@@ -146,7 +147,7 @@ const CategoriesPage = ({ company }) => {
                                   ? ""
                                   : updateValues.categoryImage
                               }`
-                            : `http://localhost:5000/${category.categoryImage}`
+                            : `https://ecommerce-backend-eight.vercel.app${category.categoryImage}`
                         }
                         height="1600"
                         width="1574"
@@ -174,7 +175,6 @@ const CategoriesPage = ({ company }) => {
                             });
                           }}
                         />
-                        {console.log(currentCatIndex, index)}
                       </>
                     ) : null}
                   </div>

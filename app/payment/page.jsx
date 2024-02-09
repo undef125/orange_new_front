@@ -6,10 +6,13 @@ import { getCookie, deleteCookie } from "cookies-next";
 import Router from "next/router";
 import Image from "next/image";
 import PaymentVerificationUpload from "@/components/paymentpagecomponents/PaymentVerificationUpload";
-import { Modal, Button, ButtonToolbar, Placeholder } from "rsuite";
+import { Modal } from "rsuite";
 import { makeStripePayment, makePaypalPayment } from "./paymentUtilities";
+import protectRoute from "@/utilis/protectRoute";
+import { useRouter } from "next/navigation";
 
 export default function page() {
+  const router = useRouter();
   const [price, setPrice] = useState(0);
   const toastId = useRef(null);
   const [open, setOpen] = useState(false);
@@ -79,6 +82,10 @@ export default function page() {
   };
 
   useEffect(() => {
+    const handleRouteProtection = async () => {
+      if (await protectRoute()) router.push("/dashboard");
+    };
+    handleRouteProtection();
     getPrice();
     getCompanyDetails();
   }, []);
@@ -90,14 +97,25 @@ export default function page() {
           <div className="text-[2rem] font-semibold text-start">
             Choose Payment Method:
           </div>
-          <div className=" flex flex-col gap-6" >
+          <div className=" flex flex-col gap-6">
             <div
               onClick={makeStripePayment}
               className="bg-white flex justify-between px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div className="flex justify-between items-center">
-                <Image src="/payment/stripe.png" height={100} width={100} alt="" />
-                <Image src="/payment/stripe2.png" height="1013" width="10126" className="h-[60%] w-[70%] "  alt="" />
+                <Image
+                  src="/payment/stripe.png"
+                  height={100}
+                  width={100}
+                  alt=""
+                />
+                <Image
+                  src="/payment/stripe2.png"
+                  height="1013"
+                  width="10126"
+                  className="h-[60%] w-[70%] "
+                  alt=""
+                />
               </div>
             </div>
             <div
@@ -105,29 +123,44 @@ export default function page() {
               className="bg-white flex justify-between px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div>
-                <Image src="/payment/paypal.png" height={100} width={100} alt="" />
+                <Image
+                  src="/payment/paypal.png"
+                  height={100}
+                  width={100}
+                  alt=""
+                />
               </div>
             </div>
             <div
               onClick={() => {
                 handleOpen("calc(100% - 120px)");
-                setGateway('zille')
+                setGateway("zille");
               }}
               className="bg-white flex justify-between px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div>
-                <Image src="/payment/zille.png" height={100} width={100} alt="" />
+                <Image
+                  src="/payment/zille.png"
+                  height={100}
+                  width={100}
+                  alt=""
+                />
               </div>
             </div>
             <div
               onClick={() => {
                 handleOpen("calc(100% - 120px)");
-                setGateway('nequi')
+                setGateway("nequi");
               }}
               className="bg-white flex justify-between px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div>
-                <Image src="/payment/nequi.png" height={100} width={100} alt="" />
+                <Image
+                  src="/payment/nequi.png"
+                  height={100}
+                  width={100}
+                  alt=""
+                />
               </div>
             </div>
           </div>
@@ -175,7 +208,7 @@ export default function page() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <PaymentVerificationUpload gateway={gateway}/>
+          <PaymentVerificationUpload gateway={gateway} />
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>
