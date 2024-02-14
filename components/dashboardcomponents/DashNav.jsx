@@ -5,14 +5,13 @@ import { FaRegUserCircle } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { toast,ToastContainer } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const DashNav = ({ handleOpen, user, company, loading }) => {
   const router = useRouter();
 
   return (
     <div className="bg-red-500 shadow-sm shadow-[#0000002d]">
-      <ToastContainer />
       <Navbar style={{ backgroundColor: "white" }}>
         <Navbar.Brand href="#">{company?.companyName} Store</Navbar.Brand>
         <Nav>

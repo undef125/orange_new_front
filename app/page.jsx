@@ -15,16 +15,6 @@ export default function Page() {
   const router = useRouter();
   const [orange, setorange] = useState([]);
 
-  // const getCompanyDetails = async () => {
-  //   try {
-  //     let resp = await axios.get("/getorange");
-  //     setorange(resp.data.data[0]);
-  //   } catch (error) {}
-  // };
-  useEffect(() => {
-    // getCompanyDetails();
-  }, []);
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

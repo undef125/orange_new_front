@@ -25,7 +25,7 @@ const Categories = ({  company,slug }) => {
 
   return (
     <div className="flex w-[95vw] m-auto my-16">
-      <div className="flex text-black justify-start gap-6 overflow-hidden rounded w-[95vw]  ">
+      <div className="grid grid-flow-col-dense  overflow-hidden text-black justify-start gap-6  rounded w-[80%]  md:w-[95vw]  ">
         {categories.map((cat, idx) => {
           return (
             <div
@@ -40,7 +40,7 @@ const Categories = ({  company,slug }) => {
               </div>
               <div className=" px-1">
                 <Image
-                  src={`https://ecommerce-backend-eight.vercel.app/${cat.categoryImage}`}
+                  src={`http://192.168.1.85:5000${cat.categoryImage}`}
                   width={40}
                   height={40}
                   alt="hello"
@@ -53,7 +53,7 @@ const Categories = ({  company,slug }) => {
           );
         })}
       </div>
-      <div className="  bg-[#3bdc5b4b] w-[8vw] rounded flex justify-center items-center">
+      <div className="  bg-[#3bdc5b4b] w-[20%] md:w-[8vw] rounded flex justify-center items-center">
         <div
           className="flex flex-col gap-2"
           onClick={() => {

@@ -4,7 +4,7 @@ import { Modal } from "rsuite";
 import { useFormik } from "formik";
 import toBase64 from "@/utilis/FileToBase64";
 import axios from "@/app/api/axiosinterceptor";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const initialValues = {
   categoryName: "",
@@ -31,6 +31,7 @@ const AddCategories = ({
     initialValues: initialValues,
     validationSchema: categoriesValidationSchema,
     onSubmit: async (values) => {
+      const toastId = toast.loading("adding category...")
       try {
         const response = await axios.post("/addcategory", {
           ...values,
@@ -38,27 +39,24 @@ const AddCategories = ({
         });
         setOpen(false);
         getCategories();
-        toast.success("Category Added Successfully", {
-          autoClose: 1000,
-        });
+        toast.dismiss(toastId)
+        toast.success("Category Added Successfully");
         resetForm();
       } catch (error) {
-        toast.error("Error adding category!", {
-          autoClose: 1000,
-        });
+        toast.dismiss(toastId)
+        toast.error("Error adding category!");
       }
     },
   });
 
   return (
     <div>
-      <ToastContainer />
       <Modal size={size} open={open} onClose={handleClose}>
         <Modal.Header>
           <Modal.Title>Add New Category</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-[90vw] md:w-[100%]">
             <input
               size="md"
               type="text"

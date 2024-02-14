@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { TbEdit } from "react-icons/tb";
 import SearchIcon from "@rsuite/icons/Search";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-hot-toast";
 import { Input, InputGroup, Button } from "rsuite";
 import AddProducts from "./productspage/AddProducts";
 import axios from "@/app/api/axiosinterceptor";
@@ -15,14 +15,14 @@ const styles = {
 };
 
 const ProductsPage = ({ company }) => {
-  const [open, setOpen] = useState(false);
-  const [size, setSize] = useState();
   const [loadingCat, setloadingCat] = useState(false);
   const [products, setproducts] = useState([]);
   const [backupProds, setbackupProds] = useState([]);
-
+  
   const [catNames, setcatNames] = useState([]);
-
+  
+  const [open, setOpen] = useState(false);
+  const [size, setSize] = useState();
   const handleOpen = (value) => {
     setSize(value);
     setOpen(true);
@@ -64,10 +64,9 @@ const ProductsPage = ({ company }) => {
   return (<>
   {
     products.length > 0 ? <div className="w-[100vw] h-screen flex justify-center bg-slate-200">
-    <ToastContainer />
-    <div className="w-[80%] flex flex-col items-center mt-[1rem]">
+    <div className="w-[95%] md:w-[80%] flex flex-col items-center mt-[1rem]">
       <div>
-        <h1 className="text-[2.5rem] text-orange-500 ">
+        <h1 className="text-[1.5rem] md:text-[2.5rem] text-orange-500 ">
           Manage Your Products
         </h1>
       </div>

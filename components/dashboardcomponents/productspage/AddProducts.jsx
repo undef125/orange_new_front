@@ -4,7 +4,7 @@ import { Modal, SelectPicker } from "rsuite";
 import { useFormik } from "formik";
 import toBase64 from "@/utilis/FileToBase64";
 import axios from "@/app/api/axiosinterceptor";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const initialValues = {
   name: "",
@@ -42,33 +42,31 @@ const AddProducts = ({
     validationSchema: productsValidationSchema,
     onSubmit: async (values) => {
       try {
+        const toastId = toast.loading("adding product......")
          await axios.post(`/addproduct`, {
           ...values,
           companyId: company?._id
         });
         setOpen(false);
         getProducts();
-        toast.success("Product Added Successfully", {
-          autoClose: 1000,
-        });
+        toast.dismiss(toastId);
+        toast.success("Product Added Successfully");
         resetForm();
       } catch (error) {
-        toast.error("Error adding category!", {
-          autoClose: 1000,
-        });
+        toast.dismiss(toastId);
+        toast.error("Error adding category!");
       }
     },
   });
 
   return (
-    <div>
-      <ToastContainer />
-      <Modal size={size} open={open} onClose={handleClose}>
+    <div className="flex justify-center" >
+      <Modal size={size} open={open} onClose={handleClose} >
         <Modal.Header>
           <Modal.Title>Add New Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-[95vw] md:w-auto">
             <div>
               <input
                 size="md"
@@ -83,11 +81,11 @@ const AddProducts = ({
                   });
                 }}
                 onBlur={handleBlur}
-                className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
+                className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%]"
               />
               {/* {errors.images ? <div> {errors.images}</div> : ""} */}
             </div>
-            <div className="flex">
+            <div className="flex flex-col gap-2 md:grid md:grid-cols-2 ">
               <div>
                 <input
                   size="md"
@@ -97,7 +95,7 @@ const AddProducts = ({
                   value={values.name}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
+                  className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
                 />
                 {errors.name ? (
                   <div className="text-red-500"> {errors.name}</div>
@@ -114,14 +112,14 @@ const AddProducts = ({
                   value={values.description}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
+                  className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
                 />
                 {errors.description && (
                   <div className="text-red-500">{errors.description}</div>
                 )}
               </div>
             </div>
-            <div className="flex">
+            <div className="flex flex-col gap-2 md:grid md:grid-cols-2 ">
               <div>
                 <input
                   size="md"
@@ -131,7 +129,7 @@ const AddProducts = ({
                   value={values.price}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
+                  className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
                 />
                 {errors.price && (
                   <div className="text-red-500">{errors.price}</div>
@@ -146,17 +144,18 @@ const AddProducts = ({
                   value={values.discountPrice}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
+                  className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
                 />
               </div>
             </div>
-            <div className="flex">
+            <div className="flex flex-col gap-2 md:grid md:grid-cols-2 ">
               <div>
                 <SelectPicker
                   data={catNames}
                   searchable={false}
-                  style={{ width: 224 }}
-                  placeholder="Select without search"
+                  // style={{ width: 224 }}
+                  className="w-[90vw] md:w-[100%]"
+                  placeholder="Select category"
                   onChange={(value) => {
                     setFieldValue("categoryId", value);
                   }}
@@ -174,11 +173,11 @@ const AddProducts = ({
                   value={values.model}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
+                  className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
                 />
               </div>
             </div>
-            <div>
+            <div className="flex flex-col gap-2 md:grid md:grid-cols-2 ">
               <input
                 size="md"
                 type="text"
@@ -187,7 +186,7 @@ const AddProducts = ({
                 value={values.howToUse}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
+                className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
               />
               <input
                 size="md"
@@ -197,14 +196,14 @@ const AddProducts = ({
                 value={values.servesFor}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
+                className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
               />
               {errors.name && (
                 <div className="text-red-500">{errors.description}</div>
               )}
             </div>
 
-            <div>
+            <div className="flex flex-col gap-2 md:grid md:grid-cols-2 ">
               <input
                 size="md"
                 type="text"
@@ -213,7 +212,7 @@ const AddProducts = ({
                 value={values.buttonText}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
+                className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
               />
               <input
                 size="md"
@@ -223,7 +222,7 @@ const AddProducts = ({
                 value={values.checkoutText}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
+                className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
               />
             </div>
             <div>
@@ -235,7 +234,7 @@ const AddProducts = ({
                 value={values.sizes}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
+                className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
               />
             </div>
             <div className="flex justify-center items-center">

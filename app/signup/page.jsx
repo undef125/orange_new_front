@@ -1,10 +1,8 @@
 "use client";
 import Link from "next/link";
-import React, { useRef, useState,useEffect } from "react";
-import { IndexContext } from "../../context";
+import React, { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "../api/axiosinterceptor";
-import { ToastContainer, toast } from "react-toastify";
 import Image from "next/image";
 import BackBtnPop from "@/components/BackBtnPop";
 import Signup1 from "./Signup1";
@@ -15,6 +13,7 @@ import {
   signUpValidationTwo,
 } from "@/utilis/FormValidationSchema";
 import protectRoute from "@/utilis/protectRoute";
+import { toast } from "react-hot-toast";
 
 const stepOneinitialValues = {
   name: "",
@@ -82,36 +81,28 @@ export default function Signup() {
   });
 
   const registerUser = async () => {
-    toastId.current = toast.loading("Registering User...", {
-      autoClose: false,
-    });
+    const toastId = toast.loading("Signing Up...");
     try {
       await axios.post("/registeruser", formData);
-      toast.update(toastId.current, {
-        render: "User Registered",
-        type: toast.TYPE.SUCCESS,
-        autoClose: 1000,
-        isLoading: false,
+      toast.dismiss(toastId);
+      toast.success("User Signed up successfully!", {
+        duration: 3000,
       });
     } catch (error) {
-      console.log("error ", error);
-      toast.update(toastId.current, {
-        render: "Failed Registering User ",
-        type: toast.TYPE.ERROR,
-        autoClose: 1000,
-        isLoading: false,
+      toast.dismiss(toastId);
+      toast.success(`error: ${error?.response?.data?.msg || "Error signing up due to server error!"}`, {
+        duration: 3000,
       });
     }
   };
 
   const [passwordShow, setPasswordShow] = useState(false);
   useEffect(() => {
-    const handleRouteProtection = async() => {
-      if(await protectRoute()) router.push("/dashboard")
-    }
-    handleRouteProtection()
-  }, [])
-  
+    const handleRouteProtection = async () => {
+      if (await protectRoute()) router.push("/dashboard");
+    };
+    handleRouteProtection();
+  }, []);
 
   return (
     <div className=" h-fit py-6 max-w-[100%] flex flex-col justify-center items-center text-[">
@@ -231,7 +222,6 @@ export default function Signup() {
               </div>
             </div>
           </form>
-          <ToastContainer />
         </div>
 
         {stepOne ? (

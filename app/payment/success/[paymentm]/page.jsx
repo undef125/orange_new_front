@@ -14,6 +14,7 @@ const page = ({ params }) => {
 
   const router = useRouter();
   const sendVerificationRequest = async () => {
+    console.log(params.paymentm)
     try {
       await axios.post("/sendverificationrequest", {
         method: params.paymentm,

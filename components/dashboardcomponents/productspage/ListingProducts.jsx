@@ -15,6 +15,8 @@ import axios from "@/app/api/axiosinterceptor";
 import UpdateInputs from "./UpdateInputs";
 import toBase64 from "@/utilis/FileToBase64";
 import { MdDelete } from "react-icons/md";
+import {  toast } from "react-hot-toast";
+
 
 const ListingProducts = ({ products, catNames, getProducts }) => {
   const [editing, setediting] = useState("");
@@ -27,11 +29,16 @@ const ListingProducts = ({ products, catNames, getProducts }) => {
   const handleClose = () => setOpen(false);
 
   const deleteProduct = async (productId) => {
+    const toastId = toast.loading("deleting....")
     try {
       await axios.delete(`deleteproduct/${productId}`);
       getProducts();
+      toast.dismiss(toastId);
+      toast.success("successfully deleted product!")
     } catch (error) {
       console.log("error: " + error);
+      toast.dismiss(toastId)
+      toast.success("error deleting product!")
     }
   };
 
@@ -70,7 +77,7 @@ const ListingProducts = ({ products, catNames, getProducts }) => {
                   <Td>
                     <div className=" flex flex-col rounded   relative">
                       <Image
-                        src={`https://ecommerce-backend-eight.vercel.app${product.images[0]}`}
+                        src={`http://192.168.1.85:5000${product.images[0]}`}
                         height="200"
                         width="200"
                         alt="category related image "
@@ -176,7 +183,7 @@ const ProductEditModal = ({
                 <div className="relative group">
                   <div className=" flex flex-col flex-wrap rounded   relative">
                     <Image
-                      src={`https://ecommerce-backend-eight.vercel.app${image}`}
+                      src={`http://192.168.1.85:5000${image}`}
                       height="200"
                       width="200"
                       alt="category related image "

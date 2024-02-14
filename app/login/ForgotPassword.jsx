@@ -1,105 +1,98 @@
-import Image from "next/image";
-import React, { useState, useEffect, useRef, useContext } from "react";
-import styles from "../../styles/Login.module.css";
-import styles2 from "../../styles/ButtonDesign.module.css";
-import axios from "../api/axiosinterceptor";
-import { toast } from "react-toastify";
-import Router from "next/router";
-import { Oval } from "react-loader-spinner";
-import BackBtnPop from "../../components/BackBtnPop";
+import React, { useState } from "react";
+import { Modal } from "rsuite";
+import { Input, InputGroup } from "rsuite";
+import { IoMailOutline } from "react-icons/io5";
+import axios from "@/app/api/customerAxiosInterceptor";
 
-const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
+const styles = {
+  width: "60%",
+  marginBottom: 10,
+};
 
-  const [isLoading, setIsLoading] = useState(false);
+const ForgotPassword = ({ size, open, handleClose }) => {
+  const [email, setemail] = useState("");
+  const [otp, setotp] = useState("");
+  const [password, setpassword] = useState("");
+  const re = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/;
 
-  const handleForgotPassword = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+  const sendOTP = async () => {
+    console.log("");
     try {
-      await axios.post("/resetpassword", { email });
-      toast.success("Código enviado con éxito", {
-        autoClose: 1000,
-        toastId: "otpsuccess",
-      });
-      Router.push("/login/VerifyForgotPassword");
-      setIsLoading(false);
+      if (email.match(re)) {
+        await axios.post("/resetpasswordotp", {
+          email,
+        });
+        console.log("otp send to your email: " + email);
+      } else {
+        console.log("Email is not valid");
+      }
     } catch (error) {
-      error.response !== undefined
-        ? toast.error(error.response.data.msg, {
-          autoClose: 1000,
-          toastId: "emailusererror",
-        })
-        : toast.error("error al enviar otp!");
-      setIsLoading(false);
-      return;
+      console.log("error sending otp", error);
     }
-    setIsLoading(false);
   };
+  const resetPassword = async () => {
+    try {
+      if (email.match(re)) {
+        await axios.post("/verifyotp", { otp,password });
+        console.log("password reset successful");
+        handleClose();
+      } else {
+        console.log("Email is not valid");
+      }
+    } catch (error) {
+      console.log("error verifying otp");
+    }
+  };
+
   return (
-    <>
-      <BackBtnPop />
-      {isLoading ? (
-        <div className={styles.loadercontainer}>
-          <Oval
-            height="80"
-            width="80"
-            radius="9"
-            color="#e06331"
-            ariaLabel="three-dots-loading"
-            wrapperStyle
-            wrapperClass
+    <Modal size={size} open={open} onClose={handleClose}>
+      <Modal.Header>
+        <Modal.Title>Reset Password</Modal.Title>
+      </Modal.Header>
+      <Modal.Body className="flex flex-col items-center justify-center gap-4">
+        <InputGroup style={styles}>
+          <Input
+            placeholder="Enter your email..."
+            onChange={(value) => {
+              setemail(value);
+            }}
           />
-        </div>
-      ) : null}
-
-      <section className={styles.loginholder}>
-        <div className={styles.logincontentholder}>
-          <h1 className={styles.heading}>Restablecer contraseña</h1>
-          <div className={styles.container}>
-            <div className={styles.imgContainer}>
-              <Image
-                src="/logo.png"
-                alt="logo"
-                width={200}
-                height={200}
-                className={styles.logoimage}
-              />
-            </div>
-            <div className={styles.formContainer}>
-              {/* <h2 className={styles.headingSmall}>
-                enviar OTP al correo electrónico
-              </h2> */}
-              <form onSubmit={handleForgotPassword} className={styles.form}>
-                <div className={styles.inputContainer}>
-                  <input
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    type="email"
-                    name="email"
-                    id="email"
-                    style={{ fontWeight: 700 }}
-                    placeholder="Escribe aquí tu E-mail registrado"
-                    className={styles.inputs}
-                  />
-                </div>
-
-                <div className={styles2.loginbuttonholdermedium}>
-                  <div className={styles.buttonholder}>
-                    <button type="submit" className={`${styles.button}`}>
-                      Solicitar código
-                    </button>
-                  </div>
-                  <div className={styles.logoimageholder}>
-                    <img src="/login/registericon.png" alt="" />
-                  </div>
-                </div>
-              </form>
-            </div>
+          <InputGroup.Button
+            className="flex gap-3"
+            onClick={() => {
+              sendOTP();
+            }}
+          >
+            <p className="font-semibold">Send OTP</p>
+            <IoMailOutline className="text-[1.2rem]" />
+          </InputGroup.Button>
+        </InputGroup>
+        <Input
+          style={styles}
+          placeholder="Enter otp sent to your mail.."
+          onChange={(value) => {
+            setotp(value);
+          }}
+        />
+        <Input
+          style={styles}
+          placeholder="Enter new password..."
+          onChange={(value) => {
+            setpassword(value);
+          }}
+        />
+        <div
+          onClick={() => {
+            resetPassword();
+          }}
+          className="flex bg-orange-400 justify-center py-1 font-medium px-5 rounded-lg text-lg gap-4 cursor-pointer transition-all duration-300 ease-in-out hover:bg-orange-500"
+        >
+          <div className="">
+            <button type="button">Reset Password</button>
           </div>
         </div>
-      </section>
-    </>
+      </Modal.Body>
+    </Modal>
   );
 };
 

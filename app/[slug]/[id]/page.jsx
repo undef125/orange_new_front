@@ -41,7 +41,7 @@ const page = () => {
               className="m-auto"
             >
               <Image
-                src={`https://ecommerce-backend-eight.vercel.app${currImage}`}
+                src={`http://192.168.1.85:5000${currImage}`}
                 width={100}
                 height={100}
                 alt="oatimage"
@@ -50,7 +50,7 @@ const page = () => {
               />
             </motion.div>
           </div>
-          <div className="flex justify-start gap-4 md:w-[30rem] :w-[35rem] lg:w-[40rem]">
+          <div className="flex justify-start overflow-x-scroll gap-4 md:w-[30rem] :w-[35rem] lg:w-[40rem]">
             {currProduct?.images?.map((img, idx) => {
               return (
                 <moti
@@ -61,7 +61,7 @@ const page = () => {
                 >
                   <Image
                     className="px-3 bg-[#d5d4d415] h-[100%] object-contain"
-                    src={`https://ecommerce-backend-eight.vercel.app${img}`}
+                    src={`http://192.168.1.85:5000${img}`}
                     width={100}
                     height={100}
                     alt="image"
@@ -72,7 +72,7 @@ const page = () => {
           </div>
         </div>
         <div className="flex flex-col justify-center items-center w-[100%]">
-          <div className="flex flex-col gap-2 ml-20 md:gap-6 w-[100%] ">
+          <div className="flex flex-col gap-2 ml-0 md:ml-20 md:gap-6 w-[100%] ">
             <div>
               <p className="text-gray-500">
                 {currProduct?.companyId?.companyName}

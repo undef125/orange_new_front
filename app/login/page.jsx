@@ -1,59 +1,66 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useEffect, useRef, useContext } from "react";
-import styles from "@/styles/Login.module.css";
+import React, { useState, useEffect } from "react";
 import { GoEye, GoEyeClosed } from "react-icons/go";
 import Link from "next/link";
-import { IndexContext } from "../../context";
-import * as yup from "yup";
-import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
-import {  setCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 import axios from "../api/axiosinterceptor";
 import { Oval } from "react-loader-spinner";
 import BackBtnPop from "../../components/BackBtnPop";
 import { useFormik } from "formik";
 import { loginValidationSchema } from "@/utilis/FormValidationSchema";
 import protectRoute from "@/utilis/protectRoute";
-import {
-  toastError,
-  toastStarter,
-  toastSuccess,
-} from "@/utilis/promiseToaster";
+import ForgotPassword from "./ForgotPassword";
+import { toast } from "react-hot-toast";
 
 const initialValuesLogin = {
   emailorusername: "",
   password: "",
 };
 
+
+
 const Login = () => {
-  const toastId = useRef(null);
   const router = useRouter();
 
   const { values, handleBlur, handleChange, handleSubmit, errors } = useFormik({
     initialValues: initialValuesLogin,
     validationSchema: loginValidationSchema,
     onSubmit: async (values) => {
+      const toastId = toast.loading("loggin in......");
       try {
-        toastId.current = toastStarter("boom boommmmmmmmmmmmmmmmmmmmmmmm");
         const resp = await axios.post("/login", values);
-        toastSuccess(toastId, "login bhayo haaai taa");
         if (resp.data.isVerified) {
           router.push("/dashboard");
         } else {
           router.push("/payment");
         }
-        setCookie("token", resp.data.token, {
-          // httpOnly: true,
+        setCookie("token", resp.data.token);
+        toast.dismiss(toastId);
+        toast.success(`Login Successful`, {
+          duration: 3000,
         });
       } catch (error) {
-        toastError(toastId, error);
+        console.log(error)
+        toast.dismiss(toastId);
+        toast.error(`error: ${error?.response?.data?.error}`, {
+          duration: 3000,
+        });
       }
     },
   });
+  //for popup of password reset
+  const [open, setOpen] = React.useState(false);
+  const [size, setSize] = React.useState();
+  const handleOpen = (value) => {
+    setSize(value);
+    setOpen(true);
+  };
+  const handleClose = () => setOpen(false);
 
   const [isLoading, setisLoading] = useState(false);
-  const [passwordShow, setPasswordShow] = useState(true);
+  const [passwordShow, setPasswordShow] = useState(false);
 
   useEffect(() => {
     const handleRouteProtection = async () => {
@@ -65,9 +72,8 @@ const Login = () => {
   return (
     <>
       <BackBtnPop />
-      <ToastContainer />
       {isLoading ? (
-        <div className={styles.loadercontainer}>
+        <div>
           <Oval
             height="80"
             width="80"
@@ -153,7 +159,10 @@ const Login = () => {
                   </button>
                 </div>
               </div>
-              <p className="font-semibold  cursor-pointer self-center">
+              <p
+                onClick={() => handleOpen("50rem")}
+                className="font-semibold  cursor-pointer self-center"
+              >
                 Forgot Password?
               </p>
               <p className="mt-4 text-center">
@@ -167,6 +176,7 @@ const Login = () => {
             </div>
           </div>
         </div>
+        <ForgotPassword size={size} open={open} handleClose={handleClose} />
       </section>
     </>
   );

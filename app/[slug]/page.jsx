@@ -17,31 +17,31 @@ const page = () => {
   useEffect(() => {
     getCompanyDet(params?.slug);
   }, []);
-
+  
   return (
     <div className="flex flex-col gap-4 items-center">
       <StoreNav />
-      <div className="flex rounded justify-around  gap-[4vh] bg-[#064C4F] h-[58vh] w-[95vw] mb-8">
+      <div className="flex flex-col md:flex-row rounded justify-around  gap-[4vh] bg-[#064C4F] h-[58vh] w-[95vw] mb-8 p-2">
         <div className="flex flex-col gap-8 justify-center">
           <div>
-            <p className="font-extrabold text-5xl text-[#aee5bb]">
+            <p className="font-extrabold text-3xl md:text-5xl text-[#aee5bb]">
               {company?.shortReview}
             </p>
           </div>
           <div>
-            <p className="text-[#eaf0eb] text-2xl">{company?.description}</p>
+            <p className="text-[#eaf0eb] text-xl md:text-2xl">{company?.description}</p>
           </div>
           <div>
             <button
             onClick={() => {
               router.push(`/${params?.slug}/products?cmp=${company?._id}&nm=${company?.companyName}`)
             }}
-            className="bg-[#65B741] h-[5vh] w-[7vw] rounded">
+            className="bg-[#65B741] h-[5vh] px-[1rem] rounded">
               Shop Now
             </button>
           </div>
         </div>
-        <div className="flex w-[50%] flex-end ">
+        <div className="flex w-[100%] md:w-[50%] flex-end ">
           <Image
             src={company?.coverImage}
             height={150}

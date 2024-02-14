@@ -23,7 +23,6 @@ const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
 
   return (
     <div className="my-8">
-      {console.log(filterValue, filteredProd)}
       {seeAll ? (
         <div className="flex justify-between font-semibold w-[95vw] my-4">
           <div className="text-[2rem]">You might need</div>
@@ -51,23 +50,41 @@ const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
                 onClick={() => {
                   router.push(`/${slug}/${prod?._id}`);
                 }}
-                className="flex justify-end min-h-[12rem] cursor-pointer   "
+                className="flex justify-end min-h-[12rem] cursor-pointer relative "
               >
                 <Image
-                  src={`https://ecommerce-backend-eight.vercel.app${prod.images[0]}`}
+                  src={`http://192.168.1.85:5000${prod.images[0]}`}
                   width={40}
                   height={40}
                   alt="hello"
                   className="h-[12rem] w-[15rem] object-cover rounded-t-md"
                   unoptimized
                 />
+                {prod?.discountPrice ? (
+                <div
+                  className={`absolute bg-gray-200 bottom-[2px] left-[4px] px-2 py-1 rounded font-semibold  `}
+                >
+                  Promo
+                </div>
+              ) : null}
               </div>
               <div className="font-semibold px-2 text-center text-[1.4rem] text-slate-700 ">
                 {prod.name}
               </div>
-              <div className="px-2 text-center text-gray-500 font-semibold">
+              <div
+                className={`px-2 text-center text-gray-500 font-semibold ${
+                  prod?.discountPrice ? "line-through" : ""
+                } `}
+              >
                 ${prod.price}
               </div>
+              {prod?.discountPrice ? (
+                <div
+                  className={`px-2 text-center text-gray-500 font-semibold`}
+                >
+                  ${prod.price}
+                </div>
+              ) : null}
               <div className="flex justify-center py-2">
                 <div
                   onClick={() => {

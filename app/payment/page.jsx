@@ -91,16 +91,16 @@ export default function page() {
   }, []);
 
   return (
-    <div className="h-[100vh] w-[100vw] flex  items-center justify-center px-[10vw] gap-10">
+    <div className="h-[100vh] w-[100vw] flex flex-col md:flex-row items-center justify-center px-[10vw] gap-2 md:gap-10">
       <div className="flex justify-center  items-center h-[100%]">
         <div className="w-fit  ">
-          <div className="text-[2rem] font-semibold text-start">
+          <div className="text-[1.5rem] md:text-[2rem] font-semibold text-start">
             Choose Payment Method:
           </div>
           <div className=" flex flex-col gap-6">
             <div
               onClick={makeStripePayment}
-              className="bg-white flex justify-between px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
+              className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div className="flex justify-between items-center">
                 <Image
@@ -120,7 +120,7 @@ export default function page() {
             </div>
             <div
               onClick={makePaypalPayment}
-              className="bg-white flex justify-between px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
+              className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div>
                 <Image
@@ -136,7 +136,7 @@ export default function page() {
                 handleOpen("calc(100% - 120px)");
                 setGateway("zille");
               }}
-              className="bg-white flex justify-between px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
+              className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div>
                 <Image
@@ -152,7 +152,7 @@ export default function page() {
                 handleOpen("calc(100% - 120px)");
                 setGateway("nequi");
               }}
-              className="bg-white flex justify-between px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
+              className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div>
                 <Image
@@ -168,8 +168,8 @@ export default function page() {
       </div>
       <div className="flex justify-center h-[100%] items-center">
         <div className="">
-          <div className="w-[30vw] px-6 rounded-xl  flex flex-col  bg-white">
-            <h1 className="font-semibold text-orange-500 text-[1.6rem] py-4">
+          <div className="w-[90vw] md:w-[30vw] px-6 rounded-xl  flex flex-col  bg-white">
+            <h1 className="font-semibold text-orange-500 text-[1.6rem] py-2 md:py-4">
               Orange Subscription
             </h1>
             <hr />

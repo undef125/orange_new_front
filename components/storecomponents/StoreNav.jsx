@@ -20,12 +20,12 @@ const StoreNav = () => {
       onClick={() => {
         router.push(`/${params?.slug}`)
       }}
-       className="h-[6rem] flex items-center">
+       className="h-[6rem] flex items-center ">
         <Image
           src={company?.logoImage}
           height={150}
           width={150}
-          className="h-[5rem] w-[5rem] object-cover rounded-full"
+          className=" h-[2rem] md:h-[5rem] w-[2rem] md:w-[5rem] object-cover rounded-full"
           alt="logo"
         />
       </div>
@@ -40,7 +40,7 @@ const StoreNav = () => {
         }}
         className="relative transition-all ease-in-out duration-300 bg-white rounded-full w-fit p-3 cursor-pointer hover:scale-110"
       >
-        <MdOutlineShoppingCart className="text-[1.5rem]" />
+        <MdOutlineShoppingCart className="text-[1.2rem] md:text-[1.5rem]" />
         <div className="absolute top-[-5px] right-[-5px] bg-orange-500 rounded-full h-[25px] w-[25px]">
           <p className=" text-center font-semibold text-white m-auto mt-1 ">
             {cartItems?.length ? cartItems?.length : 0}

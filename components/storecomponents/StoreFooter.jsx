@@ -38,7 +38,7 @@ const StoreFooter = ({ company }) => {
         <p className="mb-4">
           &copy; 2024 {company?.companyName}. All rights reserved.
         </p>
-        <div className="flex flex-col gap-4 lg:flex-row lg:justify-between w-full lg:w-auto">
+        <div className="flex flex-col items-center gap-4 lg:flex-row lg:justify-between w-full lg:w-auto">
           <p className="cursor-pointer mb-2 lg:mb-0 hover:text-slate-700">
             Privacy Policy
           </p>

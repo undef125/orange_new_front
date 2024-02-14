@@ -54,3 +54,10 @@ export const productsValidationSchema = Yup.object({
   buttonText: Yup.string(),
   checkoutText: Yup.string(),
 });
+export const checkoutValidationSchema = Yup.object({
+  name: Yup.string().required("Name is required"),
+  number: Yup.string().required("Phone Number is required"),
+  city: Yup.string().required("City is required"),
+  country: Yup.string().required("Country is required"),
+  deliveryaddress: Yup.string().required("Delivery address is required"),
+});

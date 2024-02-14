@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { TbEdit } from "react-icons/tb";
 import SearchIcon from "@rsuite/icons/Search";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-hot-toast";
 import { Input, InputGroup, Button } from "rsuite";
 import AddCategories from "./categoriespage/AddCategories";
 import axios from "@/app/api/axiosinterceptor";
@@ -37,7 +37,6 @@ const CategoriesPage = ({ company }) => {
     setloadingCat(true);
     try {
       let response = await axios.get(`getcategories/${company?._id}`);
-
       setcategories(response.data);
       setbackupCats(response.data);
       setupdateLoading(false);
@@ -49,35 +48,34 @@ const CategoriesPage = ({ company }) => {
   };
 
   const updateCategory = async (catId) => {
+    const toastId = toast.loading("updating...")
     setupdateLoading(true);
     try {
       await axios.put(`/updatecategory/${catId}`, updateValues);
-      getCategories();
+      getCategories(toastId);
       setname(false);
       setimage(false);
-      toast.success("Successfully Updated the Category", {
-        autoClose: 2000,
-      });
+      toast.dismiss(toastId)
+      toast.success("Successfully Updated the Category");
     } catch (error) {
       setupdateLoading(false);
+      toast.error("Error Updating the Category");
     }
   };
 
   const deleteCategory = async (catId) => {
-    setupdateLoading(true);
+    const toastId = toast.loading("deleting...")
     try {
       await axios.delete(`/deletecategory/${catId}`);
       getCategories();
-      // setname(false);
-      // setimage(false);
       toast.success("Successfully Deleted the Category", {
         autoClose: 2000,
       });
+      toast.dismiss(toastId)
+      toast.success("Successfully Deleted the Category");
     } catch (error) {
-      toast.error(" Deletion failed", {
-        autoClose: 2000,
-      });
-      setupdateLoading(false);
+      toast.dismiss(toastId)
+      toast.error(" Deletion failed");
     }
   };
 
@@ -90,10 +88,9 @@ const CategoriesPage = ({ company }) => {
 
   return (
     <div className="w-[100vw] h-screen flex justify-center bg-slate-200">
-      <ToastContainer />
       <div className="w-[80%] flex flex-col items-center mt-[1rem]">
         <div>
-          <h1 className="text-[2.5rem] text-orange-500 ">
+          <h1 className="text-[1.5rem] md:text-[2.5rem] text-orange-500 ">
             Manage Your Categories
           </h1>
         </div>
@@ -122,7 +119,7 @@ const CategoriesPage = ({ company }) => {
             <code>Add Category</code>
           </Button>
         </div>
-        <div className="flex gap-8 w-[100%] px-4 mt-[2rem]">
+        <div className="flex flex-wrap gap-8 w-[100%] px-4 mt-[2rem]">
           {loadingCat ? (
             <InfinitySpin
               visible={true}
@@ -147,7 +144,7 @@ const CategoriesPage = ({ company }) => {
                                   ? ""
                                   : updateValues.categoryImage
                               }`
-                            : `https://ecommerce-backend-eight.vercel.app${category.categoryImage}`
+                            : `http://192.168.1.85:5000${category.categoryImage}`
                         }
                         height="1600"
                         width="1574"

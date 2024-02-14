@@ -49,7 +49,7 @@ const page = () => {
 
       <div>
         <div className=" w-[95vw] m-auto my-10">
-          <h1 className="text-[1.2rem] font-semibold ">All Categories</h1>
+          <h1 className="text-[1.2rem] md:text-[2rem] font-semibold ">All Categories</h1>
           <div>
             <SelectPicker
               data={data}

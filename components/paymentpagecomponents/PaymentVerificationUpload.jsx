@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Input } from "rsuite";
 import toBase64 from "@/utilis/FileToBase64";
-import axios from "@/app/api/axiosinterceptor"
+import { toast } from "react-hot-toast";
+import axios from "@/app/api/axiosinterceptor";
 
 const PaymentVerificationUpload = ({ gateway }) => {
   const [isError, setisError] = useState(false);
@@ -13,15 +14,18 @@ const PaymentVerificationUpload = ({ gateway }) => {
   });
 
   const sendPaymentVerificationRequest = async () => {
+    const toastId = toast.loading("Sending Verification Request...");
     try {
       if (formValues.method && formValues.receiptImage) {
         const resp = await axios.post("/sendverificationrequest", formValues);
+        toast.dismiss(toastId);
       } else {
-
+        toast.dismiss(toastId);
         setisError(true);
         return;
       }
     } catch (error) {
+      toast.dismiss(toastId);
       console.log(error);
     }
   };
@@ -85,7 +89,7 @@ const PaymentVerificationUpload = ({ gateway }) => {
                     border: "2px solid #B6BBC4",
                   }}
                   onChange={(textValue) => {
-                    setformValues({...formValues, receiptNumber: textValue})
+                    setformValues({ ...formValues, receiptNumber: textValue });
                   }}
                 />
               </div>
@@ -108,12 +112,12 @@ const PaymentVerificationUpload = ({ gateway }) => {
                     border: "2px solid #B6BBC4",
                     width: "100%",
                   }}
-                onChange={async (e) => {
-                  setformValues({
-                    ...formValues,
-                    receiptImage: await toBase64(e.target.files[0]),
-                  });
-                }}
+                  onChange={async (e) => {
+                    setformValues({
+                      ...formValues,
+                      receiptImage: await toBase64(e.target.files[0]),
+                    });
+                  }}
                 />
               </div>
             </div>

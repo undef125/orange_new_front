@@ -4,6 +4,7 @@ import { TbEdit } from "react-icons/tb";
 import { IoMdAdd } from "react-icons/io";
 import toBase64 from "@/utilis/FileToBase64";
 import axios from "@/app/api/axiosinterceptor";
+import { toast } from "react-hot-toast";
 
 const CustomizePage = ({ company }) => {
   const [editLogo, seteditLogo] = useState(false);
@@ -14,10 +15,14 @@ const CustomizePage = ({ company }) => {
   const [backup, setbackup] = useState([]);
 
   const updateCompanyImage = async () => {
+    const toastId = toast.loading("Updating Image...");
     try {
       await axios.put(`updatecompanyimage/${company?._id}`, updateValues);
+      toast.dismiss(toastId);
+      toast.success("Image Updated Successfully!");
     } catch (error) {
-      console.log(error);
+      toast.dismiss(toastId);
+      toast.error("Image Updation Failed");
     }
   };
 
@@ -27,11 +32,35 @@ const CustomizePage = ({ company }) => {
 
   return (
     <div>
-      <h1 className="text-orange-500 font-semibold text-[2.5rem] text-center my-2 ">Customize your store</h1>
+      <h1 className="text-orange-500 font-semibold text-[1.5rem] md:text-[2.5rem] text-center my-2 ">
+        Customize your store
+      </h1>
+      {changesLogo || changesCover ? (
+        <div className="mt-10 flex justify-center gap-2">
+          <button
+            className="rounded-xl py-1 px-2 md:px-6 md:py-3 bg-orange-500 text-[1.2rem] font-semibold "
+            onClick={updateCompanyImage}
+          >
+            UPDATE BUTTON
+          </button>
+          <button
+            className="rounded-xl py-1 px-2 md:px-6 md:py-3 bg-orange-500 text-[1.2rem] font-semibold "
+            onClick={() => {
+              setchangesMade(false);
+              seteditImage(false);
+              setupdateValues({});
+            }}
+          >
+            Cancel Changes
+          </button>
+        </div>
+      ) : null}
       <div className="h-[40vh] flex justify-center ">
-        <div className="flex  justify-center  gap-6 border-[1px] p-4 w-[95vw] h-fit shadow-sm shadow-orange-400">
+        <div className="flex flex-col md:flex-row justify-center  gap-6 border-[1px] p-4 w-[95vw] h-fit shadow-sm shadow-orange-400">
           <div className="w-fit ">
-            <h1 className="font-semibold text-[1.2rem] my-3 text-slate-500">Logo Image</h1>
+            <h1 className="font-semibold text-[1.2rem] my-3 text-slate-500">
+              Logo Image
+            </h1>
             <div className="relative group">
               {!editLogo ? (
                 <>
@@ -81,7 +110,10 @@ const CustomizePage = ({ company }) => {
             </div>
           </div>
           <div className="w-fit ">
-            <h1 className="font-semibold text-[1.2rem] my-3 text-slate-500"> Banner Image</h1>
+            <h1 className="font-semibold text-[1.2rem] my-3 text-slate-500">
+              {" "}
+              Banner Image
+            </h1>
             <div className="relative group">
               {!editCover ? (
                 <>
@@ -93,7 +125,7 @@ const CustomizePage = ({ company }) => {
                     }
                     height={300}
                     width={300}
-                    className="shadow shadow-slate-500 h-[40vh] w-[60vw] object-cover "
+                    className="shadow shadow-slate-500 h-[40vh] md:w-[60vw] object-cover "
                     alt={`logo of ${company?.companyName}`}
                   />
                   <div className="absolute hidden group-hover:flex group-hover:top-0 justify-center items-center h-[100%] w-[100%] bg-[#f8f8f8d6] ">
@@ -184,22 +216,6 @@ const CustomizePage = ({ company }) => {
 
         {/* <div className="w-[40vw] bg-slate-300"></div> */}
       </div>
-      {changesLogo || changesCover ? (
-        <div className="mt-10">
-          <button onClick={updateCompanyImage}>UPDATE BUTTON</button>
-          <button
-            onClick={() => {
-              setchangesMade(false);
-              seteditImage(false);
-              setupdateValues({});
-              // company.logoImage = backup?.logoImage
-              // company.coverImage = backup?.coverImage
-            }}
-          >
-            Cancel Changes
-          </button>
-        </div>
-      ) : null}
     </div>
   );
 };

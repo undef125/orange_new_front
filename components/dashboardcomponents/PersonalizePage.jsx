@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Input, InputGroup } from "rsuite";
 import { MdOutlineDone } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { TbEdit } from "react-icons/tb";
 import axios from "@/app/api/axiosinterceptor";
+import { toast } from "react-hot-toast";
 
 
 const PersonalizePage = ({ getUserAndComapnyDetail,company }) => {
@@ -15,12 +16,17 @@ const PersonalizePage = ({ getUserAndComapnyDetail,company }) => {
   const [restoreValue, setrestoreValue] = useState("");
 
  const updateCompanyDetails = async() => {
+  const toastId = toast.loading("Updating details...")
   try {
     await axios.post(`updatecompanydetails/${company?._id}`, updateValues)
     setchangesMade(false);
     setediting("");
+    setupdateValues({})
+    toast.dismiss(toastId);
+    toast.success("updated successfully!")
   } catch (error) {
-    console.log(error)
+    toast.dismiss(toastId);
+    toast.error("updation failed!")
   }
  }
   const styles = {
@@ -30,11 +36,11 @@ const PersonalizePage = ({ getUserAndComapnyDetail,company }) => {
     <div className="w-[100vw] h-screen flex justify-center bg-slate-200">
       <div className="mt-2">
         <div>
-          <h1 className="text-center font-semibold text-[3rem]">
+          <h1 className="text-center font-semibold text-[1.5rem] md:text-[3rem]">
             {company?.companyName.toUpperCase()} Store
           </h1>
         </div>
-        <div className="grid grid-cols-2 w-[80vw] gap-x-4 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 w-[80vw] md:gap-x-4 mt-4">
           {company
             ? Object.keys(company).map((item, index) => {
                 if (
@@ -65,7 +71,6 @@ const PersonalizePage = ({ getUserAndComapnyDetail,company }) => {
                               size="lg"
                               inside
                               style={styles}
-                              // className="order-last"
                             >
                               <Input
                                 value={company[`${item}`][`${smedia}`]}
