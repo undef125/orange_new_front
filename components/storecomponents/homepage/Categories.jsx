@@ -40,7 +40,7 @@ const Categories = ({  company,slug }) => {
               </div>
               <div className=" px-1">
                 <Image
-                  src={`http://192.168.1.85:5000${cat.categoryImage}`}
+                  src={`http://localhost:5000${cat.categoryImage}`}
                   width={40}
                   height={40}
                   alt="hello"

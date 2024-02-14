@@ -53,7 +53,7 @@ const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
                 className="flex justify-end min-h-[12rem] cursor-pointer relative "
               >
                 <Image
-                  src={`http://192.168.1.85:5000${prod.images[0]}`}
+                  src={`http://localhost:5000${prod.images[0]}`}
                   width={40}
                   height={40}
                   alt="hello"

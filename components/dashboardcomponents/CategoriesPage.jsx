@@ -144,7 +144,7 @@ const CategoriesPage = ({ company }) => {
                                   ? ""
                                   : updateValues.categoryImage
                               }`
-                            : `http://192.168.1.85:5000${category.categoryImage}`
+                            : `http://localhost:5000${category.categoryImage}`
                         }
                         height="1600"
                         width="1574"

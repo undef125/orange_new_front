@@ -84,7 +84,7 @@ const page = () => {
                       <Td>
                         <div className=" flex justify-center items-center">
                           <Image
-                            src={`http://192.168.1.85:5000${product.images[0]}`}
+                            src={`http://localhost:5000${product.images[0]}`}
                             height="200"
                             width="200"
                             alt="category related image "
