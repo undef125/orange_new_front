@@ -77,7 +77,7 @@ const ListingProducts = ({ products, catNames, getProducts }) => {
                   <Td>
                     <div className=" flex flex-col rounded   relative">
                       <Image
-                        src={`http://localhost:5000${product.images[0]}`}
+                        src={`http://localhost:5001${product.images[0]}`}
                         height="200"
                         width="200"
                         alt="category related image "
@@ -183,7 +183,7 @@ const ProductEditModal = ({
                 <div className="relative group">
                   <div className=" flex flex-col flex-wrap rounded   relative">
                     <Image
-                      src={`http://localhost:5000${image}`}
+                      src={`http://localhost:5001${image}`}
                       height="200"
                       width="200"
                       alt="category related image "

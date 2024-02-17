@@ -99,7 +99,9 @@ export default function page() {
           </div>
           <div className=" flex flex-col gap-6">
             <div
-              onClick={makeStripePayment}
+              onClick={() => {
+                makeStripePayment();
+              }}
               className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div className="flex justify-between items-center">
@@ -119,7 +121,9 @@ export default function page() {
               </div>
             </div>
             <div
-              onClick={makePaypalPayment}
+              onClick={() => {
+                makePaypalPayment();
+              }}
               className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div>

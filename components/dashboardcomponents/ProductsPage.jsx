@@ -31,6 +31,7 @@ const ProductsPage = ({ company }) => {
 
   const getCategoriesNameList = async () => {
     try {
+
       let response = await axios.get(`getcategories/${company?._id}`);
       let managedArrayForSelect = response?.data?.map((item) => ({
         label: item.categoryName,
@@ -43,7 +44,8 @@ const ProductsPage = ({ company }) => {
     }
   };
   const getProducts = async () => {
-    setloadingCat(true);
+    
+    setloadingCat(true);      
     try {
       let response = await axios.get(`getproducts/${company?._id}`);
       setproducts(response.data);
@@ -63,7 +65,7 @@ const ProductsPage = ({ company }) => {
 
   return (<>
   {
-    products.length > 0 ? <div className="w-[100vw] h-screen flex justify-center bg-slate-200">
+   <div className="w-[100vw] h-screen flex justify-center bg-slate-200">
     <div className="w-[95%] md:w-[80%] flex flex-col items-center mt-[1rem]">
       <div>
         <h1 className="text-[1.5rem] md:text-[2.5rem] text-orange-500 ">
@@ -119,9 +121,7 @@ const ProductsPage = ({ company }) => {
       catNames={catNames}
       getProducts={getProducts}
     />
-  </div> : <>
-  <p>Loading............................</p>
-  </>
+  </div> 
   }
   </>
     

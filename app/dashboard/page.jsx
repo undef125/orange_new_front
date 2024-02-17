@@ -37,31 +37,18 @@ const Page = () => {
       console.log(error);
     }
   };
+  useEffect(() => {
+    
+  },[user])
  
 
   useEffect(() => {
     const handleRouteProtection = async () => {
-      console.log(`gggggggggggggggggggggggggggggggggg: ${await protectRoute()}`)
       if (!await protectRoute()) router.push("/payment");
       else getUserAndComapnyDetail();
     };
     handleRouteProtection();
-
-    // const handleLoad = () => {
-    //   setLoading(false);
-    // };
     
-    // if (document.readyState === "complete") {
-    //   handleLoad();
-    // } else {
-    //   setLoading(true);
-
-    //   window.addEventListener("load", handleLoad);
-    // }
-
-    // return () => {
-    //   window.removeEventListener("load", handleLoad);
-    // };
   }, []);
 
   return (
@@ -168,12 +155,13 @@ const Page = () => {
 
         <>
           {whichPage === 0 ? (
-            <div>
-              Main page ho hai yo initialize wala hai ta hai yad gar hai hai hai
-              bhaneko hai
+            <div className="flex justify-center items-center">
+              <button onClick={() => {
+                router.push(`${company?.companyName}`)
+              }}>Take me to the store</button>
             </div>
           ) : whichPage === 1 ? (
-            <CustomizePage company={company} />
+            <CustomizePage company={company} getUserAndComapnyDetail={getUserAndComapnyDetail} setUser={setUser} />
           ) : whichPage === 2 ? (
             <PersonalizePage
               getUserAndComapnyDetail={getUserAndComapnyDetail}

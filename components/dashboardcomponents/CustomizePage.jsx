@@ -6,7 +6,7 @@ import toBase64 from "@/utilis/FileToBase64";
 import axios from "@/app/api/axiosinterceptor";
 import { toast } from "react-hot-toast";
 
-const CustomizePage = ({ company }) => {
+const CustomizePage = ({ company,getUserAndComapnyDetail }) => {
   const [editLogo, seteditLogo] = useState(false);
   const [editCover, seteditCover] = useState(false);
   const [updateValues, setupdateValues] = useState({});
@@ -14,11 +14,26 @@ const CustomizePage = ({ company }) => {
   const [changesCover, setchangesCover] = useState(false);
   const [backup, setbackup] = useState([]);
 
+  // const getUserAndComapnyDetail = async () => {
+  //   try {
+  //     const resp1 = await axios.get("/getmydetail");
+  //     setUser(resp1.data.user);
+  //     const resp2 = await axios.get("/getcompanydetails");
+  //     setCompany(resp2.data.data[0]);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   const updateCompanyImage = async () => {
     const toastId = toast.loading("Updating Image...");
     try {
       await axios.put(`updatecompanyimage/${company?._id}`, updateValues);
       toast.dismiss(toastId);
+      setchangesCover(false)
+      setchangesLogo(false)
+      setupdateValues({})
+getUserAndComapnyDetail();  
       toast.success("Image Updated Successfully!");
     } catch (error) {
       toast.dismiss(toastId);
@@ -41,13 +56,13 @@ const CustomizePage = ({ company }) => {
             className="rounded-xl py-1 px-2 md:px-6 md:py-3 bg-orange-500 text-[1.2rem] font-semibold "
             onClick={updateCompanyImage}
           >
-            UPDATE BUTTON
+            Update
           </button>
           <button
             className="rounded-xl py-1 px-2 md:px-6 md:py-3 bg-orange-500 text-[1.2rem] font-semibold "
             onClick={() => {
-              setchangesMade(false);
-              seteditImage(false);
+              setchangesCover(false)
+              setchangesLogo(false)
               setupdateValues({});
             }}
           >

@@ -78,8 +78,9 @@ const PersonalizePage = ({ getUserAndComapnyDetail,company }) => {
                                 readOnly={
                                   !read && currIndex === idx ? false : true
                                 }
+                                placeholder={`${smedia}`}
                                 onChange={(text) => {
-                                  setupdateValues({
+                                  setupdateValues({ 
                                     ...updateValues,
                                     [item]: {
                                       ...updateValues[`${item}`],
@@ -145,6 +146,7 @@ const PersonalizePage = ({ getUserAndComapnyDetail,company }) => {
                             readOnly={
                               !read && currIndex === index ? false : true
                             }
+                            placeholder={item}
                             className="w-[40rem]"
                             onChange={(text) => {
                               setupdateValues({

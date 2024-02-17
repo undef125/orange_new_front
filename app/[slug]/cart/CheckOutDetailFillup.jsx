@@ -180,7 +180,7 @@ const CheckOutDetailFillup = ({
               {nequi ? (
                 <>
                   <Image
-                    // src={`http://localhost:5000${company?.nequi}`}
+                    // src={`http://localhost:5001${company?.nequi}`}
                     src="/download.png"
                     height={100}
                     width={100}
@@ -191,7 +191,7 @@ const CheckOutDetailFillup = ({
               {zille ? (
                 <div className="flex flex-col">
                   <Image
-                    // src={`http://localhost:5000${company?.zille}`}
+                    // src={`http://localhost:5001${company?.zille}`}
                     src="/download.png"
                     height={100}
                     width={100}

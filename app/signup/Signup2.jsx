@@ -1,9 +1,5 @@
 import Link from "next/link";
-import React, { useContext, useRef, useState } from "react";
-import { IndexContext } from "../../context";
-import axios from "../api/axiosinterceptor";
-import Router from "next/router";
-import { toast } from "react-toastify";
+import React from "react";
 import toBase64 from "@/utilis/FileToBase64";
 
 const Signup2 = ({
@@ -14,7 +10,6 @@ const Signup2 = ({
   passwordShow,
   setFieldValue,
 }) => {
-  const toastId = useRef(null);
   const inputStyle =
     "focus:border-orange-500 focus:outline-none px-2 text-[.9rem] md:text-[1.2rem]  border-2 rounded-lg border-orange-200 w-[95vw] md:w-[38rem] lg:w-[24rem] xl:w-[30rem] 2xl:w-[36rem] h-[2.5rem]";
 
@@ -189,7 +184,7 @@ const Signup2 = ({
             >
               Teléfono de contacto *
             </label>
-            <div className="flex gap-[1vw] md:gap-[1rem]">
+            <div className="flex gap-[1vw] md:gap-[1rem] ">
               <input
                 type="number"
                 id="telephonecc"
@@ -213,7 +208,7 @@ const Signup2 = ({
                 onChange={handleChange}
                 className={`${
                   errors.short ? "border-red-500 shadow-sm shadow-red-500" : ""
-                } focus:border-orange-500 focus:outline-none px-2 text-[.9rem] md:text-[1.2rem]  border-2 rounded-lg border-orange-200 w-[79vw] md:w-[32rem] lg:w-[1rem] xl:w-[24rem] 2xl:w-[30rem] h-[2.5rem]`}
+                } border-red-500 shadow-sm shadow-red-500': ''}  focus:border-orange-500 focus:outline-none px-2 text-[.9rem] md:text-[1.2rem]  border-2 rounded-lg border-orange-200 w-[79vw] md:w-[34rem]  lg:w-[19rem] xl:w-[24rem] 2xl:w-[30rem] h-[2.5rem]`}
               />
             </div>
           </div>

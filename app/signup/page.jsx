@@ -88,6 +88,7 @@ export default function Signup() {
       toast.success("User Signed up successfully!", {
         duration: 3000,
       });
+      router.push("/login")
     } catch (error) {
       toast.dismiss(toastId);
       toast.success(`error: ${error?.response?.data?.msg || "Error signing up due to server error!"}`, {
