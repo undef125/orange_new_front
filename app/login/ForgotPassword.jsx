@@ -16,7 +16,6 @@ const ForgotPassword = ({ size, open, handleClose }) => {
   const re = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/;
 
   const sendOTP = async () => {
-    console.log("");
     try {
       if (email.match(re)) {
         await axios.post("/resetpasswordotp", {

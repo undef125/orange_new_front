@@ -14,16 +14,6 @@ const CustomizePage = ({ company,getUserAndComapnyDetail }) => {
   const [changesCover, setchangesCover] = useState(false);
   const [backup, setbackup] = useState([]);
 
-  // const getUserAndComapnyDetail = async () => {
-  //   try {
-  //     const resp1 = await axios.get("/getmydetail");
-  //     setUser(resp1.data.user);
-  //     const resp2 = await axios.get("/getcompanydetails");
-  //     setCompany(resp2.data.data[0]);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const updateCompanyImage = async () => {
     const toastId = toast.loading("Updating Image...");

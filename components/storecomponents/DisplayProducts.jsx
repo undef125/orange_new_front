@@ -6,7 +6,6 @@ import { useStoreContext } from "@/context/storeContext";
 import { useRouter, usePathname } from "next/navigation";
 
 const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
-  console.log(filterValue);
   const { products, addItemToCart } = useStoreContext();
   const router = useRouter();
   const pathName = usePathname();
@@ -29,7 +28,7 @@ const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
           <div
             onClick={() => {
               router.push(
-                `/${company?.companyName}/products?cmp=${company?._id}&nm=${company?.companyName}`
+                `/${company?.companyName}/products?cmp=${company?._id}&nm=${company?.companyName}&cat=${''}`
               );
             }}
             className="flex justify-center items-center gap-2 text-red-500 pr-4 cursor-pointer group"
@@ -73,7 +72,7 @@ const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
               </div>
               <div
                 className={`px-2 text-center text-gray-500 font-semibold ${
-                  prod?.discountPrice ? "line-through" : ""
+                  prod?.discountPrice ? "line-through " : ""
                 } `}
               >
                 ${prod.price}
@@ -82,7 +81,7 @@ const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
                 <div
                   className={`px-2 text-center text-gray-500 font-semibold`}
                 >
-                  ${prod.price}
+                  ${prod.discountPrice}
                 </div>
               ) : null}
               <div className="flex justify-center py-2">

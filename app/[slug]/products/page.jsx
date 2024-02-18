@@ -9,11 +9,12 @@ import { useStoreContext } from "@/context/storeContext";
 import DisplayProducts from "@/components/storecomponents/DisplayProducts";
 
 const page = () => {
-  const {getProducts, getCompanyDet} = useStoreContext();
+  const { getProducts, getCompanyDet } = useStoreContext();
 
   const searchParams = useSearchParams();
   const companyId = searchParams.get("cmp");
   const companyName = searchParams.get("nm");
+  const catName = searchParams.get("cat");
   const [filterValue, setfilterValue] = useState("");
 
   const [categories, setcategories] = useState([]);
@@ -41,6 +42,7 @@ const page = () => {
   useEffect(() => {
     getCategories();
     getCompanyDet(companyName);
+    setfilterValue(searchParams.get("cat"));
   }, []);
 
   return (
@@ -49,7 +51,9 @@ const page = () => {
 
       <div>
         <div className=" w-[95vw] m-auto my-10">
-          <h1 className="text-[1.2rem] md:text-[2rem] font-semibold ">All Categories</h1>
+          <h1 className="text-[1.2rem] md:text-[2rem] font-semibold ">
+            All Categories
+          </h1>
           <div>
             <SelectPicker
               data={data}
@@ -57,11 +61,11 @@ const page = () => {
               style={{ width: 224, border: "0px" }}
               placeholder="All Categories"
               onChange={(value) => {
-                setfilterValue(value)
+                setfilterValue(value);
               }}
             />
           </div>
-          <DisplayProducts  filterValue={filterValue} seeAll={false} />
+          <DisplayProducts filterValue={filterValue} seeAll={false} />
         </div>
       </div>
     </>

@@ -73,7 +73,6 @@ export default function Signup() {
     initialValues: stepTwoinitialValues,
     validationSchema: signUpValidationTwo,
     onSubmit: (values) => {
-      // console.log(values)
       setformData({ ...formData, ...values });
       registerUser();
       //call registration api function

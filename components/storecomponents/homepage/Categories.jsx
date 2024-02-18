@@ -57,7 +57,7 @@ const Categories = ({  company,slug }) => {
         <div
           className="flex flex-col gap-2"
           onClick={() => {
-            router.push(`/${slug}/products?cmp=${company?._id}&nm=${company?.companyName}`);
+            router.push(`/${slug}/categories?cmp=${company?._id}&nm=${company?.companyName}`);
           }}
         >
           <div className="transition-all ease-in-out duration-300 bg-white rounded-full w-fit p-2 cursor-pointer hover:scale-110">

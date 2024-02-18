@@ -42,7 +42,6 @@ const Login = () => {
           duration: 3000,
         });
       } catch (error) {
-        console.log(error)
         toast.dismiss(toastId);
         toast.error(`error: ${error?.response?.data?.error}`, {
           duration: 3000,

@@ -29,7 +29,6 @@ const page = () => {
 
   return (
     <div className="flex justify-center  w-[100vw] h-[100vh]">
-      {console.log(currProduct)}
       <div className="flex flex-col md:flex-row justify-between items-between mt-10 gap-8 w-[90vw]">
         <div className="flex flex-col justify-center items-center gap-4 py-2 ">
           <div className="md:w-[30rem] :w-[35rem] lg:w-[40rem] flex bg-[#d5d4d415] ">

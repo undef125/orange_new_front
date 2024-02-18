@@ -26,7 +26,6 @@ const CheckOutDetailFillup = ({
 }) => {
   const { company, getCompanyDet } = useStoreContext();
   const params = useParams();
-  const [message, setMessage] = useState(``);
   const [nequi, setnequi] = useState(false);
   const [zille, setzille] = useState(false);
   const [paymentProof, setpaymentProof] = useState("");
@@ -147,20 +146,34 @@ const CheckOutDetailFillup = ({
                 Zille Payment
               </button>
               <a
-                href={`https://wa.me/+9779864851724?text=Hello i want to place order
-          \nMy details: 
-          \nname: ${values.name}
-          \nnumber: ${values.number}
-          \ncity: ${values.city}
-          \ncountry: ${values.country}
-          \ndelivery address: ${values.deliveryaddress}
-          \nProducts:
-            ${cartItems.map((prod) => {
-              return `Product Name: ${prod.name} \nProduct Price: ${prod.price}\nProduct Quantity: ${prod.count}`;
-            })}
-                --------------------------------------------------------
-                \nTotal Price: ${totalAmount}
-        `}
+                href={`https://wa.me/+9779864851724?text=${encodeURIComponent(`
+                Hello, I want to place an order.
+                
+My details are as follows:
+
+* Name: ${values.name}  
+* Number: ${values.number}
+* City: ${values.city}
+* Country: ${values.country}
+* Delivery address: ${values.deliveryaddress}
+
+Products:
+${cartItems.map((prod) => {
+  return `
+------------------------------------------------------
+* Product Name: ${prod.name}
+* Product Price: ${prod.price}
+* Product Quantity: ${prod.count} 
+-----------------------------------------------------`;
+})}
+
+________________________________________________________
+
+Total Price: ${totalAmount}
+                
+                `)}
+                
+                `}
               >
                 <button
                   type="button"
