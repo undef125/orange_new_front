@@ -29,23 +29,37 @@ const CheckOutDetailFillup = ({
   const [nequi, setnequi] = useState(false);
   const [zille, setzille] = useState(false);
   const [paymentProof, setpaymentProof] = useState("");
+  const [orange, setorange] = useState({});
+  const [orderMethod, setorderMethod] = useState("");
+
 
   const { values, handleBlur, handleChange, handleSubmit, errors, resetForm } =
     useFormik({
       initialValues: initialValues,
       validationSchema: checkoutValidationSchema,
       onSubmit: async (values) => {
+        const toastId = toast.loading("confirming order......");
         try {
-          const toastId = toast.loading("confirming order......");
-          await axios.post(`/addorder`, {
-            products: [...cartItems],
-            paymentProof,
-            ...values,
+          let products = cartItems.map((item) => {
+            return {
+              productId: item._id,
+              image: item.images[0],
+              name: item.name,
+              price: item.price,
+              quantity: item.count,
+            };
+          });
+          await axios.post("addorder", {
+            products: products,
             companyId: company?._id,
+            ...values,
+            totalAmount,
+            orderedFrom: orderMethod
           });
           setnequi(false);
           setzille(false);
           toast.dismiss(toastId);
+          handleClose();
           toast.success("Product Added Successfully");
           resetForm();
         } catch (error) {
@@ -55,8 +69,18 @@ const CheckOutDetailFillup = ({
       },
     });
 
+  const getOrange = async () => {
+    try {
+      const data = await axios.get("getorange");
+      setorange(data);
+    } catch (error) {
+        (error);
+    }
+  };
+
   useEffect(() => {
     getCompanyDet(params?.slug);
+    getOrange();
   }, []);
   return (
     <div>
@@ -146,7 +170,9 @@ const CheckOutDetailFillup = ({
                 Zille Payment
               </button>
               <a
-                href={`https://wa.me/+9779864851724?text=${encodeURIComponent(`
+                href={`https://wa.me/${
+                  company?.phone
+                }?text=${encodeURIComponent(`
                 Hello, I want to place an order.
                 
 My details are as follows:
@@ -174,11 +200,12 @@ Total Price: ${totalAmount}
                 `)}
                 
                 `}
-              >
+              target="_blank" >
                 <button
                   type="button"
                   className="bg-orange-500 font-semibold text-white px-10 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
-                  onClick={() => {
+                  onClick={async () => {
+                    setorderMethod("whatsapp")
                     handleSubmit();
                   }}
                 >
@@ -225,6 +252,7 @@ Total Price: ${totalAmount}
               <button
                 className="bg-orange-500 font-semibold text-white px-10 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
                 onClick={() => {
+                  setorderMethod(nequi? "Nequi" : zille ? "Zille" : "")
                   handleSubmit();
                 }}
               >

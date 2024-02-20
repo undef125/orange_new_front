@@ -13,11 +13,14 @@ import CategoriesPage from "@/components/dashboardcomponents/CategoriesPage";
 import ProductsPage from "@/components/dashboardcomponents/ProductsPage";
 import axios from "@/app/api/axiosinterceptor";
 import protectRoute from "@/utilis/protectRoute";
+import { LuPackageOpen } from "react-icons/lu";
+import DisplayOrders from "@/components/dashboardcomponents/DisplayOrders";
+
 const Page = () => {
-  const router = useRouter()
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState();
-  const [whichPage, setWhichPage] = useState(1);
+  const [whichPage, setWhichPage] = useState(5);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
   const [company, setCompany] = useState();
@@ -37,18 +40,14 @@ const Page = () => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    
-  },[user])
- 
+  useEffect(() => {}, [user]);
 
   useEffect(() => {
     const handleRouteProtection = async () => {
-      if (!await protectRoute()) router.push("/payment");
+      if (!(await protectRoute())) router.push("/payment");
       else getUserAndComapnyDetail();
     };
     handleRouteProtection();
-    
   }, []);
 
   return (
@@ -149,6 +148,25 @@ const Page = () => {
                   </div>
                 </div>
               </div>
+              <div className="flex flex-col gap-y-[1rem]">
+                <h1 className="font-semibold text-[1.3rem] ">Orders</h1>
+                <div
+                  className=""
+                  onClick={() => {
+                    setWhichPage(5);
+                    setOpen(false);
+                  }}
+                >
+                  <div className=" flex items-center gap-2 cursor-pointer text-[1.05rem] transition-all duration-300 ease-in-out text-slate-400 font-medium hover:text-orange-600">
+                    <LuPackageOpen className="text-[1.4rem]" />
+                    <p
+                      className={`${whichPage === 5 ? "text-orange-500" : ""}`}
+                    >
+                      Orders
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </Drawer.Body>
         </Drawer>
@@ -156,12 +174,20 @@ const Page = () => {
         <>
           {whichPage === 0 ? (
             <div className="flex justify-center items-center">
-              <button onClick={() => {
-                router.push(`${company?.companyName}`)
-              }}>Take me to the store</button>
+              <button
+                onClick={() => {
+                  router.push(`${company?.companyName}`);
+                }}
+              >
+                Take me to the store
+              </button>
             </div>
           ) : whichPage === 1 ? (
-            <CustomizePage company={company} getUserAndComapnyDetail={getUserAndComapnyDetail} setUser={setUser} />
+            <CustomizePage
+              company={company}
+              getUserAndComapnyDetail={getUserAndComapnyDetail}
+              setUser={setUser}
+            />
           ) : whichPage === 2 ? (
             <PersonalizePage
               getUserAndComapnyDetail={getUserAndComapnyDetail}
@@ -171,6 +197,8 @@ const Page = () => {
             <CategoriesPage company={company} />
           ) : whichPage === 4 ? (
             <ProductsPage company={company} />
+          ) : whichPage === 5 ? (
+            <DisplayOrders company={company} />
           ) : null}
         </>
       </>

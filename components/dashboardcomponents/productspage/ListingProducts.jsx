@@ -17,7 +17,6 @@ import toBase64 from "@/utilis/FileToBase64";
 import { MdDelete } from "react-icons/md";
 import {  toast } from "react-hot-toast";
 
-
 const ListingProducts = ({ products, catNames, getProducts }) => {
   const [editing, setediting] = useState("");
   const [currentProduct, setcurrentProduct] = useState({});

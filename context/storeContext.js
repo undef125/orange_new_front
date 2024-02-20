@@ -5,7 +5,7 @@ import axios from "@/app/api/customerAxiosInterceptor";
 export const StoreContext = createContext();
 
 export const StoreProvider = ({ children }) => {
-  const [cartItems, setcartItems] = useState([]);
+  const [cartItems, setcartItems] = useState([]); 
   const [company, setCompany] = useState({}); 
   const [products, setproducts] = useState([]);
 
