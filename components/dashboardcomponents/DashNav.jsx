@@ -11,7 +11,7 @@ const DashNav = ({ handleOpen, user, company, loading }) => {
   const router = useRouter();
 
   return (
-    <div className="bg-red-500 shadow-sm shadow-[#0000002d]">
+    <div className="shadow-sm shadow-[#0000002d]">
       <Navbar style={{ backgroundColor: "white" }}>
         <Navbar.Brand href="#">{company?.companyName} Store</Navbar.Brand>
         <Nav>

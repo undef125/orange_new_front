@@ -69,6 +69,7 @@ const DisplayOrders = ({ company }) => {
     try {
       const resp = await axios.get(`/getorders/${company?._id}`);
       setorders(resp.data);
+      console.log(resp.data)
     } catch (error) {
       console.log(error);
     }
@@ -238,11 +239,12 @@ const DisplayOrderDetails = ({ size, open, handleClose, currentOrder }) => {
       <Modal.Header>
         <Modal.Title>Order Details</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <div>
+      <Modal.Body className="">
+        <div className=" ">
           {currentOrder?.paymentProof ? (
-            <div>
-              <Image src="/cross.png" width={300} height={300} alt="cross" />
+            <div className="my-2 flex justify-center items-center flex-col">
+              <p className="text-[.9rem] text-slate-400">Payment Proof Image</p>
+              <Image src={`http://localhost:5001/${currentOrder?.paymentProof}`} width={300} height={300} alt="cross" />
             </div>
           ) : null}
           <div className="grid grid-cols-2 gap-y-2">

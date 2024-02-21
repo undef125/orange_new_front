@@ -8,6 +8,7 @@ import { useStoreContext } from "@/context/storeContext";
 import { useParams } from "next/navigation";
 import toBase64 from "@/utilis/FileToBase64";
 import Image from "next/image";
+import { IoMdAdd } from "react-icons/io";
 
 const initialValues = {
   name: "",
@@ -26,12 +27,12 @@ const CheckOutDetailFillup = ({
 }) => {
   const { company, getCompanyDet } = useStoreContext();
   const params = useParams();
-  const [nequi, setnequi] = useState(false);
-  const [zille, setzille] = useState(false);
+  const [one, setone] = useState(false);
+  const [two, settwo] = useState(false);
   const [paymentProof, setpaymentProof] = useState("");
+  const [isChanged, setisChanged] = useState(false);
   const [orange, setorange] = useState({});
   const [orderMethod, setorderMethod] = useState("");
-
 
   const { values, handleBlur, handleChange, handleSubmit, errors, resetForm } =
     useFormik({
@@ -54,10 +55,11 @@ const CheckOutDetailFillup = ({
             companyId: company?._id,
             ...values,
             totalAmount,
-            orderedFrom: orderMethod
+            orderedFrom: orderMethod,
+            paymentProof: paymentProof
           });
-          setnequi(false);
-          setzille(false);
+          setone(false);
+          settwo(false);
           toast.dismiss(toastId);
           handleClose();
           toast.success("Product Added Successfully");
@@ -74,7 +76,7 @@ const CheckOutDetailFillup = ({
       const data = await axios.get("getorange");
       setorange(data);
     } catch (error) {
-        (error);
+      error;
     }
   };
 
@@ -149,26 +151,35 @@ const CheckOutDetailFillup = ({
             )}
 
             <div className="flex justify-center items-center">
-              <button
-                type="button"
-                className="bg-orange-500 font-semibold text-white px-10 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
-                onClick={() => {
-                  setnequi(true);
-                  setzille(false);
-                }}
-              >
-                Nequi Payment
-              </button>
-              <button
-                type="button"
-                className="bg-orange-500 font-semibold text-white px-10 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
-                onClick={() => {
-                  setnequi(false);
-                  setzille(true);
-                }}
-              >
-                Zille Payment
-              </button>
+              {company?.paymentOne?.qrImage ? (
+                <button
+                  type="button"
+                  className="bg-orange-500 font-semibold text-white px-10 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
+                  onClick={() => {
+                    setone(true);
+                    settwo(false);
+                    setpaymentProof("");
+                    setisChanged(false);
+                  }}
+                >
+                  {company?.paymentOne?.methodName}
+                </button>
+              ) : null}
+              {company?.paymentTwo?.qrImage ? (
+                <button
+                  type="button"
+                  className="bg-orange-500 font-semibold text-white px-10 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
+                  onClick={() => {
+                    setone(false);
+                    settwo(true);
+                    setpaymentProof("");
+                    setisChanged(false);
+                  }}
+                >
+                  {company?.paymentTwo?.methodName}
+                </button>
+              ) : null}
+
               <a
                 href={`https://wa.me/${
                   company?.phone
@@ -200,12 +211,13 @@ Total Price: ${totalAmount}
                 `)}
                 
                 `}
-              target="_blank" >
+                target="_blank"
+              >
                 <button
                   type="button"
                   className="bg-orange-500 font-semibold text-white px-10 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
                   onClick={async () => {
-                    setorderMethod("whatsapp")
+                    setorderMethod("whatsapp");
                     handleSubmit();
                   }}
                 >
@@ -214,45 +226,81 @@ Total Price: ${totalAmount}
               </a>
             </div>
           </form>
-          {nequi || zille ? (
-            <div>
-              {/* nequi ra zille ko photo here with proof input */}
-              {nequi ? (
-                <>
-                  <Image
-                    // src={`http://localhost:5001${company?.nequi}`}
-                    src="/download.png"
-                    height={100}
-                    width={100}
-                    alt="nequir payment qr code"
-                  />
-                </>
-              ) : null}
-              {zille ? (
-                <div className="flex flex-col">
-                  <Image
-                    // src={`http://localhost:5001${company?.zille}`}
-                    src="/download.png"
-                    height={100}
-                    width={100}
-                    alt="nequir payment qr code"
-                  />
-                  <label htmlFor="" className="mr-2">
-                    {" "}
-                    Please upload payment transaction image
-                  </label>
-                </div>
-              ) : null}
-              <input
-                type="file"
-                onChange={async (e) => {
-                  setpaymentProof(await toBase64(e.target.files[0]));
-                }}
-              />
+          {one || two ? (
+            <div className="flex justify-center items-center flex-col w-[100%]  py-4">
+              <div className="grid  grid-cols-2 mb-2">
+                {/* one ra two ko photo here with proof input */}
+                {one ? (
+                  <>
+                    <Image
+                      src={`http://localhost:5001${company?.paymentOne?.qrImage}`}
+                      // src="/download.png"
+                      height={100}
+                      width={100}
+                      className="h-[20rem] w-[20rem] p-2 rounded-xl object-cover"
+                      alt="oner payment qr code"
+                    />
+                  </>
+                ) : null}
+                {two ? (
+                  <div className="flex flex-col">
+                    <div>
+                      <Image
+                        src={`http://localhost:5001${company?.paymentTwo?.qrImage}`}
+                        // src="/download.png"
+                        height={100}
+                        width={100}
+                        className="h-[20rem] w-[20rem] p-2 rounded-xl object-cover"
+                        alt="oner payment qr code"
+                      />
+                    </div>
+                  </div>
+                ) : null}
+
+                {isChanged ? (
+                  <>
+                    <Image
+                      src={paymentProof}
+                      // src="/download.png"
+                      height={100}
+                      width={100}
+                      className="h-[20rem] w-[20rem] p-2 rounded-xl object-cover"
+                      alt="Payment proof image"
+                    />
+                  </>
+                ) : (
+                  <div>
+                    <div className="bg-gray-100 cursor-pointer rounded-xl my-auto h-[20rem] w-[20rem] flex justify-center items-center">
+                      <input
+                        type="file"
+                        id="fileInput"
+                        style={{ display: "none" }}
+                        value={setpaymentProof}
+                        onChange={async (e) => {
+                          setisChanged(true);
+                          setpaymentProof(await toBase64(e.target.files[0]));
+                        }}
+                      />
+                      <label
+                        htmlFor="fileInput"
+                        className="cursor-pointer h-[100%] w-[100%] flex items-center justify-center"
+                      >
+                        <IoMdAdd className="text-[2rem] " />
+                      </label>
+                    </div>
+                  </div>
+                )}
+              </div>
               <button
                 className="bg-orange-500 font-semibold text-white px-10 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
                 onClick={() => {
-                  setorderMethod(nequi? "Nequi" : zille ? "Zille" : "")
+                  setorderMethod(
+                    one
+                      ? company?.paymentOne?.methodName
+                      : two
+                      ? company?.paymentTwo?.methodName
+                      : ""
+                  );
                   handleSubmit();
                 }}
               >

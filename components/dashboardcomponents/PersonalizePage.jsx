@@ -55,6 +55,7 @@ const PersonalizePage = ({ getUserAndComapnyDetail,company }) => {
                     "coverImage",
                     "logoImage",
                     "image",
+                    "paymentMethods",
                   ].includes(item)
                 )
                   return;

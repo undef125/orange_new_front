@@ -15,12 +15,14 @@ import axios from "@/app/api/axiosinterceptor";
 import protectRoute from "@/utilis/protectRoute";
 import { LuPackageOpen } from "react-icons/lu";
 import DisplayOrders from "@/components/dashboardcomponents/DisplayOrders";
+import Image from "next/image";
+import PaymentMethod from "@/components/dashboardcomponents/PaymentMethod";
 
 const Page = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState();
-  const [whichPage, setWhichPage] = useState(5);
+  const [whichPage, setWhichPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
   const [company, setCompany] = useState();
@@ -113,20 +115,32 @@ const Page = () => {
                     My Store
                   </p>
                 </div>
+                <div
+                  onClick={() => {
+                    setWhichPage(3);
+                    setOpen(false);
+                  }}
+                  className=" flex items-center gap-2 cursor-pointer text-[1.05rem] transition-all duration-300 ease-in-out text-slate-400 font-medium hover:text-orange-600"
+                >
+                  <FaRegEdit className="text-[1.4rem]" />
+                  <p className={`${whichPage === 3 ? "text-orange-500" : ""}`}>
+                    Payment Methods
+                  </p>
+                </div>
               </div>
               <div className="flex flex-col gap-y-[1rem]">
                 <h1 className="font-semibold text-[1.3rem] ">Administrator</h1>
                 <div
                   className=""
                   onClick={() => {
-                    setWhichPage(3);
+                    setWhichPage(4);
                     setOpen(false);
                   }}
                 >
                   <div className=" flex items-center gap-2 cursor-pointer text-[1.05rem] transition-all duration-300 ease-in-out text-slate-400 font-medium hover:text-orange-600">
                     <BiCategory className="text-[1.4rem]" />
                     <p
-                      className={`${whichPage === 3 ? "text-orange-500" : ""}`}
+                      className={`${whichPage === 4 ? "text-orange-500" : ""}`}
                     >
                       Categories
                     </p>
@@ -134,14 +148,14 @@ const Page = () => {
                 </div>
                 <div
                   onClick={() => {
-                    setWhichPage(4);
+                    setWhichPage(5);
                     setOpen(false);
                   }}
                 >
                   <div className=" flex items-center gap-2 cursor-pointer text-[1.05rem] transition-all duration-300 ease-in-out text-slate-400 font-medium hover:text-orange-600">
                     <PiStackLight className="text-[1.4rem]" />
                     <p
-                      className={`${whichPage === 4 ? "text-orange-500" : ""}`}
+                      className={`${whichPage === 5 ? "text-orange-500" : ""}`}
                     >
                       Products
                     </p>
@@ -153,14 +167,14 @@ const Page = () => {
                 <div
                   className=""
                   onClick={() => {
-                    setWhichPage(5);
+                    setWhichPage(6);
                     setOpen(false);
                   }}
                 >
                   <div className=" flex items-center gap-2 cursor-pointer text-[1.05rem] transition-all duration-300 ease-in-out text-slate-400 font-medium hover:text-orange-600">
                     <LuPackageOpen className="text-[1.4rem]" />
                     <p
-                      className={`${whichPage === 5 ? "text-orange-500" : ""}`}
+                      className={`${whichPage === 6 ? "text-orange-500" : ""}`}
                     >
                       Orders
                     </p>
@@ -173,14 +187,28 @@ const Page = () => {
 
         <>
           {whichPage === 0 ? (
-            <div className="flex justify-center items-center">
-              <button
-                onClick={() => {
-                  router.push(`${company?.companyName}`);
-                }}
-              >
-                Take me to the store
-              </button>
+            <div className=" items-center w-screen h-screen max-w-[100%] flex flex-1 justify-center bg-slate-200">
+              <div className="bg-slate-300 rounded px-4">
+                <div className="flex justify-center items-center mb-4 p-2 ">
+                  <Image
+                    src={"/home_page/company.png"}
+                    height={200}
+                    width={200}
+                    alt="store"
+                  />
+                </div>
+                <hr />
+                <div className="pb-2">
+                  <button
+                    onClick={() => {
+                      router.push(`${company?.companyName}`);
+                    }}
+                    className="bg-orange-500 font-semibold text-white px-8 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
+                  >
+                    Take me to the store
+                  </button>
+                </div>
+              </div>
             </div>
           ) : whichPage === 1 ? (
             <CustomizePage
@@ -194,10 +222,15 @@ const Page = () => {
               company={company}
             />
           ) : whichPage === 3 ? (
-            <CategoriesPage company={company} />
+            <PaymentMethod
+              getUserAndComapnyDetail={getUserAndComapnyDetail}
+              company={company}
+            />
           ) : whichPage === 4 ? (
-            <ProductsPage company={company} />
+            <CategoriesPage company={company} />
           ) : whichPage === 5 ? (
+            <ProductsPage company={company} />
+          ) : whichPage === 6 ? (
             <DisplayOrders company={company} />
           ) : null}
         </>

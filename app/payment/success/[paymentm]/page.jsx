@@ -18,6 +18,7 @@ const page = ({ params }) => {
       await axios.post("/sendverificationrequest", {
         method: params.paymentm,
       });
+  
     } catch (error) {
       console.log(error);
     }
