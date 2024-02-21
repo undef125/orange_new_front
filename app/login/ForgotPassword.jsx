@@ -3,6 +3,7 @@ import { Modal } from "rsuite";
 import { Input, InputGroup } from "rsuite";
 import { IoMailOutline } from "react-icons/io5";
 import axios from "@/app/api/customerAxiosInterceptor";
+import { toast } from "react-hot-toast";
 
 const styles = {
   width: "60%",
@@ -16,30 +17,39 @@ const ForgotPassword = ({ size, open, handleClose }) => {
   const re = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/;
 
   const sendOTP = async () => {
+    const toastId = toast.loading("Sending Otp...");
     try {
       if (email.match(re)) {
         await axios.post("/resetpasswordotp", {
           email,
         });
-        console.log("otp send to your email: " + email);
+        toast.success(`Otp Sent To: ${email}`);
+        toast.dismiss(toastId)
       } else {
-        console.log("Email is not valid");
+        toast.error(`No Valid Email Provided`);
+        toast.dismiss(toastId)
       }
     } catch (error) {
-      console.log("error sending otp", error);
+      toast.error("Error sending otp");
+      toast.dismiss(toastId)
     }
   };
   const resetPassword = async () => {
+    const toastId = toast.loading("Resetting Password...");
     try {
       if (email.match(re)) {
-        await axios.post("/verifyotp", { otp,password });
+        await axios.post("/verifyotp", { otp, password });
         console.log("password reset successful");
         handleClose();
+        toast.success("Password reset successful");
+        toast.dismiss(toastId)
       } else {
-        console.log("Email is not valid");
+        toast.error(`No Valid Email Provided`);
+        toast.dismiss(toastId)
       }
     } catch (error) {
-      console.log("error verifying otp");
+      toast.error(`Error resetting password`);
+      toast.dismiss(toastId)
     }
   };
 
