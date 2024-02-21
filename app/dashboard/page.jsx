@@ -17,6 +17,9 @@ import { LuPackageOpen } from "react-icons/lu";
 import DisplayOrders from "@/components/dashboardcomponents/DisplayOrders";
 import Image from "next/image";
 import PaymentMethod from "@/components/dashboardcomponents/PaymentMethod";
+import { FaStore } from "react-icons/fa";
+import { CiCreditCard1 } from "react-icons/ci";
+
 
 const Page = () => {
   const router = useRouter();
@@ -110,7 +113,7 @@ const Page = () => {
                   }}
                   className=" flex items-center gap-2 cursor-pointer text-[1.05rem] transition-all duration-300 ease-in-out text-slate-400 font-medium hover:text-orange-600"
                 >
-                  <FaRegEdit className="text-[1.4rem]" />
+                  <FaStore className="text-[1.4rem]" />
                   <p className={`${whichPage === 2 ? "text-orange-500" : ""}`}>
                     My Store
                   </p>
@@ -122,7 +125,7 @@ const Page = () => {
                   }}
                   className=" flex items-center gap-2 cursor-pointer text-[1.05rem] transition-all duration-300 ease-in-out text-slate-400 font-medium hover:text-orange-600"
                 >
-                  <FaRegEdit className="text-[1.4rem]" />
+                  <CiCreditCard1 className="text-[1.4rem]" />
                   <p className={`${whichPage === 3 ? "text-orange-500" : ""}`}>
                     Payment Methods
                   </p>
