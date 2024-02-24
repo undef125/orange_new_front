@@ -69,7 +69,6 @@ const DisplayOrders = ({ company }) => {
     try {
       const resp = await axios.get(`/getorders/${company?._id}`);
       setorders(resp.data);
-      console.log(resp.data)
     } catch (error) {
       console.log(error);
     }

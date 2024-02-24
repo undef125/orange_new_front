@@ -29,7 +29,7 @@ export const StoreProvider = ({ children }) => {
       getProducts(resp.data._id)
       setCompany(resp.data);
     } catch (error) {
-      console.log(`error aayo: ${error}`);
+      console.log(`error : ${error}`);
     }
   };
 
@@ -55,7 +55,6 @@ const removeCartItem = (itemId) => {
     cartItems.forEach((item,index) => {
         if(item._id === itemId) indexOfItemToRemove = index
     });
-    console.log(indexOfItemToRemove)
     const updatedCartItems = cartItems.toSpliced(indexOfItemToRemove, 1)
     localStorage.setItem("cart", JSON.stringify(updatedCartItems))
     setcartItems(updatedCartItems)

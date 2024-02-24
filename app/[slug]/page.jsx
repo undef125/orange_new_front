@@ -44,7 +44,7 @@ const Page = () => {
         </div>
         <div className="flex w-[100%] md:w-[50%] flex-end ">
           <Image
-            src={company?.coverImage}
+            src={`http://localhost:5001${company?.coverImage}`}
             height={150}
             width={300}
             className="w-[100%] object-cover"

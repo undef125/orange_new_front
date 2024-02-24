@@ -39,7 +39,6 @@ const ForgotPassword = ({ size, open, handleClose }) => {
     try {
       if (email.match(re)) {
         await axios.post("/verifyotp", { otp, password });
-        console.log("password reset successful");
         handleClose();
         toast.success("Password reset successful");
         toast.dismiss(toastId)

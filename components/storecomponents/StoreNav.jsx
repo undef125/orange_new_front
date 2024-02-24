@@ -22,7 +22,7 @@ const StoreNav = () => {
       }}
        className="h-[6rem] flex items-center ">
         <Image
-          src={company?.logoImage}
+          src={`http://localhost:5001${company?.logoImage}`}
           height={150}
           width={150}
           className=" h-[2rem] md:h-[5rem] w-[2rem] md:w-[5rem] object-cover rounded-full"

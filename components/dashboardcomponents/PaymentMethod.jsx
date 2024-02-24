@@ -20,7 +20,6 @@ const PaymentMethod = ({ company, getUserAndComapnyDetail }) => {
   const updateCompanyPaymentImage = async () => {
     const toastId = toast.loading("Updating Image...");
     try {
-      console.log(updateValues);
     await axios.put(`updatepaymentdetail/${company?._id}`, updateValues);
       toast.dismiss(toastId);
       setchangesTwoPayment(false);
