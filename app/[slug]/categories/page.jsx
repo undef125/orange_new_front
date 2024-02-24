@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import StoreNav from "@/components/storecomponents/StoreNav";
 
-const page = () => {
+const Page = () => {
     const router = useRouter();
   const [categories, setcategories] = useState([]);
   const searchParams = useSearchParams();
@@ -78,4 +78,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

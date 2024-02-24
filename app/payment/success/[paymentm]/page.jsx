@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import axios from "@/app/api/axiosinterceptor";
 import { deleteCookie } from "cookies-next";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
 
   const finishProcess = () => {
     deleteCookie('token');
@@ -59,4 +59,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

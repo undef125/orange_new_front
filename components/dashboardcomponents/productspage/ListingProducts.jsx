@@ -177,9 +177,9 @@ const ProductEditModal = ({
         <div>
           <p className="text-[1.3rem] font-medium">Images:</p>
           <div className="flex  ">
-            {product?.images?.map((image) => {
+            {product?.images?.map((image,index) => {
               return (
-                <div className="relative group">
+                <div className="relative group" key={index}>
                   <div className=" flex flex-col flex-wrap rounded   relative">
                     <Image
                       src={`http://localhost:5001${image}`}
@@ -226,9 +226,9 @@ const ProductEditModal = ({
               </label>
             </div>
             <div className="flex">
-              {updateValues?.images?.map((image) => {
+              {updateValues?.images?.map((image,index) => {
                 return (
-                  <div className=" flex flex-col flex-wrap rounded   relative">
+                  <div className=" flex flex-col flex-wrap rounded   relative" key={index}>
                     <Image
                       src={`${image}`}
                       height="200"
@@ -243,7 +243,7 @@ const ProductEditModal = ({
           </div>
         </div>
         <div className="grid grid-cols-2 gap-y-6">
-          {Object.keys(product).map((keyName) => {
+          {Object.keys(product).map((keyName,index) => {
             if (!["__v", "_id", "images", "companyId"].includes(keyName)) {
               return (
                 <UpdateInputs
@@ -255,6 +255,7 @@ const ProductEditModal = ({
                   setediting={setediting}
                   setchangesMade={setchangesMade}
                   catNames={catNames}
+                  key={index}
                 />
               );
             }

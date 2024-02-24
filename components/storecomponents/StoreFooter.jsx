@@ -59,9 +59,9 @@ const StoreFooter = ({ company }) => {
         </div>
         <div className="flex gap-4 flex-wrap lg:gap-8">
           {company?.socialMedias
-            ? Object.keys(company?.socialMedias).map((smedia) => {
+            ? Object.keys(company?.socialMedias).map((smedia, index) => {
                 return (
-                  <div className="border-[1px]  border-slate-500 rounded-full p-4 h-fit cursor-pointer transition-all ease-in-out duration-200 hover:text-orange-500 hover:border-orange-500 hover:scale-105 ">
+                  <div key={index} className="border-[1px]  border-slate-500 rounded-full p-4 h-fit cursor-pointer transition-all ease-in-out duration-200 hover:text-orange-500 hover:border-orange-500 hover:scale-105 ">
                     <a
                       href={`${company?.socialMedias[smedia]}`}
                       target="_blank"

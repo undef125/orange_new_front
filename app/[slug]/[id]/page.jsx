@@ -7,7 +7,7 @@ import axios from "@/app/api/customerAxiosInterceptor";
 import { useParams } from "next/navigation";
 import { useStoreContext } from "@/context/storeContext";
 
-const page = () => {
+const Page = () => {
   const params = useParams();
   const [currImage, setcurrImage] = useState("");
   const [currProduct, setcurrProduct] = useState({});
@@ -116,4 +116,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -9,7 +9,8 @@ import { useStoreContext } from "@/context/storeContext";
 import StoreFooter from "@/components/storecomponents/StoreFooter";
 import StoreNav from "@/components/storecomponents/StoreNav";
 import { useRouter } from "next/navigation";
-const page = () => {
+
+const Page = () => {
   const router = useRouter();
   const params = useParams();
   const {  getCompanyDet, company } = useStoreContext();
@@ -58,4 +59,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

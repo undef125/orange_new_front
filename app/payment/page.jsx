@@ -11,7 +11,7 @@ import { makeStripePayment, makePaypalPayment } from "./paymentUtilities";
 import protectRoute from "@/utilis/protectRoute";
 import { useRouter } from "next/navigation";
 
-export default function page() {
+const Page = () => {
   const router = useRouter();
   const [price, setPrice] = useState(0);
   const toastId = useRef(null);
@@ -219,3 +219,5 @@ export default function page() {
     </div>
   );
 }
+
+export default Page;

@@ -8,7 +8,7 @@ import StoreNav from "@/components/storecomponents/StoreNav";
 import { useStoreContext } from "@/context/storeContext";
 import DisplayProducts from "@/components/storecomponents/DisplayProducts";
 
-const page = () => {
+const Page = () => {
   const { getProducts, getCompanyDet } = useStoreContext();
 
   const searchParams = useSearchParams();
@@ -72,4 +72,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

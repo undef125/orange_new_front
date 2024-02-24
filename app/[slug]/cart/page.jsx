@@ -16,7 +16,7 @@ import { useStoreContext } from "@/context/storeContext";
 import CheckOutDetailFillup from "./CheckOutDetailFillup";
 import { useParams } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const params = useParams();
   const [totalAmount, settotalAmount] = useState(0);
   const { cartItems, updateCartItem, removeCartItem } = useStoreContext();
@@ -185,4 +185,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

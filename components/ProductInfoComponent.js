@@ -161,7 +161,7 @@ export const LinkContainerComponent = ({ company }) => {
             onClick={() => {
               window.open(item.link, "_blank");
             }}
-            key={Math.random()}
+            key={index}
           >
 
             <img

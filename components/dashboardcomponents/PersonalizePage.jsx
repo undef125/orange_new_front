@@ -61,6 +61,7 @@ const PersonalizePage = ({ getUserAndComapnyDetail,company }) => {
                   return;
                 return (
                   <div
+                  key={index}
                     className={`${item === "socialMedias" ? "order-last" : ""}`}
                   >
                     {item}
@@ -72,6 +73,7 @@ const PersonalizePage = ({ getUserAndComapnyDetail,company }) => {
                               size="lg"
                               inside
                               style={styles}
+                              key={idx}
                             >
                               <Input
                                 value={company[`${item}`][`${smedia}`]}
