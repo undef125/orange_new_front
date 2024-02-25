@@ -73,16 +73,16 @@ export default function Signup() {
     initialValues: stepTwoinitialValues,
     validationSchema: signUpValidationTwo,
     onSubmit: (values) => {
-      setformData({ ...formData, ...values });
-      registerUser();
+      setformData({ ...formData });
+      registerUser(values);
       //call registration api function
     },
   });
 
-  const registerUser = async () => {
+  const registerUser = async (data) => {
     const toastId = toast.loading("Signing Up...");
     try {
-      await axios.post("/registeruser", formData);
+      await axios.post("/registeruser", { ...formData, ...data });
       toast.dismiss(toastId);
       toast.success("User Signed up successfully!", {
         duration: 3000,
@@ -90,9 +90,14 @@ export default function Signup() {
       router.push("/login")
     } catch (error) {
       toast.dismiss(toastId);
-      toast.success(`error: ${error?.response?.data?.msg || "Error signing up due to server error!"}`, {
-        duration: 3000,
-      });
+      toast.error(
+        `error: ${
+          error?.response?.data?.msg || "Error signing up due to server error!"
+        }`,
+        {
+          duration: 3000,
+        }
+      );
     }
   };
 

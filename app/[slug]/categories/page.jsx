@@ -49,7 +49,7 @@ const Page = () => {
                 </div>
                 <div className=" px-1">
                   <Image
-                    src={`http://localhost:5001${cat.categoryImage}`}
+                    src={`${cat.categoryImage}`}
                     width={40}
                     height={40}
                     alt="hello"

@@ -40,7 +40,7 @@ const Page = () => {
               className="m-auto"
             >
               <Image
-                src={`http://localhost:5001${currImage}`}
+                src={currImage}
                 width={100}
                 height={100}
                 alt="oatimage"
@@ -60,7 +60,7 @@ const Page = () => {
                 >
                   <Image
                     className="px-3 bg-[#d5d4d415] h-[100%] object-contain"
-                    src={`http://localhost:5001${img}`}
+                    src={`${img}`}
                     width={100}
                     height={100}
                     alt="image"

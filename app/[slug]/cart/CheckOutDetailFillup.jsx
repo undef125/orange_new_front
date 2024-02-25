@@ -233,7 +233,7 @@ Total Price: ${totalAmount}
                 {one ? (
                   <>
                     <Image
-                      src={`http://localhost:5001${company?.paymentOne?.qrImage}`}
+                      src={`${company?.paymentOne?.qrImage}`}
                       // src="/download.png"
                       height={100}
                       width={100}
@@ -246,7 +246,7 @@ Total Price: ${totalAmount}
                   <div className="flex flex-col">
                     <div>
                       <Image
-                        src={`http://localhost:5001${company?.paymentTwo?.qrImage}`}
+                        src={`${company?.paymentTwo?.qrImage}`}
                         // src="/download.png"
                         height={100}
                         width={100}

@@ -50,7 +50,7 @@ const StoreFooter = ({ company }) => {
       <div className="w-[90vw] lg:w-[80vw] mt-8 lg:mt-10 flex flex-col lg:flex-row justify-between items-center">
         <div className="mb-4 lg:mb-0">
           <Image
-            src={`http://localhost:5001${company?.logoImage}`}
+            src={`${company?.logoImage}`}
             alt="logo"
             height={80}
             width={80}

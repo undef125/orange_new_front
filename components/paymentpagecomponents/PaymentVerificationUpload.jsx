@@ -19,8 +19,10 @@ const PaymentVerificationUpload = ({ gateway }) => {
       if (formValues.method && formValues.receiptImage) {
         const resp = await axios.post("/sendverificationrequest", formValues);
         toast.dismiss(toastId);
+        toast.success("payment verifications sent successfully")
       } else {
         toast.dismiss(toastId);
+        toast.error("payment verification failed");
         setisError(true);
         return;
       }
