@@ -83,7 +83,7 @@ const PaymentMethod = ({ company, getUserAndComapnyDetail }) => {
                     src={
                       changesOnePayment
                         ? updateValues?.onePayment
-                        : company?.paymentOne?.qrImage ? `http://localhost:5001${company?.paymentOne?.qrImage }` : company?.paymentOne?.qrImage
+                        : company?.paymentOne?.qrImage ? `${company?.paymentOne?.qrImage }` : company?.paymentOne?.qrImage
                     }
                     height={300}
                     width={300}
@@ -169,7 +169,7 @@ const PaymentMethod = ({ company, getUserAndComapnyDetail }) => {
                     src={
                       changesTwoPayment
                         ? updateValues?.twoPayment
-                        : company?.paymentTwo?.qrImage ? `http://localhost:5001${company?.paymentTwo?.qrImage }` : company?.paymentTwo?.qrImage
+                        : company?.paymentTwo?.qrImage ? `${company?.paymentTwo?.qrImage }` : company?.paymentTwo?.qrImage
                     }
                     height={300}
                     width={300}
