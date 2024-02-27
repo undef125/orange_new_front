@@ -45,7 +45,7 @@ const PaymentVerificationUpload = ({ gateway }) => {
                 <p>Product</p>
                 <Input
                   size="md"
-                  placeholder="Medium"
+                  placeholder=""
                   value={"Orange Subscription"}
                   style={{
                     backgroundColor: "#eeeded",
@@ -58,7 +58,7 @@ const PaymentVerificationUpload = ({ gateway }) => {
                 <p>Price</p>
                 <Input
                   size="md"
-                  placeholder="Medium"
+                  placeholder=""
                   value={"$300/year"}
                   style={{
                     backgroundColor: "#eeeded",

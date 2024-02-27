@@ -19,8 +19,6 @@ const initialValuesLogin = {
   password: "",
 };
 
-
-
 const Login = () => {
   const router = useRouter();
 
@@ -146,16 +144,14 @@ const Login = () => {
                   )}
                 </div>
               </div>
-              <div className="flex bg-orange-400 justify-center py-2 px-5 rounded-lg text-lg gap-4 cursor-pointer transition-all duration-300 ease-in-out hover:bg-orange-500">
+              <div
+                onClick={() => {
+                  handleSubmit();
+                }}
+                className="flex bg-orange-400 justify-center py-2 px-5 rounded-lg text-lg gap-4 cursor-pointer transition-all duration-300 ease-in-out hover:bg-orange-500"
+              >
                 <div className="">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      handleSubmit();
-                    }}
-                  >
-                    Iniciar sesión
-                  </button>
+                  <button type="button">Iniciar sesión</button>
                 </div>
               </div>
               <p

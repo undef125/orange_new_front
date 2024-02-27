@@ -6,7 +6,6 @@ import OurFeatures from "@/components/HomePage/OurFeatures/OurFeatures";
 import ManageOrange from "@/components/HomePage/ManageOrange/ManageOrange";
 import Footer from "@/components/HomePage/Footer/Footer";
 import PageLoader from "@/components/PageLoader";
-import axios from "./api/axiosinterceptor";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import protectRoute from "@/utilis/protectRoute";

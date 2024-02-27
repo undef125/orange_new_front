@@ -130,6 +130,7 @@ const PaymentMethod = ({ company, getUserAndComapnyDetail }) => {
               <InputGroup>
                 <Input
                   type="text"
+                  placeholder="Enter payment platform name..."
                   className={`font-semibold text-[1.2rem]  placeholder-black w-auto outline-0 ${
                     payOne ? "border-b-2 border-black" : ""
                   }`}
@@ -216,6 +217,7 @@ const PaymentMethod = ({ company, getUserAndComapnyDetail }) => {
               <InputGroup>
                 <Input
                   type="text"
+                  placeholder="Enter payment platform name..."
                   className={`font-semibold text-[1.2rem]  placeholder-black w-auto outline-0 ${
                     payTwo ? "border-b-2 border-black" : ""
                   }`}

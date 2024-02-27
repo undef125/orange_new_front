@@ -65,7 +65,7 @@ const OurFeatures = () => {
   );
 
   return (
-    <div id="featurecontainer" className={`${styles.featurecontainer} h-[90vh] bg-slate-200 py-4`} ref={container} >
+    <div id="featurecontainer" className={`${styles.featurecontainer} h-fit  bg-slate-200 py-16 pb-24`} ref={container} >
       <div className={`text-[3rem] text-center pt-3 font-medium md ${styles.text}`}>
         Our Features
       </div>

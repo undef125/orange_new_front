@@ -107,7 +107,9 @@ export default function NavBar() {
             }}
           />
         )}
-      <div className={` absolute h-[10rem] w-[10rem] bg-orange-500 top-[-6rem] right-[-6rem] rounded-full -z-10`}></div>
+        <div
+          className={` absolute h-[10rem] w-[10rem] bg-orange-500 top-[-6rem] right-[-6rem] rounded-full -z-10`}
+        ></div>
       </div>
     </div>
   );
@@ -121,10 +123,12 @@ const SideNav = () => {
         id="links"
       >
         <div className="group">
-          <button className="transition-all duration-200 ease-in-out hover:bg-gradient-to-r hover:from-orange-200 hover:to-orange-500 hover:bg-clip-text hover:text-transparent">
-            Inicio
-          </button>
-          <div className="w-[0%] h-1 bg-gradient-to-r from-orange-200 to-orange-500 rounded transition-all duration-200 ease-in-out group-hover:w-[100%]"></div>
+          <Link href="/login">
+            <button className="transition-all duration-200 ease-in-out hover:bg-gradient-to-r hover:from-orange-200 hover:to-orange-500 hover:bg-clip-text hover:text-transparent">
+              Inicio
+            </button>
+            <div className="w-[0%] h-1 bg-gradient-to-r from-orange-200 to-orange-500 rounded transition-all duration-200 ease-in-out group-hover:w-[100%]"></div>
+          </Link>
         </div>
         <div className="group">
           <button className="transition-all duration-200 ease-in-out hover:bg-gradient-to-r hover:from-orange-200 hover:to-orange-500 hover:bg-clip-text hover:text-transparent">

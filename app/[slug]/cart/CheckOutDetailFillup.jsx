@@ -162,7 +162,7 @@ const CheckOutDetailFillup = ({
                     setisChanged(false);
                   }}
                 >
-                  {company?.paymentOne?.methodName == "" ? "Payment One" : null}
+                  {company?.paymentOne?.methodName?.trim("") !== "" ? company?.paymentOne?.methodName : "Payment One" }
                 </button>
               ) : null}
               {company?.paymentTwo?.qrImage ? (
@@ -176,7 +176,7 @@ const CheckOutDetailFillup = ({
                     setisChanged(false);
                   }}
                 >
-                  {company?.paymentTwo?.methodName ? "Payment Two" : null}
+                  {company?.paymentTwo?.methodName?.trim("") !== "" ? company?.paymentTwo?.methodName : "Payment Two"}
                 </button>
               ) : null}
 
