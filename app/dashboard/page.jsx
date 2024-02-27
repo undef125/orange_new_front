@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Drawer } from "rsuite";
 import DashNav from "@/components/dashboardcomponents/DashNav";
 import { BiCategory } from "react-icons/bi";
@@ -20,7 +20,6 @@ import PaymentMethod from "@/components/dashboardcomponents/PaymentMethod";
 import { FaStore } from "react-icons/fa";
 import { CiCreditCard1 } from "react-icons/ci";
 
-
 const Page = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -29,6 +28,7 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
   const [company, setCompany] = useState();
+  const pathname = usePathname();
 
   const handleOpen = (key) => {
     setOpen(true);
@@ -202,14 +202,13 @@ const Page = () => {
                 </div>
                 <hr />
                 <div className="pb-2">
-                  <button
-                    onClick={() => {
-                      router.push(`${company?.companyName}`);
-                    }}
+                  <a
+                    href={`${pathname.split("/dashboard")[0]}/${company?.companyName}`}
+                    target="_blank"
                     className="bg-orange-500 font-semibold text-white px-8 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
                   >
                     Take me to the store
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>

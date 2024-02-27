@@ -28,6 +28,7 @@ const Page = () => {
   }, []);
   return (
     <>
+
     <StoreNav />
     <div className="flex flex-col w-[95vw] m-auto my-16">
       <h1 className="text-[1.2rem] md:text-[2rem] font-semibold mb-8">

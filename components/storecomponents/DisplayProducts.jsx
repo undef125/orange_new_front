@@ -4,6 +4,7 @@ import { IoMdAdd } from "react-icons/io";
 import Image from "next/image";
 import { useStoreContext } from "@/context/storeContext";
 import { useRouter, usePathname } from "next/navigation";
+import toast from "react-hot-toast";
 
 const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
   const { products, addItemToCart } = useStoreContext();
@@ -28,7 +29,9 @@ const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
           <div
             onClick={() => {
               router.push(
-                `/${company?.companyName}/products?cmp=${company?._id}&nm=${company?.companyName}&cat=${''}`
+                `/${company?.companyName}/products?cmp=${company?._id}&nm=${
+                  company?.companyName
+                }&cat=${""}`
               );
             }}
             className="flex justify-center items-center gap-2 text-red-500 pr-4 cursor-pointer group"
@@ -52,7 +55,7 @@ const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
                 className="flex justify-end min-h-[12rem] cursor-pointer relative "
               >
                 <Image
-                  src={`${prod.images[0]}`}
+                  src={`${prod.images[0] ? prod.images[0]: ''}`}
                   width={40}
                   height={40}
                   alt="hello"
@@ -60,12 +63,12 @@ const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
                   unoptimized
                 />
                 {prod?.discountPrice ? (
-                <div
-                  className={`absolute bg-gray-200 bottom-[2px] left-[4px] px-2 py-1 rounded font-semibold  `}
-                >
-                  Promo
-                </div>
-              ) : null}
+                  <div
+                    className={`absolute bg-gray-200 bottom-[2px] left-[4px] px-2 py-1 rounded font-semibold  `}
+                  >
+                    Promo
+                  </div>
+                ) : null}
               </div>
               <div className="font-semibold px-2 text-center text-[1.4rem] text-slate-700 ">
                 {prod.name}
@@ -78,9 +81,7 @@ const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
                 ${prod.price}
               </div>
               {prod?.discountPrice ? (
-                <div
-                  className={`px-2 text-center text-gray-500 font-semibold`}
-                >
+                <div className={`px-2 text-center text-gray-500 font-semibold`}>
                   ${prod.discountPrice}
                 </div>
               ) : null}
@@ -88,8 +89,11 @@ const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
                 <div
                   onClick={() => {
                     addItemToCart(prod);
+                    toast.success("Item Added To Cart", {
+                      duration: 1000
+                    });
                   }}
-                  className=" transition-all ease-in-out duration-300 flex justify-center bg-[#e4f5eaba] w-[90%] rounded-xl cursor-pointer hover:bg-[#c3c5be]   "
+                  className=" transition-all ease-in-out duration-300 flex justify-center bg-green-100 w-[90%] rounded-xl cursor-pointer hover:bg-green-300   "
                 >
                   <IoMdAdd className="text-[2.2rem]  " />
                 </div>

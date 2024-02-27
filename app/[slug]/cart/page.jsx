@@ -15,6 +15,7 @@ import { RxCross2 } from "react-icons/rx";
 import { useStoreContext } from "@/context/storeContext";
 import CheckOutDetailFillup from "./CheckOutDetailFillup";
 import { useParams } from "next/navigation";
+import BackBtnPop from "@/components/BackBtnPop";
 
 const Page = () => {
   const params = useParams();
@@ -38,6 +39,7 @@ const Page = () => {
  
   return (
     <div className="w-[96vw] grid grid-cols-1 md:grid-cols-3 ">
+      <BackBtnPop />
       <div className="col-span-2 flex flex-col justify-start pt-[10vh]">
         <h1 className="w-[80%] mx-auto font-semibold text-[1.2rem] my-3">
           Shopping Cart

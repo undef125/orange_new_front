@@ -4,36 +4,40 @@ import { useStoreContext } from "@/context/storeContext";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-const StoreNav = () => {
+const StoreNav = ({ search = true }) => {
   const params = useParams();
 
-  const { cartItems, getCompanyDet,company } = useStoreContext();
+  const { cartItems, getCompanyDet, company } = useStoreContext();
   const router = useRouter();
 
   useEffect(() => {
-    getCompanyDet(params?.slug)
-  },[])
+    getCompanyDet(params?.slug);
+  }, []);
 
   return (
     <div className="bg-[#064C4F] rounded flex justify-between px-10 my-2 gap-6 items-center  w-[95vw] m-auto  ">
       <div
-      onClick={() => {
-        router.push(`/${params?.slug}`)
-      }}
-       className="h-[6rem] flex items-center ">
+        onClick={() => {
+          router.push(`/${params?.slug}`);
+        }}
+        className="h-[6rem] flex items-center cursor-pointer"
+      >
         <Image
-          src={`${company?.logoImage}`}
+          src={`${company?.logoImage ? company.logoImage : ""}`}
           height={150}
           width={150}
           className=" h-[2rem] md:h-[5rem] w-[2rem] md:w-[5rem] object-cover rounded-full"
           alt="logo"
         />
       </div>
-      <input
-        className="rounded-3xl h-[5vh] w-[50vw] text-center "
-        type="text"
-        placeholder="Search for grocery,vegetables,and meat"
-      />
+      {search ? (
+        <input
+          className="rounded-3xl h-[5vh] w-[50vw] text-center "
+          type="text"
+          placeholder="Search for grocery,vegetables,and meat"
+        />
+      ) : null}
+
       <div
         onClick={() => {
           router.push(`/${params?.slug}/cart`);

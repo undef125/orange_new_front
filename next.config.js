@@ -4,6 +4,8 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
+              // protocol: 'http',
+              // hostname: 'localhost',
               protocol: 'https',
               hostname: 'api.apexgoo.com',
               pathname: '**',
@@ -12,4 +14,4 @@ const nextConfig = {
     },
 }
 
-module.exports = nextConfig
+module.exports = nextConfig 

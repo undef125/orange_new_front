@@ -11,8 +11,9 @@ export const StoreProvider = ({ children }) => {
 
   const getCartItems = () => {
     try {
-      const productsInCart = localStorage.getItem("cart");
-      return productsInCart;
+      const productsInCart = JSON.parse(localStorage.getItem("cart")) === null ? [] : JSON.parse(localStorage.getItem("cart"));
+      const filteredProducts = productsInCart.filter((product) => product.companyId === company?._id)
+      return filteredProducts;
     } catch (error) {
       console.log(`error getting items for card: ${error}`);
     }
@@ -20,7 +21,7 @@ export const StoreProvider = ({ children }) => {
   
   useEffect(() => {
     //setting cartItems here
-    setcartItems(JSON.parse(getCartItems()) === null ? [] : JSON.parse(getCartItems()));
+    setcartItems(getCartItems());
   },[company])
 
   const getCompanyDet = async (slug) => {

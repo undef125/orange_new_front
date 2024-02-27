@@ -50,7 +50,7 @@ const StoreFooter = ({ company }) => {
       <div className="w-[90vw] lg:w-[80vw] mt-8 lg:mt-10 flex flex-col lg:flex-row justify-between items-center">
         <div className="mb-4 lg:mb-0">
           <Image
-            src={`${company?.logoImage}`}
+            src={`${company?.logoImage ? company?.logoImage : ""}`}
             alt="logo"
             height={80}
             width={80}
@@ -61,20 +61,30 @@ const StoreFooter = ({ company }) => {
           {company?.socialMedias
             ? Object.keys(company?.socialMedias).map((smedia, index) => {
                 return (
-                  <div key={index} className="border-[1px]  border-slate-500 rounded-full p-4 h-fit cursor-pointer transition-all ease-in-out duration-200 hover:text-orange-500 hover:border-orange-500 hover:scale-105 ">
-                    <a
-                      href={`${company?.socialMedias[smedia]}`}
-                      target="_blank"
-                    >
-                      {iconComp[`${smedia}`]()}
-                    </a>
-                  </div>
+                  <>
+                    {company?.socialMedias[smedia] ? (
+                      <div
+                        key={index}
+                        className="border-[1px]  border-slate-500 rounded-full p-4 h-fit cursor-pointer transition-all ease-in-out duration-200 hover:text-orange-500 hover:border-orange-500 hover:scale-105 "
+                      >
+                        <a
+                          href={`${company?.socialMedias[smedia]}`}
+                          target="_blank"
+                        >
+                          {iconComp[`${smedia}`]()}
+                        </a>
+                      </div>
+                    ) : null}
+                  </>
                 );
               })
             : null}
 
           <div className="border-[1px] border-slate-500 rounded-full p-4 h-fit cursor-pointer transition-all ease-in-out duration-200 hover:text-orange-500 hover:border-orange-500 hover:scale-105">
-            <a href={`https://wa.me/${company?.phone}?text=Hello my friend`} target="_blank">
+            <a
+              href={`https://wa.me/${company?.phone}?text=Hello my friend`}
+              target="_blank"
+            >
               <FaWhatsapp className="text-xl " />
             </a>
           </div>

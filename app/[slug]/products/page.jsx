@@ -58,6 +58,7 @@ const Page = () => {
             <SelectPicker
               data={data}
               searchable={false}
+              value={filterValue}
               style={{ width: 224, border: "0px" }}
               placeholder="All Categories"
               onChange={(value) => {

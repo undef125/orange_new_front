@@ -56,7 +56,7 @@ const CheckOutDetailFillup = ({
             ...values,
             totalAmount,
             orderedFrom: orderMethod,
-            paymentProof: paymentProof
+            paymentProof: paymentProof,
           });
           setone(false);
           settwo(false);
@@ -162,7 +162,7 @@ const CheckOutDetailFillup = ({
                     setisChanged(false);
                   }}
                 >
-                  {company?.paymentOne?.methodName}
+                  {company?.paymentOne?.methodName == "" ? "Payment One" : null}
                 </button>
               ) : null}
               {company?.paymentTwo?.qrImage ? (
@@ -176,7 +176,7 @@ const CheckOutDetailFillup = ({
                     setisChanged(false);
                   }}
                 >
-                  {company?.paymentTwo?.methodName}
+                  {company?.paymentTwo?.methodName ? "Payment Two" : null}
                 </button>
               ) : null}
 
@@ -294,13 +294,17 @@ Total Price: ${totalAmount}
               <button
                 className="bg-orange-500 font-semibold text-white px-10 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
                 onClick={() => {
-                  setorderMethod(
-                    one
-                      ? company?.paymentOne?.methodName
-                      : two
-                      ? company?.paymentTwo?.methodName
-                      : ""
-                  );
+                  paymentProof === ""
+                    ? toast.error(
+                        "Please add payment proof before comfirming order"
+                      )
+                    : setorderMethod(
+                        one
+                          ? company?.paymentOne?.methodName
+                          : two
+                          ? company?.paymentTwo?.methodName
+                          : ""
+                      );
                   handleSubmit();
                 }}
               >
