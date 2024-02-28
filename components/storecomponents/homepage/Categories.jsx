@@ -26,7 +26,7 @@ const Categories = ({  company,slug }) => {
   return (
     <div className="flex w-[95vw] m-auto my-16">
       <div className="grid grid-flow-col-dense  overflow-hidden text-black justify-start gap-6  rounded w-[80%]  md:w-[95vw]  ">
-        {categories.map((cat, idx) => {
+        {categories.slice(0, 5).map((cat, idx) => {
           return (
             <div
               key={idx}

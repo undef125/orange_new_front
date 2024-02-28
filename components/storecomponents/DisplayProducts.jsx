@@ -1,17 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa6";
-import { IoMdAdd } from "react-icons/io";
+import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import Image from "next/image";
 import { useStoreContext } from "@/context/storeContext";
 import { useRouter, usePathname } from "next/navigation";
 import toast from "react-hot-toast";
 
-const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
-  const { products, addItemToCart } = useStoreContext();
+const DisplayProducts = ({
+  filterValue = "",
+  seeAll,
+  company,
+  limit = false,
+}) => {
+  const { products, addItemToCart, updateCartItem, cartItems, removeCartItem } =
+    useStoreContext();
   const router = useRouter();
   const pathName = usePathname();
   const slug = pathName.split("/")[1];
   const [filteredProd, setfilteredProd] = useState([]);
+
+  const getProductCountInCart = (productId) => {
+    const productInCart = cartItems.find(
+      (product) => product._id === productId
+    );
+
+    if (productInCart) {
+      return productInCart.count; // Return count if product exists in cart
+    } else {
+      return 0; // Return 0 if product does not exist in cart
+    }
+  };
 
   useEffect(() => {
     setfilteredProd(
@@ -41,67 +59,178 @@ const DisplayProducts = ({ filterValue = "", seeAll, company }) => {
           </div>
         </div>
       ) : null}
-      <div className="flex flex-wrap text-black justify-start gap-20 rounded w-[95vw] m-auto my-8">
-        {filteredProd.map((prod, idx) => {
-          return (
-            <div
-              key={idx}
-              className="w-[15rem] min-h-[20rem] relative flex flex-col justify-start flex-wrap gap-3 bg-white rounded-md"
-            >
-              <div
-                onClick={() => {
-                  router.push(`/${slug}/${prod?._id}`);
-                }}
-                className="flex justify-end min-h-[12rem] cursor-pointer relative "
-              >
-                <Image
-                  src={`${prod.images[0] ? prod.images[0]: ''}`}
-                  width={40}
-                  height={40}
-                  alt="hello"
-                  className="h-[12rem] w-[15rem] object-cover rounded-t-md"
-                  unoptimized
-                />
-                {prod?.discountPrice ? (
+
+      {filteredProd.length > 0 ? (
+        <div className="flex flex-wrap text-black justify-start gap-20 rounded w-[95vw] m-auto my-8">
+          {limit
+            ? filteredProd.slice(0, 8).map((prod, idx) => {
+                return (
                   <div
-                    className={`absolute bg-gray-200 bottom-[2px] left-[4px] px-2 py-1 rounded font-semibold  `}
+                    key={idx}
+                    className="w-[15rem] min-h-[24rem] relative flex flex-col justify-start flex-wrap gap-3 bg-white rounded-md"
                   >
-                    Promo
+                    <div
+                      onClick={() => {
+                        router.push(`/${slug}/${prod?._id}`);
+                      }}
+                      className="flex justify-end min-h-[12rem] cursor-pointer relative "
+                    >
+                      <Image
+                        src={`${prod.images[0] ? prod.images[0] : ""}`}
+                        width={40}
+                        height={40}
+                        alt="hello"
+                        className="h-[12rem] w-[15rem] object-cover rounded-t-md"
+                        unoptimized
+                      />
+                      {prod?.discountPrice ? (
+                        <div
+                          className={`absolute bg-gray-200 bottom-[2px] left-[4px] px-2 py-1 rounded font-semibold  `}
+                        >
+                          Promo
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="font-semibold px-2 text-center text-[1.4rem] text-slate-700 ">
+                      {prod.name}
+                    </div>
+                    <div
+                      className={`px-2 text-center text-gray-500 font-semibold mb-2 ${
+                        prod?.discountPrice ? "line-through " : ""
+                      } `}
+                    >
+                      ${prod.price}
+                    </div>
+                    {prod?.discountPrice ? (
+                      <div
+                        className={`px-2 text-center text-gray-500 font-semibold mb-2`}
+                      >
+                        ${prod.discountPrice}
+                      </div>
+                    ) : null}
+                    <div className="flex justify-center py-2 absolute bottom-0 w-[100%]">
+                      <div className=" transition-all ease-in-out duration-300 flex  items-center justify-around py-1 bg-green-100 w-[90%] rounded-xl cursor-pointer hover:bg-green-300   ">
+                        <CiCircleMinus
+                          className="text-[2.2rem] font-semibold hover:scale-110 transition-all duration-300 "
+                          onClick={() => {
+                            getProductCountInCart(prod?._id) === 0
+                              ? removeCartItem(prod?._id)
+                              : updateCartItem(prod?._id, "-");
+                            toast.success("Cart Updated", {
+                              duration: 1000,
+                            });
+                          }}
+                        />
+                        <p className="font-semibold text-[1.1rem]">
+                          {getProductCountInCart(prod?._id)}
+                        </p>
+                        <CiCirclePlus
+                          className="text-[2.2rem] font-semibold hover:scale-110 transition-all duration-300 "
+                          onClick={() => {
+                            getProductCountInCart(prod?._id) === 0
+                              ? addItemToCart(prod)
+                              : updateCartItem(prod?._id, "+");
+                            toast.success("Cart Updated", {
+                              duration: 1000,
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
                   </div>
-                ) : null}
-              </div>
-              <div className="font-semibold px-2 text-center text-[1.4rem] text-slate-700 ">
-                {prod.name}
-              </div>
-              <div
-                className={`px-2 text-center text-gray-500 font-semibold ${
-                  prod?.discountPrice ? "line-through " : ""
-                } `}
-              >
-                ${prod.price}
-              </div>
-              {prod?.discountPrice ? (
-                <div className={`px-2 text-center text-gray-500 font-semibold`}>
-                  ${prod.discountPrice}
-                </div>
-              ) : null}
-              <div className="flex justify-center py-2">
-                <div
-                  onClick={() => {
-                    addItemToCart(prod);
-                    toast.success("Item Added To Cart", {
-                      duration: 1000
-                    });
-                  }}
-                  className=" transition-all ease-in-out duration-300 flex justify-center bg-green-100 w-[90%] rounded-xl cursor-pointer hover:bg-green-300   "
-                >
-                  <IoMdAdd className="text-[2.2rem]  " />
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+                );
+              })
+            : filteredProd.map((prod, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className="w-[15rem] min-h-[24rem] relative flex flex-col justify-start flex-wrap gap-3 bg-white rounded-md ="
+                  >
+                    <div
+                      onClick={() => {
+                        router.push(`/${slug}/${prod?._id}`);
+                      }}
+                      className="flex justify-end min-h-[12rem] cursor-pointer relative "
+                    >
+                      <Image
+                        src={`${prod.images[0] ? prod.images[0] : ""}`}
+                        width={40}
+                        height={40}
+                        alt="hello"
+                        className="h-[12rem] w-[15rem] object-cover rounded-t-md"
+                        unoptimized
+                      />
+                      {prod?.discountPrice ? (
+                        <div
+                          className={`absolute bg-gray-200 bottom-[2px] left-[4px] px-2 py-1 rounded font-semibold  `}
+                        >
+                          Promo
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="font-semibold px-2 text-center text-[1.4rem] text-slate-700 ">
+                      {prod.name}
+                    </div>
+                    <div
+                      className={`px-2 text-center text-gray-500 font-semibold mb-2 ${
+                        prod?.discountPrice ? "line-through " : ""
+                      } `}
+                    >
+                      ${prod.price}
+                    </div>
+                    {prod?.discountPrice ? (
+                      <div
+                        className={`px-2 text-center text-gray-500 font-semibold mb-2`}
+                      >
+                        ${prod.discountPrice}
+                      </div>
+                    ) : null}
+                    <div className="flex justify-center py-2 absolute bottom-0 w-[100%]">
+                      <div className=" transition-all ease-in-out duration-300 flex  items-center justify-around py-1 bg-green-100 w-[90%] rounded-xl cursor-pointer hover:bg-green-300   ">
+                        <CiCircleMinus
+                          className="text-[2.2rem] font-semibold hover:scale-110 transition-all duration-300 "
+                          onClick={() => {
+                            getProductCountInCart(prod?._id) === 0
+                              ? removeCartItem(prod?._id)
+                              : updateCartItem(prod?._id, "-");
+                            toast.success("Cart Updated", {
+                              duration: 1000,
+                            });
+                          }}
+                        />
+                        <p className="font-semibold text-[1.1rem]">
+                          {getProductCountInCart(prod?._id)}
+                        </p>
+                        <CiCirclePlus
+                          className="text-[2.2rem] font-semibold hover:scale-110 transition-all duration-300 "
+                          onClick={() => {
+                            getProductCountInCart(prod?._id) === 0
+                              ? addItemToCart(prod)
+                              : updateCartItem(prod?._id, "+");
+                            toast.success("Cart Updated", {
+                              duration: 1000,
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+        </div>
+      ) : (
+        <div className="flex flex-wrap text-black justify-start gap-20 rounded w-[95vw] m-auto my-8">
+          <div className="w-[15rem] min-h-[24rem] relative flex flex-col justify-start flex-wrap gap-3 bg-slate-200 rounded-md ="></div>
+          <div className="w-[15rem] min-h-[24rem] relative flex flex-col justify-start flex-wrap gap-3 bg-slate-200 rounded-md ="></div>
+          <div className="w-[15rem] min-h-[24rem] relative flex flex-col justify-start flex-wrap gap-3 bg-slate-200 rounded-md ="></div>
+          <div className="w-[15rem] min-h-[24rem] relative flex flex-col justify-start flex-wrap gap-3 bg-slate-200 rounded-md ="></div>
+          <div className="w-[15rem] min-h-[24rem] relative flex flex-col justify-start flex-wrap gap-3 bg-slate-200 rounded-md ="></div>
+          <div className="w-[15rem] min-h-[24rem] relative flex flex-col justify-start flex-wrap gap-3 bg-slate-200 rounded-md ="></div>
+          <div className="w-[15rem] min-h-[24rem] relative flex flex-col justify-start flex-wrap gap-3 bg-slate-200 rounded-md ="></div>
+          <div className="w-[15rem] min-h-[24rem] relative flex flex-col justify-start flex-wrap gap-3 bg-slate-200 rounded-md ="></div>
+          <div className="w-[15rem] min-h-[24rem] relative flex flex-col justify-start flex-wrap gap-3 bg-slate-200 rounded-md ="></div>
+        </div>
+      )}
     </div>
   );
 };

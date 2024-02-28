@@ -9,7 +9,7 @@ import { useStoreContext } from "@/context/storeContext";
 import DisplayProducts from "@/components/storecomponents/DisplayProducts";
 
 const Page = () => {
-  const { getProducts, getCompanyDet } = useStoreContext();
+  const { getProducts, getCompanyDet,company } = useStoreContext();
 
   const searchParams = useSearchParams();
   const companyId = searchParams.get("cmp");
@@ -51,21 +51,30 @@ const Page = () => {
 
       <div>
         <div className=" w-[95vw] m-auto my-10">
-          <h1 className="text-[1.2rem] md:text-[2rem] font-semibold ">
-            All Categories
-          </h1>
-          <div>
-            <SelectPicker
-              data={data}
-              searchable={false}
-              value={filterValue}
-              style={{ width: 224, border: "0px" }}
-              placeholder="All Categories"
-              onChange={(value) => {
-                setfilterValue(value);
-              }}
-            />
-          </div>
+          {company.companyName ? (
+            <>
+              <h1 className="text-[1.2rem] md:text-[2rem] font-semibold ">
+                All Categories
+              </h1>
+              <div>
+                <SelectPicker
+                  data={data}
+                  searchable={false}
+                  value={filterValue}
+                  style={{ width: 224, border: "0px" }}
+                  placeholder="All Categories"
+                  onChange={(value) => {
+                    setfilterValue(value);
+                  }}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="flex gap-2 flex-col">
+            <div className="h-[2rem] bg-slate-200 w-[15rem]"></div>
+            <div className="h-[3rem] bg-slate-200 w-[15rem]"></div>
+            </div>
+          )}
           <DisplayProducts filterValue={filterValue} seeAll={false} />
         </div>
       </div>

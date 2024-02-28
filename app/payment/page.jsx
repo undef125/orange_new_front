@@ -83,7 +83,16 @@ const Page = () => {
 
   useEffect(() => {
     const handleRouteProtection = async () => {
-      if (await protectRoute()) router.push("/dashboard");
+      const handleRouteProtection = async () => {
+        const resp = await protectRoute();
+        if (resp === undefined) router.push("/login");
+        else if (resp[0] === true && resp[1] === true)
+          router.push("/dashboard");
+        else if (resp[0] === true && resp[1] === false) null;
+        else if (resp[0] === false && resp[1] === false) router.push("/login");
+        else router.push("/login");
+      };
+      handleRouteProtection();
     };
     handleRouteProtection();
     getPrice();
@@ -94,8 +103,21 @@ const Page = () => {
     <div className="h-[100vh] w-[100vw] flex flex-col md:flex-row items-center justify-center px-[10vw] gap-2 md:gap-10">
       <div className="flex justify-center  items-center h-[100%]">
         <div className="w-fit  ">
-          <div className="text-[1.5rem] md:text-[2rem] font-semibold text-start">
-            Choose Payment Method:
+          <div className="flex justify-between mb-4">
+            <p className="text-[1.5rem] md:text-[2rem] text-start">
+              {" "}
+              Choose Payment Method:
+            </p>
+            <button
+              onClick={() => {
+                deleteCookie("token");
+                toast.error("Logout Successfull", { duration: 1000  });
+                router.push("/login");
+              }}
+              className=" border-[1px] transition-all ease-in-out duration-300 text-[1.2rem] bg-orange-500 cursor-pointer px-3  rounded font-semibold hover:bg-white hover:border-orange-500 hover:border-[1px]"
+            >
+              Logout
+            </button>
           </div>
           <div className=" flex flex-col gap-6">
             <div
@@ -218,6 +240,6 @@ const Page = () => {
       </Modal>
     </div>
   );
-}
+};
 
 export default Page;

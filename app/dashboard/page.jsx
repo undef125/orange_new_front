@@ -19,6 +19,7 @@ import Image from "next/image";
 import PaymentMethod from "@/components/dashboardcomponents/PaymentMethod";
 import { FaStore } from "react-icons/fa";
 import { CiCreditCard1 } from "react-icons/ci";
+import { Skeleton } from "@chakra-ui/react";
 
 const Page = () => {
   const router = useRouter();
@@ -49,8 +50,12 @@ const Page = () => {
 
   useEffect(() => {
     const handleRouteProtection = async () => {
-      if (!(await protectRoute())) router.push("/payment");
-      else getUserAndComapnyDetail();
+      const resp = await protectRoute();
+      if (resp === undefined) router.push("/login");
+      else if (resp[0] === true && resp[1] === true) getUserAndComapnyDetail();
+      else if (resp[0] === true && resp[1] === false) router.push("/payment");
+      else if (resp[0] === false && resp[1] === false) router.push("/login");
+      else router.push("/login");
     };
     handleRouteProtection();
   }, []);
@@ -190,28 +195,38 @@ const Page = () => {
 
         <>
           {whichPage === 0 ? (
-            <div className=" items-center w-screen h-screen max-w-[100%] flex flex-1 justify-center bg-slate-200">
-              <div className="bg-slate-300 rounded px-4">
-                <div className="flex justify-center items-center mb-4 p-2 ">
-                  <Image
-                    src={"/home_page/company.png"}
-                    height={200}
-                    width={200}
-                    alt="store"
-                  />
+            <>
+              {company?.companyName ? (
+                <div className=" items-center w-screen h-screen max-w-[100%] flex flex-1 justify-center bg-slate-200">
+                  <div className="bg-slate-300 rounded px-4">
+                    <div className="flex justify-center items-center mb-4 p-2 ">
+                      <Image
+                        src={"/home_page/company.png"}
+                        height={200}
+                        width={200}
+                        alt="store"
+                      />
+                    </div>
+                    <hr />
+                    <div className="pb-2">
+                      <a
+                        href={`${pathname.split("/dashboard")[0]}/${
+                          company?.companyName
+                        }`}
+                        target="_blank"
+                        className="bg-orange-500 font-semibold text-white px-8 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
+                      >
+                        Take me to the store
+                      </a>
+                    </div>
+                  </div>
                 </div>
-                <hr />
-                <div className="pb-2">
-                  <a
-                    href={`${pathname.split("/dashboard")[0]}/${company?.companyName}`}
-                    target="_blank"
-                    className="bg-orange-500 font-semibold text-white px-8 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
-                  >
-                    Take me to the store
-                  </a>
+              ) : (
+                <div className="h-[100vh] w-[100vw] max-w-[100%] bg-slate-200 flex justify-center items-center">
+                  <Skeleton height="18rem" className="w-[18rem] rounded" />
                 </div>
-              </div>
-            </div>
+              )}
+            </>
           ) : whichPage === 1 ? (
             <CustomizePage
               company={company}

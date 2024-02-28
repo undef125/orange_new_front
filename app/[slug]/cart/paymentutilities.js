@@ -1,6 +1,6 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "react-hot-toast";
-import axios from "../api/axiosinterceptor";
+import axios from "../../api/axiosinterceptor";
 export const makeStripePayment = async () => {
   const toastId = toast.loading(<b>Starting Stripe Payment Process</b>);
   try {

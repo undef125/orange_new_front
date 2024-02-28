@@ -5,29 +5,34 @@ import axios from "@/app/api/customerAxiosInterceptor";
 export const StoreContext = createContext();
 
 export const StoreProvider = ({ children }) => {
-  const [cartItems, setcartItems] = useState([]); 
-  const [company, setCompany] = useState({}); 
+  const [cartItems, setcartItems] = useState([]);
+  const [company, setCompany] = useState({});
   const [products, setproducts] = useState([]);
 
   const getCartItems = () => {
     try {
-      const productsInCart = JSON.parse(localStorage.getItem("cart")) === null ? [] : JSON.parse(localStorage.getItem("cart"));
-      const filteredProducts = productsInCart.filter((product) => product.companyId === company?._id)
+      const productsInCart =
+        JSON.parse(localStorage.getItem("cart")) === null
+          ? []
+          : JSON.parse(localStorage.getItem("cart"));
+      const filteredProducts = productsInCart.filter(
+        (product) => product.companyId === company?._id
+      );
       return filteredProducts;
     } catch (error) {
       console.log(`error getting items for card: ${error}`);
     }
   };
-  
+
   useEffect(() => {
     //setting cartItems here
     setcartItems(getCartItems());
-  },[company])
+  }, [company]);
 
   const getCompanyDet = async (slug) => {
     try {
       const resp = await axios.get(`getcompanydetail/${slug}`);
-      getProducts(resp.data._id)
+      getProducts(resp.data._id);
       setCompany(resp.data);
     } catch (error) {
       console.log(`error : ${error}`);
@@ -47,32 +52,32 @@ export const StoreProvider = ({ children }) => {
       item.count = 1;
       updatedCartItems.push(item);
     }
-    localStorage.setItem("cart", JSON.stringify(updatedCartItems    ))
+    localStorage.setItem("cart", JSON.stringify(updatedCartItems));
     setcartItems(updatedCartItems);
-};
+  };
 
-const removeCartItem = (itemId) => {
-    let indexOfItemToRemove ;
-    cartItems.forEach((item,index) => {
-        if(item._id === itemId) indexOfItemToRemove = index
+  const removeCartItem = (itemId) => {
+    let indexOfItemToRemove;
+    cartItems.forEach((item, index) => {
+      if (item._id === itemId) indexOfItemToRemove = index;
     });
-    const updatedCartItems = cartItems.toSpliced(indexOfItemToRemove, 1)
-    localStorage.setItem("cart", JSON.stringify(updatedCartItems))
-    setcartItems(updatedCartItems)
-  }
+    const updatedCartItems = cartItems.toSpliced(indexOfItemToRemove, 1);
+    localStorage.setItem("cart", JSON.stringify(updatedCartItems));
+    setcartItems(updatedCartItems);
+  };
 
   const updateCartItem = (itemId, todo) => {
-
     const udptedCartItem = cartItems.map((item) => {
       if (item._id === itemId) {
-        todo === "+"
-          ? (item.count += 1)
-          : item.count === 1
-          ? ''
-          : (item.count -= 1);
+        if(todo === "+") {
+          item.count += 1
+        } else if(todo === "-") {
+         item.count === 0 ? '' : item.count -= 1
+        }
       }
-      return item
+      return item;
     });
+    localStorage.setItem("cart", JSON.stringify(udptedCartItem));
     setcartItems(udptedCartItem);
   };
 

@@ -1,7 +1,6 @@
 "use client";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-
 import { useParams } from "next/navigation";
 import Categories from "@/components/storecomponents/homepage/Categories";
 import DisplayProducts from "@/components/storecomponents/DisplayProducts";
@@ -9,23 +8,25 @@ import { useStoreContext } from "@/context/storeContext";
 import StoreFooter from "@/components/storecomponents/StoreFooter";
 import StoreNav from "@/components/storecomponents/StoreNav";
 import { useRouter } from "next/navigation";
-import { InfinitySpin, Oval } from "react-loader-spinner";
+import { Skeleton } from "@chakra-ui/react";
 
 const Page = () => {
   const router = useRouter();
   const params = useParams();
-  const [ loading, setLoading ] = useState(false)
+  const [loading, setLoading] = useState(false);
   const { getCompanyDet, company } = useStoreContext();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setLoading(true);
-    getCompanyDet(params?.slug);
-    setLoading(false);
+    const fetchData = async () => {
+      await getCompanyDet(params?.slug);
+      setLoading(false);
+    };
+    fetchData();
   }, []);
-
   return (
     <>
-      {company?.companyName?.length > 0 ? (
+      {company?.companyName ? (
         <>
           <div className="flex flex-col gap-4 items-center">
             <StoreNav />
@@ -55,13 +56,15 @@ const Page = () => {
                 </div>
               </div>
               <div className="flex w-[100%] md:w-[50%] flex-end ">
-                {company?.coverImage && <Image
-                  src={company?.coverImage}
-                  height={150}
-                  width={300}
-                  className="w-[100%] object-cover"
-                  alt="banner image"
-                />}
+                {company?.coverImage && (
+                  <Image
+                    src={company?.coverImage}
+                    height={150}
+                    width={300}
+                    className="w-[100%] object-cover"
+                    alt="banner image"
+                  />
+                )}
               </div>
             </div>
             <Categories company={company} slug={params.slug} />
@@ -69,16 +72,32 @@ const Page = () => {
               company={company}
               slug={params?.slug}
               seeAll={true}
+              limit={true}
             />
             <StoreFooter company={company} />
           </div>
         </>
-        ) : (
-         <div className="flex flex-col justify-center items-center animate-pulse w-screen h-screen max-w-[100%]">
-           <h1 className="text-[4rem] font-semibold">Loading Your Store</h1>
-           <h1 className="text-[5rem] font-semibold">{params?.slug}</h1>
-         </div>
-       )}
+      ) : (
+        <div className="flex flex-col gap-4 items-center">
+          <div className="bg-slate-200 rounded flex justify-between px-10 my-2 gap-6 items-center  w-[95vw] m-auto h-[6rem] animate-pulse "></div>
+          <div className="flex flex-col md:flex-row rounded justify-around  gap-[4vh] bg-slate-200 h-[58vh] w-[95vw] mb-8 p-2 animate-pulse"></div>
+          <div className="flex w-[95vw] m-auto my-16">
+            <div className="grid grid-flow-col-dense  overflow-hidden text-black justify-start gap-6  rounded w-[80%]  md:w-[95vw]  ">
+              <div className="w-[22rem] h-[10rem] bg-slate-200 animate-pulse rounded-md grid grid-cols-2 place-items-center pl-2"></div>
+              <div className="w-[22rem] h-[10rem] bg-slate-200 animate-pulse rounded-md grid grid-cols-2 place-items-center pl-2"></div>
+              <div className="w-[22rem] h-[10rem] bg-slate-200 animate-pulse rounded-md grid grid-cols-2 place-items-center pl-2"></div>
+              <div className="w-[22rem] h-[10rem] bg-slate-200 animate-pulse rounded-md grid grid-cols-2 place-items-center pl-2"></div>
+            </div>
+          </div>
+          <DisplayProducts
+            company={company}
+            slug={params?.slug}
+            seeAll={true}
+            limit={true}
+          />
+          <StoreFooter company={company} />
+        </div>
+      )}
     </>
   );
 };

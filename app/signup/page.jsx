@@ -87,7 +87,7 @@ export default function Signup() {
       toast.success("User Signed up successfully!", {
         duration: 3000,
       });
-      router.push("/login")
+      router.push("/login");
     } catch (error) {
       toast.dismiss(toastId);
       toast.error(
@@ -104,7 +104,15 @@ export default function Signup() {
   const [passwordShow, setPasswordShow] = useState(false);
   useEffect(() => {
     const handleRouteProtection = async () => {
-      if (await protectRoute()) router.push("/dashboard");
+      const handleRouteProtection = async () => {
+        const resp = await protectRoute();
+        if (resp === undefined) null;
+        else if (resp[0] === true && resp[1] === true) router.push("dashboard");
+        else if (resp[0] === true && resp[1] === false) router.push("/payment");
+        else if (resp[0] === false && resp[1] === false) null;
+        else null;
+      };
+      handleRouteProtection();
     };
     handleRouteProtection();
   }, []);

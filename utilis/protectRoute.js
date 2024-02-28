@@ -1,12 +1,12 @@
 import axios from "@/app/api/axiosinterceptor";
 
-const protectRoute = async() => {
+const protectRoute = async () => {
   try {
     const resp = await axios.get("verifyusertokenroute");
-    return true
+    return resp.data;
   } catch (error) {
-    return false
+    return error?.response?.data;
   }
-}
+};
 
 export default protectRoute;

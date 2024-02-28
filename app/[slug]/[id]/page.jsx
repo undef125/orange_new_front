@@ -6,7 +6,7 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import axios from "@/app/api/customerAxiosInterceptor";
 import { useParams } from "next/navigation";
 import { useStoreContext } from "@/context/storeContext";
-import toast  from 'react-hot-toast'
+import toast from "react-hot-toast";
 import StoreNav from "@/components/storecomponents/StoreNav";
 
 const Page = () => {
@@ -34,90 +34,117 @@ const Page = () => {
       <StoreNav search={false} />
       <div className="flex justify-center  w-[100vw] h-[100vh] max-w-[100%] ">
         <div className="flex flex-col md:flex-row justify-between items-between mt-10 gap-12 w-[90vw] ">
-          <div className="flex flex-col justify-center items-center gap-4 py-2 ">
-            <div className="md:w-[30rem] :w-[35rem] lg:w-[40rem] flex bg-[#d5d4d415] ">
-              <motion.div
-                key={currImage}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1, transition: { duration: 0.6 } }}
-                exit={{ opacity: 0 }}
-                className="m-auto"
-              >
-                <Image
-                  src={currImage}
-                  width={100}
-                  height={100}
-                  alt="oatimage"
-                  className=" h-[30rem] w-[30rem] :w-[35rem] lg:w-[40rem]  object-contain"
-                  unoptimized
-                />
-              </motion.div>
-            </div>
-            <div className="flex justify-start overflow-x-scroll gap-4 md:w-[30rem] :w-[35rem] lg:w-[40rem] ">
-              {currProduct?.images?.map((img, idx) => {
-                return (
-                  <moti
-                    key={idx}
-                    onClick={() => {
-                      setcurrImage(img);
-                    }}
+          {currProduct?.companyId?.companyName ? (
+            <>
+              <div className="flex flex-col justify-center items-center gap-4 py-2 ">
+                <div className="md:w-[30rem] :w-[35rem] lg:w-[40rem] flex bg-[#d5d4d415] ">
+                  <motion.div
+                    key={currImage}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1, transition: { duration: 0.6 } }}
+                    exit={{ opacity: 0 }}
+                    className="m-auto"
                   >
                     <Image
-                      className="px-3 bg-[#d5d4d415] h-[100%] object-contain"
-                      src={`${img}`}
+                      src={currImage}
                       width={100}
                       height={100}
-                      alt="image"
+                      alt="oatimage"
+                      className=" h-[30rem] w-[30rem] :w-[35rem] lg:w-[40rem]  object-contain"
+                      unoptimized
                     />
-                  </moti>
-                );
-              })}
-            </div>
-          </div>
-          <div className="flex flex-col justify-center items-center w-[100%]">
-            <div className="flex flex-col gap-2 ml-0 md:ml-20 md:gap-6 w-[100%] ">
-              <div>
-                <p className="text-gray-500">
-                  {currProduct?.companyId?.companyName}
-                </p>
+                  </motion.div>
+                </div>
+                <div className="flex justify-start overflow-x-scroll gap-4 md:w-[30rem] :w-[35rem] lg:w-[40rem] ">
+                  {currProduct?.images?.map((img, idx) => {
+                    return (
+                      <moti
+                        key={idx}
+                        onClick={() => {
+                          setcurrImage(img);
+                        }}
+                      >
+                        <Image
+                          className="px-3 bg-[#d5d4d415] h-[100%] object-contain"
+                          src={`${img}`}
+                          width={100}
+                          height={100}
+                          alt="image"
+                        />
+                      </moti>
+                    );
+                  })}
+                </div>
               </div>
-              <div>
-                <p className="text-green-900 font-semibold text-[2rem] md:text-[2.5rem]">
-                  {currProduct?.name}
-                </p>
+              <div className="flex flex-col justify-center items-center w-[100%]">
+                <div className="flex flex-col gap-2 ml-0 md:ml-20 md:gap-6 w-[100%] ">
+                  <div>
+                    <p className="text-gray-500">
+                      {currProduct?.companyId?.companyName}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-green-900 font-semibold text-[2rem] md:text-[2.5rem]">
+                      {currProduct?.name}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-extrabold text-green-900 text-[1.6rem] md:text-[2rem]">
+                      {currProduct.price}$
+                    </p>
+                  </div>
+                  <div
+                    onClick={() => {
+                      let item = { ...currProduct };
+                      item.companyId = currProduct?.companyId?._id;
+                      item.categoryId = currProduct?.categoryId?._id;
+                      addItemToCart(item);
+                      toast.success("Item Added To Cart", {
+                        duration: 1000,
+                      });
+                    }}
+                    className="flex w-fit h-[5vh] bg-gray-300 rounded-full  px-10 justify-center items-center gap-3 font-semibold cursor-pointer hover:border-[1px] hover:border-black hover:bg-green-100 transition-all ease-in-out duration-300"
+                  >
+                    <MdOutlineShoppingCart className="text-[1.5rem]" />
+                    <button className="text-center rounded-full  text-green-800 ">
+                      Add to Cart
+                    </button>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">
+                      Category: {currProduct?.categoryId?.categoryName}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500 mb-3">
+                      {currProduct?.description}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <p className="font-extrabold text-green-900 text-[1.6rem] md:text-[2rem]">
-                  {currProduct.price}$
-                </p>
+            </>
+          ) : (
+            <>
+              <div className="flex justify-center items-center gap-24 py-2 ">
+                <div className="md:w-[30rem] :w-[35rem] lg:w-[40rem] flex  flex-col gap-4">
+                  <div className=" h-[30rem] w-[30rem] :w-[35rem] lg:w-[40rem]  object-contain bg-slate-200"></div>
+                  <div className="flex justify-start overflow-x-scroll gap-4 md:w-[30rem] :w-[35rem] lg:w-[40rem] ">
+                    <div className="px-3 w-[5rem]  h-[5rem] object-contain bg-slate-200"></div>
+                    <div className="px-3 w-[5rem]  h-[5rem] object-contain bg-slate-200"></div>
+                    <div className="px-3 w-[5rem]  h-[5rem] object-contain bg-slate-200"></div>
+                  </div>
+                </div>
+                <div className="flex flex-col justify-center items-center w-[100%] gap-12">
+                    <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
+                    <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
+                    <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
+                    <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
+                    <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
+
+                </div>
               </div>
-              <div
-                onClick={() => {
-                  let item = { ...currProduct };
-                  item.companyId = currProduct?.companyId?._id;
-                  item.categoryId = currProduct?.categoryId?._id;
-                  addItemToCart(item);
-                  toast.success("Item Added To Cart", {
-                    duration: 1000
-                  })
-                }}
-                className="flex w-fit h-[5vh] bg-gray-300 rounded-full  px-10 justify-center items-center gap-3 font-semibold cursor-pointer hover:border-[1px] hover:border-black hover:bg-green-100 transition-all ease-in-out duration-300"
-              >
-                <MdOutlineShoppingCart className="text-[1.5rem]" />
-                <button className="text-center rounded-full  text-green-800 ">
-                  Add to Cart
-                </button>
-              </div>
-              <div>
-                <p className="text-gray-500">
-                  Category: {currProduct?.categoryId?.categoryName}
-                </p>
-              </div>
-              <div>
-                <p className="text-gray-500 mb-3">{currProduct?.description}</p>
-              </div>
-            </div>
-          </div>
+            </>
+          )}
         </div>
       </div>
     </>

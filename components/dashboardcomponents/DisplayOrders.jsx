@@ -79,7 +79,6 @@ const DisplayOrders = ({ company }) => {
     getOrders();
   }, []);
 
-
   return (
     <div className="w-[100vw] h-screen flex justify-center bg-slate-200">
       <div className="w-[95%] md:w-[80%] flex flex-col items-center mt-[1rem]">
@@ -88,8 +87,8 @@ const DisplayOrders = ({ company }) => {
             Manage Your Products
           </h1>
         </div>
-        <div className="my-2 mb-4">
-          <Dropdown title="Sort Orders By">
+        <div className="my-2 mb-4 bg-red-200">
+          <Dropdown title="Sort Orders By" >
             <Dropdown.Item>
               <p
                 onClick={() => {
@@ -158,65 +157,73 @@ const DisplayOrders = ({ company }) => {
                 </Tr>
               </Thead>
               <Tbody>
-                {orders.map((order, index) => {
-                  return (
-                    <Tr key={index}>
-                      <Td>
-                        <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                          <div>{order?.orderedFrom}</div>
-                        </div>
-                      </Td>
-                      <Td>
-                        <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                          <div>{order?.name}</div>
-                        </div>
-                      </Td>
-                      <Td>
-                        <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                          <div>{order?.deliveryaddress}</div>
-                        </div>
-                      </Td>
-                      <Td>
-                        <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                          <div>{order?.number}</div>
-                        </div>
-                      </Td>
-                      <Td>
-                        <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                          <div>${order?.totalAmount}</div>
-                        </div>
-                      </Td>
-                      <Td>
-                        <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                          <div>{order?.createdAt?.split("T")[0]}</div>
-                        </div>
-                      </Td>
-                      <Td>
-                        <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                          <div className="flex gap-6">
-                            <button
-                              onClick={() => {
-                                setcurrentOrder(order);
-                                handleOpen();
-                              }}
-                              className="px-4 py-[8px] border-[1px] transition-all ease-in-out duration-300 bg-orange-500 text-[1.1rem] rounded-lg font-semibold hover:border-[1px] hover:border-orange-500 hover:bg-white"
-                            >
-                              View Order Details
-                            </button>
-                            <button className="px-4 py-[8px] border-[1px] transition-all ease-in-out duration-300 bg-orange-500 text-[1.1rem] rounded-lg font-semibold hover:border-[1px] hover:border-orange-500 hover:bg-white">
-                              <a
-                                href={`https://wa.me/${order?.number}`}
-                                target="_blank"
-                              >
-                                Whatsapp
-                              </a>
-                            </button>
-                          </div>
-                        </div>
-                      </Td>
-                    </Tr>
-                  );
-                })}
+                {orders.length > 0 ? (
+                  <>
+                    {orders.map((order, index) => {
+                      return (
+                        <Tr key={index}>
+                          <Td>
+                            <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
+                              <div>{order?.orderedFrom}</div>
+                            </div>
+                          </Td>
+                          <Td>
+                            <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
+                              <div>{order?.name}</div>
+                            </div>
+                          </Td>
+                          <Td>
+                            <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
+                              <div>{order?.deliveryaddress}</div>
+                            </div>
+                          </Td>
+                          <Td>
+                            <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
+                              <div>{order?.number}</div>
+                            </div>
+                          </Td>
+                          <Td>
+                            <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
+                              <div>${order?.totalAmount}</div>
+                            </div>
+                          </Td>
+                          <Td>
+                            <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
+                              <div>{order?.createdAt?.split("T")[0]}</div>
+                            </div>
+                          </Td>
+                          <Td>
+                            <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
+                              <div className="flex gap-6">
+                                <button
+                                  onClick={() => {
+                                    setcurrentOrder(order);
+                                    handleOpen();
+                                  }}
+                                  className="px-4 py-[8px] border-[1px] transition-all ease-in-out duration-300 bg-orange-500 text-[1.1rem] rounded-lg font-semibold hover:border-[1px] hover:border-orange-500 hover:bg-white"
+                                >
+                                  View Order Details
+                                </button>
+                                <button className="px-4 py-[8px] border-[1px] transition-all ease-in-out duration-300 bg-orange-500 text-[1.1rem] rounded-lg font-semibold hover:border-[1px] hover:border-orange-500 hover:bg-white">
+                                  <a
+                                    href={`https://wa.me/${order?.number}`}
+                                    target="_blank"
+                                  >
+                                    Whatsapp
+                                  </a>
+                                </button>
+                              </div>
+                            </div>
+                          </Td>
+                        </Tr>
+                      );
+                    })}
+                  </>
+                ) : 
+                <div className="w-[100%]">
+                  <p className="text-[1.5rem] font-semibold text-center">No Orders Available</p>
+                </div>
+                }
               </Tbody>
             </Table>
           </TableContainer>
@@ -243,7 +250,12 @@ const DisplayOrderDetails = ({ size, open, handleClose, currentOrder }) => {
           {currentOrder?.paymentProof ? (
             <div className="my-2 flex justify-center items-center flex-col">
               <p className="text-[.9rem] text-slate-400">Payment Proof Image</p>
-              <Image src={`/${currentOrder?.paymentProof}`} width={300} height={300} alt="cross" />
+              <Image
+                src={`${currentOrder?.paymentProof}`}
+                width={300}
+                height={300}
+                alt="cross"
+              />
             </div>
           ) : null}
           <div className="grid grid-cols-2 gap-y-2">

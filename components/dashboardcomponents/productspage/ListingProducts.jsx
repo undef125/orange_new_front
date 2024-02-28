@@ -15,7 +15,7 @@ import axios from "@/app/api/axiosinterceptor";
 import UpdateInputs from "./UpdateInputs";
 import toBase64 from "@/utilis/FileToBase64";
 import { MdDelete } from "react-icons/md";
-import {  toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 const ListingProducts = ({ products, catNames, getProducts }) => {
   const [editing, setediting] = useState("");
@@ -28,16 +28,16 @@ const ListingProducts = ({ products, catNames, getProducts }) => {
   const handleClose = () => setOpen(false);
 
   const deleteProduct = async (productId) => {
-    const toastId = toast.loading("deleting....")
+    const toastId = toast.loading("deleting....");
     try {
       await axios.delete(`deleteproduct/${productId}`);
       getProducts();
       toast.dismiss(toastId);
-      toast.success("successfully deleted product!")
+      toast.success("successfully deleted product!");
     } catch (error) {
       console.log("error: " + error);
-      toast.dismiss(toastId)
-      toast.success("error deleting product!")
+      toast.dismiss(toastId);
+      toast.success("error deleting product!");
     }
   };
 
@@ -70,56 +70,66 @@ const ListingProducts = ({ products, catNames, getProducts }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {products.map((product, index) => {
-              return (
-                <Tr key={index}>
-                  <Td>
-                    <div className=" flex flex-col rounded   relative">
-                      <Image
-                        src={`${product.images[0]}`}
-                        height="200"
-                        width="200"
-                        alt="category related image "
-                        className="p-4 w-[6rem] h-[6rem] object-cover transition-all duration-300 ease-in-out"
-                      />
-                    </div>
-                  </Td>
-                  <Td>
-                    <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                      <div>{product?.name}</div>
-                    </div>
-                  </Td>
-                  <Td>
-                    <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                      <div>${product?.price}</div>
-                    </div>
-                  </Td>
-                  <Td>
-                    <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                      <div className="flex gap-6">
-                        <button
-                          onClick={() => {
-                            setcurrentProduct(product);
-                            handleOpen();
-                          }}
-                          className="px-4 py-[8px] border-[1px] transition-all ease-in-out duration-300 bg-orange-500 text-[1.1rem] rounded-lg font-semibold hover:border-[1px] hover:border-orange-500 hover:bg-white"
-                        >
-                          Edit Product
-                        </button>
-                        <button
-                          onClick={() => {
-                            deleteProduct(product?._id);
-                          }}
-                          className="px-4 py-[8px] border-[1px] transition-all ease-in-out duration-300 bg-orange-500 text-[1.1rem] rounded-lg font-semibold hover:border-[1px] hover:border-orange-500 hover:bg-white"
-                        >
-                          Delete Product
-                        </button>
-                      </div>
-                    </div>
-                  </Td>
-                </Tr>
-              );
-            })}
+            {products.length > 0 ? (
+              <>
+                {products.map((product, index) => {
+                  return (
+                    <Tr key={index}>
+                      <Td>
+                        <div className=" flex flex-col rounded   relative">
+                          <Image
+                            src={`${product.images[0]}`}
+                            height="200"
+                            width="200"
+                            alt="category related image "
+                            className="p-4 w-[6rem] h-[6rem] object-cover transition-all duration-300 ease-in-out"
+                          />
+                        </div>
+                      </Td>
+                      <Td>
+                        <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
+                          <div>{product?.name}</div>
+                        </div>
+                      </Td>
+                      <Td>
+                        <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
+                          <div>${product?.price}</div>
+                        </div>
+                      </Td>
+                      <Td>
+                        <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
+                          <div className="flex gap-6">
+                            <button
+                              onClick={() => {
+                                setcurrentProduct(product);
+                                handleOpen();
+                              }}
+                              className="px-4 py-[8px] border-[1px] transition-all ease-in-out duration-300 bg-orange-500 text-[1.1rem] rounded-lg font-semibold hover:border-[1px] hover:border-orange-500 hover:bg-white"
+                            >
+                              Edit Product
+                            </button>
+                            <button
+                              onClick={() => {
+                                deleteProduct(product?._id);
+                              }}
+                              className="px-4 py-[8px] border-[1px] transition-all ease-in-out duration-300 bg-orange-500 text-[1.1rem] rounded-lg font-semibold hover:border-[1px] hover:border-orange-500 hover:bg-white"
+                            >
+                              Delete Product
+                            </button>
+                          </div>
+                        </div>
+                      </Td>
+                    </Tr>
+                  );
+                })}
+              </>
+            ) : (
+              <div className="w-[100%]">
+                <p className="text-[1.5rem] font-semibold text-center">
+                  No Products Available
+                </p>
+              </div>
+            )}
           </Tbody>
         </Table>
       </TableContainer>
@@ -152,7 +162,6 @@ const ProductEditModal = ({
     try {
       await axios.put(`updateproduct/${product?._id}`, updateValues);
       getProducts();
-
     } catch (error) {
       console.log("error: " + error);
     }
@@ -177,7 +186,7 @@ const ProductEditModal = ({
         <div>
           <p className="text-[1.3rem] font-medium">Images:</p>
           <div className="flex  ">
-            {product?.images?.map((image,index) => {
+            {product?.images?.map((image, index) => {
               return (
                 <div className="relative group" key={index}>
                   <div className=" flex flex-col flex-wrap rounded   relative">
@@ -226,9 +235,12 @@ const ProductEditModal = ({
               </label>
             </div>
             <div className="flex">
-              {updateValues?.images?.map((image,index) => {
+              {updateValues?.images?.map((image, index) => {
                 return (
-                  <div className=" flex flex-col flex-wrap rounded   relative" key={index}>
+                  <div
+                    className=" flex flex-col flex-wrap rounded   relative"
+                    key={index}
+                  >
                     <Image
                       src={`${image}`}
                       height="200"
@@ -243,7 +255,7 @@ const ProductEditModal = ({
           </div>
         </div>
         <div className="grid grid-cols-2 gap-y-6">
-          {Object.keys(product).map((keyName,index) => {
+          {Object.keys(product).map((keyName, index) => {
             if (!["__v", "_id", "images", "companyId"].includes(keyName)) {
               return (
                 <UpdateInputs

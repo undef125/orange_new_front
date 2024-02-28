@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    // baseURL: "http://localhost:5000",
+  // baseURL: "http://localhost:5000",
   // baseURL: "http://localhost:5001",
   baseURL: "https://api.apexgoo.com",
 });
@@ -24,8 +24,3 @@ axiosInstance.interceptors.request.use(
 );
 
 export default axiosInstance;
-
-  
-
-
-
