@@ -80,6 +80,16 @@ export const StoreProvider = ({ children }) => {
     localStorage.setItem("cart", JSON.stringify(udptedCartItem));
     setcartItems(udptedCartItem);
   };
+  const updateCartItemSizes = (itemId, tosize) => {
+    const udptedCartItem = cartItems.map((item) => {
+      if (item._id === itemId) {
+        item.size = tosize
+      }
+      return item;
+    });
+    localStorage.setItem("cart", JSON.stringify(udptedCartItem));
+    setcartItems(udptedCartItem);
+  };
 
   const getProducts = async (companyId) => {
     try {
@@ -102,6 +112,7 @@ export const StoreProvider = ({ children }) => {
         products,
         updateCartItem,
         removeCartItem,
+        updateCartItemSizes,
       }}
     >
       {children}

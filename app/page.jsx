@@ -18,31 +18,16 @@ export default function Page() {
 
   useEffect(() => {
     const handleRouteProtection = async () => {
+      setLoading(true);
       const resp = await protectRoute();
       if(resp === undefined) null
       else if(resp[0] === true && resp[1] === true) router.push('/dashboard')
       else if(resp[0] === true && resp[1]=== false) router.push('/payment');
       else if(resp[0] === false && resp[1]=== false) null
       else null
-    };
-    handleRouteProtection();
-    const handleLoad = () => {
       setLoading(false);
     };
-
-    if (document.readyState === "complete") {
-      handleLoad();
-    } else {
-      setLoading(true);
-
-      // Listen for the load event
-      window.addEventListener("load", handleLoad);
-    }
-
-    // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener("load", handleLoad);
-    };
+    handleRouteProtection();
   }, []);
 
   return (

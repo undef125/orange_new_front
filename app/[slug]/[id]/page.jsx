@@ -36,7 +36,7 @@ const Page = () => {
         <div className="flex flex-col md:flex-row justify-between items-between mt-10 gap-12 w-[90vw] ">
           {currProduct?.companyId?.companyName ? (
             <>
-              <div className="flex flex-col justify-center items-center gap-4 py-2 ">
+              <div className="flex flex-col justify-center items-center gap-4  py-2 ">
                 <div className="md:w-[30rem] :w-[35rem] lg:w-[40rem] flex bg-[#d5d4d415] ">
                   <motion.div
                     key={currImage}
@@ -77,7 +77,7 @@ const Page = () => {
                 </div>
               </div>
               <div className="flex flex-col justify-center items-center w-[100%]">
-                <div className="flex flex-col gap-2 ml-0 md:ml-20 md:gap-6 w-[100%] ">
+                <div className="flex flex-col gap-1 ml-0 md:ml-20 md:gap-3 w-[100%] ">
                   <div>
                     <p className="text-gray-500">
                       {currProduct?.companyId?.companyName}
@@ -98,6 +98,7 @@ const Page = () => {
                       let item = { ...currProduct };
                       item.companyId = currProduct?.companyId?._id;
                       item.categoryId = currProduct?.categoryId?._id;
+                      item.size = ""
                       addItemToCart(item);
                       toast.success("Item Added To Cart", {
                         duration: 1000,
@@ -112,8 +113,54 @@ const Page = () => {
                   </div>
                   <div>
                     <p className="text-gray-500">
-                      Category: {currProduct?.categoryId?.categoryName}
+                      <span className="font-semibold text-[1.1rem] ">Category:</span>  {currProduct?.categoryId?.categoryName}
                     </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500"><span className="font-semibold text-[1.1rem] ">Model:</span> {currProduct?.model}</p>
+                  </div>
+
+                  <div className="flex-col gap-2">
+                    <p className="text-gray-500 font-semibold text-[1.1rem]">How To Use:</p>
+                    <div className="flex-col gap-4">
+                      {currProduct?.howToUse?.split("/").map((size, idx) => {
+                        return (
+                          <div key={idx}>
+                            <div className="flex gap-2 items-center">
+                              <div className="h-2 w-2 rounded-xl bg-slate-500"></div>
+                              <p className="text-gray-500">{size}</p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div className="flex-col gap-2">
+                    <p className="text-gray-500 font-semibold text-[1.1rem]">Serves For:</p>
+                    <div className="flex-col gap-4">
+                      {currProduct?.servesFor?.split("/").map((size, idx) => {
+                        return (
+                          <div key={idx}>
+                            <div className="flex gap-2 items-center">
+                              <div className="h-2 w-2 rounded-xl bg-slate-500"></div>
+                              <p className="text-gray-500">{size}</p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <p className="text-gray-500 font-semibold text-[1.1rem]">Sizes:</p>
+                    <div className="flex gap-4">
+                      {currProduct?.sizes?.split("/").map((size, idx) => {
+                        return (
+                          <div key={idx}>
+                            <p className="text-gray-500">{size}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                   <div>
                     <p className="text-gray-500 mb-3">
@@ -135,12 +182,11 @@ const Page = () => {
                   </div>
                 </div>
                 <div className="flex flex-col justify-center items-center w-[100%] gap-12">
-                    <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
-                    <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
-                    <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
-                    <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
-                    <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
-
+                  <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
+                  <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
+                  <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
+                  <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
+                  <div className="px-3 w-[15rem]  h-[2rem] object-contain bg-slate-200"></div>
                 </div>
               </div>
             </>

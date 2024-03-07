@@ -15,14 +15,17 @@ import { RxCross2 } from "react-icons/rx";
 import { useStoreContext } from "@/context/storeContext";
 import CheckOutDetailFillup from "./CheckOutDetailFillup";
 import { useParams } from "next/navigation";
+import { Select } from "@chakra-ui/react";
 import BackBtnPop from "@/components/BackBtnPop";
 
 const Page = () => {
   const params = useParams();
   const [totalAmount, settotalAmount] = useState(0);
-  const { cartItems, updateCartItem, removeCartItem } = useStoreContext();
+  const { cartItems, updateCartItem, removeCartItem, updateCartItemSizes } = useStoreContext();
   const [open, setOpen] = useState(false);
   const [size, setSize] = useState();
+  const [productSize, setproductSize] = useState();
+
   const handleOpen = (value) => {
     setSize(value);
     setOpen(true);
@@ -36,7 +39,6 @@ const Page = () => {
     settotalAmount(totalPrice);
   }, [cartItems]);
 
- 
   return (
     <div className="w-[96vw] grid grid-cols-1 md:grid-cols-3 ">
       <BackBtnPop />
@@ -63,6 +65,9 @@ const Page = () => {
                   </Th>
                   <Th className="py-6 ">
                     <p className=" text-[1.1rem] font-medium">quantity</p>
+                  </Th>
+                  <Th className="py-6 ">
+                    <p className=" text-[1.1rem] font-medium">Size</p>
                   </Th>
                   <Th className="py-6 ">
                     <p className=" text-[1.1rem] font-medium">Subtotal</p>
@@ -122,6 +127,28 @@ const Page = () => {
                                 updateCartItem(product?._id, "+");
                               }}
                             />
+                          </div>
+                        </div>
+                      </Td>
+                      <Td>
+                        <div className="flex flex-col justify-center items-center gap-4 px-3 py-2 h-[100%] ">
+                          <div>
+                            {" "}
+                            {product?.sizes ? (
+                              <Select placeholder="Select size"  onChange={(e) => {
+                                updateCartItemSizes(product?._id, e.target.value);
+                              }} value={product?.size } >
+                                {product?.sizes?.split("/")?.map((size, idx) => {
+                                  return (
+                                    <option key={idx} value={size}>
+                                      {size}
+                                    </option>
+                                  );
+                                })}
+                              </Select>
+                            ) : (
+                              "--"
+                            )}
                           </div>
                         </div>
                       </Td>
