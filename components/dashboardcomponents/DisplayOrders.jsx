@@ -80,7 +80,7 @@ const DisplayOrders = ({ company }) => {
   }, []);
 
   return (
-    <div className="w-[100vw] h-screen flex justify-center bg-slate-200">
+    <div className="w-[100vw] w-max-[100%] h-screen flex justify-center bg-slate-200">
       <div className="w-[95%] md:w-[80%] flex flex-col items-center mt-[1rem]">
         <div>
           <h1 className="text-[1.5rem] md:text-[2.5rem] text-orange-500 ">
@@ -312,6 +312,9 @@ const DisplayOrderDetails = ({ size, open, handleClose, currentOrder }) => {
                       <p className=" text-[1.1rem] font-medium">Quantity</p>
                     </Th>
                     <Th className="py-2 ">
+                      <p className=" text-[1.1rem] font-medium">Size</p>
+                    </Th>
+                    <Th className="py-2 ">
                       <p className=" text-[1.1rem] font-medium">Price</p>
                     </Th>
                   </Tr>
@@ -339,6 +342,11 @@ const DisplayOrderDetails = ({ size, open, handleClose, currentOrder }) => {
                         <Td>
                           <div className="flex flex-col justify-center items-center gap-4 px-3 py-0 h-[100%] ">
                             <div>{product?.quantity}</div>
+                          </div>
+                        </Td>
+                        <Td>
+                          <div className="flex flex-col justify-center items-center gap-4 px-3 py-0 h-[100%] ">
+                            <div>{product?.size ? product?.size : "--"}</div>
                           </div>
                         </Td>
                         <Td>

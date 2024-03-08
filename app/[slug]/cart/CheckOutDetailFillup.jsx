@@ -52,6 +52,7 @@ const CheckOutDetailFillup = ({
               name: item.name,
               price: item.price,
               quantity: item.count,
+              size: item.size ? item.size : "",
             };
           });
           await axios.post("addorder", {
@@ -282,7 +283,7 @@ Total Price: ${totalAmount}
                   className="bg-orange-500 font-semibold text-white px-10 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
                   onClick={async () => {
                     setorderMethod("SMS");
-                    // handleSubmit();
+                    handleSubmit();
                   }}
                 >
                   <span className="flex justify-center items-center gap-2">
