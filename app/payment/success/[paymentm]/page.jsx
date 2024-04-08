@@ -31,7 +31,10 @@ const Page = ({ params }) => {
     <div className="flex justify-center  w-[100vw] h-[100vh] ">
       <div className="flex flex-col gap-4 justify-start items-center w-[80%] ">
         <div>
-          <Image
+          <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
             src="/mobile2.png"
             width={500}
             height={500}

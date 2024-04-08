@@ -127,13 +127,19 @@ const Page = () => {
               className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div className="flex justify-between items-center">
-                <Image
+                <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                   src="/payment/stripe.png"
                   height={100}
                   width={100}
                   alt=""
                 />
-                <Image
+                <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                   src="/payment/stripe2.png"
                   height="1013"
                   width="10126"
@@ -149,7 +155,10 @@ const Page = () => {
               className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div>
-                <Image
+                <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                   src="/payment/paypal.png"
                   height={100}
                   width={100}
@@ -165,7 +174,10 @@ const Page = () => {
               className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div>
-                <Image
+                <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                   src="/payment/zille.png"
                   height={100}
                   width={100}
@@ -181,7 +193,10 @@ const Page = () => {
               className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div>
-                <Image
+                <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                   src="/payment/nequi.png"
                   height={100}
                   width={100}

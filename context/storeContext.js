@@ -8,6 +8,7 @@ export const StoreProvider = ({ children }) => {
   const [cartItems, setcartItems] = useState([]);
   const [company, setCompany] = useState({});
   const [products, setproducts] = useState([]);
+  const [colors, setcolors] = useState([]);
 
   const getCartItems = () => {
     try {
@@ -33,6 +34,7 @@ export const StoreProvider = ({ children }) => {
     try {
       const resp = await axios.get(`getcompanydetail/${slug}`);
       getProducts(resp.data._id);
+      getColors(resp.data._id);
       setCompany(resp.data);
     } catch (error) {
       console.log(`error : ${error}`);
@@ -99,6 +101,14 @@ export const StoreProvider = ({ children }) => {
       console.log(`error: ${error}`);
     }
   };
+  const getColors = async (companyId) => {
+    try {
+      const resp = await axios.get(`getcolors/${companyId}`);
+      setcolors(resp.data[0]);
+    } catch (error) {
+      console.log(`error: ${error}`);
+    }
+  };
 
   return (
     <StoreContext.Provider
@@ -110,6 +120,8 @@ export const StoreProvider = ({ children }) => {
         setcartItems,
         getProducts,
         products,
+        colors,
+        getColors,
         updateCartItem,
         removeCartItem,
         updateCartItemSizes,

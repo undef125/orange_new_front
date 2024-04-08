@@ -77,7 +77,10 @@ const OurFeatures = () => {
               className={` ${styles.onefeature} group flex flex-col transition-all ease-in-out duration-200 rounded-lg w-[30rem] px-6 py-4 mt-10 gap-1 cursor-pointer bg-white shadow-lg hover:shadow-2xl `}
             >
               <div className=" w-[100%] flex justify-center h-[6.5rem]">
-                <Image
+                <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                   src={feature.icon}
                   height="1280"
                   width="1280"

@@ -37,7 +37,10 @@ export default function NavBar() {
       ref={container}
     >
       <div id="icon">
-        <Image
+        <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
           src="/logo.png"
           alt="logo"
           height={90}

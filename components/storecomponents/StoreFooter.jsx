@@ -49,7 +49,10 @@ const StoreFooter = ({ company }) => {
       </div>
       <div className="w-[90vw] lg:w-[80vw] mt-8 lg:mt-10 flex flex-col lg:flex-row justify-between items-center">
         <div className="mb-4 lg:mb-0">
-          <Image
+          <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
             src={`${company?.logoImage ? company?.logoImage : ""}`}
             alt="logo"
             height={80}

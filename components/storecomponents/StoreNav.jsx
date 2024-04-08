@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 const StoreNav = ({ search = true }) => {
   const params = useParams();
 
-  const { cartItems, getCompanyDet, company } = useStoreContext();
+  const { cartItems, getCompanyDet, company,colors,getColors } = useStoreContext();
   const router = useRouter();
 
   useEffect(() => {
@@ -17,14 +17,19 @@ const StoreNav = ({ search = true }) => {
   return (
     <>
       {company.companyName ? (
-        <div className="bg-[#064C4F] rounded flex justify-between px-10 my-2 gap-6 items-center  w-[95vw] m-auto  ">
+        <div className={` rounded flex justify-between px-10 my-2 gap-6 items-center  w-[95vw] m-auto  `} style={{
+          backgroundColor: colors?.base? colors?.base : "#444444"
+        }}>
           <div
             onClick={() => {
               router.push(`/${params?.slug}`);
             }}
             className="h-[6rem] flex items-center cursor-pointer"
           >
-            <Image
+            <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
               src={`${company?.logoImage ? company.logoImage : ""}`}
               height={150}
               width={150}
@@ -34,7 +39,10 @@ const StoreNav = ({ search = true }) => {
           </div>
           {search ? (
             <input
-              className="rounded-3xl h-[5vh] w-[50vw] text-center "
+              className={`rounded-3xl h-[5vh] w-[50vw] text-center `}
+              style={{
+                backgroundColor: colors?.saerchBar
+              }}
               type="text"
               placeholder="Search for grocery,vegetables,and meat"
             />
@@ -44,7 +52,10 @@ const StoreNav = ({ search = true }) => {
             onClick={() => {
               router.push(`/${params?.slug}/cart`);
             }}
-            className="relative transition-all ease-in-out duration-300 bg-white rounded-full w-fit p-3 cursor-pointer hover:scale-110"
+            className={`relative transition-all ease-in-out duration-300 rounded-full w-fit p-3 cursor-pointer hover:scale-110`}
+            style={{
+              backgroundColor: colors?.cartBg? colors?.cartBg : "#444444"
+            }}
           >
             <MdOutlineShoppingCart className="text-[1.2rem] md:text-[1.5rem]" />
             <div className="absolute top-[-5px] right-[-5px] bg-orange-500 rounded-full h-[25px] w-[25px]">

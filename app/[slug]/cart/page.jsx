@@ -90,7 +90,10 @@ const Page = () => {
                       </Td>
                       <Td>
                         <div className=" flex justify-center items-center">
-                          <Image
+                          <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                             src={`${product.images[0]}`}
                             height="200"
                             width="200"

@@ -73,7 +73,10 @@ export default function LandingPage() {
         </div>
         <div id="right" className="h-[100%] md:hidden sm:hidden lg:block relative">
           <div className="mt-[3rem] h-[100%] absolute">
-            <Image
+            <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
               src="/goodhhee.png"
               height={1100}
               width={1100}

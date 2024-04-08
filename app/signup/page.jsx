@@ -241,7 +241,10 @@ export default function Signup() {
           <div className="hidden justify-center  items-center  md:flex">
             <div className=" hidden lg:flex  ">
               <div>
-                <Image
+                <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                   src="/login/signup.svg"
                   height="500"
                   width="500"

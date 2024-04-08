@@ -12,6 +12,7 @@ import { MdDeleteForever } from "react-icons/md";
 const styles = {
   width: 300,
   marginBottom: 10,
+
 };
 
 const CategoriesPage = ({ company }) => {
@@ -92,8 +93,8 @@ const CategoriesPage = ({ company }) => {
             Manage Your Categories
           </h1>
         </div>
-        <div>
-          <InputGroup inside style={styles}>
+        <div className="flex gap-10">
+          <InputGroup inside style={styles} className="h-[2.4rem]">
             <Input
               onChange={(searchText) => {
                 if (searchText.trim("") === "") {
@@ -112,7 +113,7 @@ const CategoriesPage = ({ company }) => {
               <SearchIcon />
             </InputGroup.Button>
           </InputGroup>
-          <Button onClick={() => handleOpen("50rem")}>
+          <Button onClick={() => handleOpen("50rem")} className="h-[2.4rem]">
             <code>Add Category</code>
           </Button>
         </div>
@@ -135,7 +136,10 @@ const CategoriesPage = ({ company }) => {
                     >
                       <div className=" flex flex-col rounded   relative">
                         <div className=" flex justify-center  group/image">
-                          <Image
+                          <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                             src={
                               image && currentCatIndex === index
                                 ? `${
@@ -286,7 +290,7 @@ const CategoriesPage = ({ company }) => {
           ) : (
             <div className="w-[100%]">
               <p className="text-[1.5rem] font-semibold text-center">
-                No Orders Available
+                No Categories Available
               </p>
             </div>
           )}

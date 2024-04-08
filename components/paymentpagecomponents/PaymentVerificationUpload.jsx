@@ -28,7 +28,6 @@ const PaymentVerificationUpload = ({ gateway }) => {
       }
     } catch (error) {
       toast.dismiss(toastId);
-      console.log(error);
     }
   };
 
@@ -132,7 +131,10 @@ const PaymentVerificationUpload = ({ gateway }) => {
           </div>
           <div className=" flex justify-center items-center  h-[100%]">
             <div>
-              <Image
+              <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                 src={`/payment/infante${
                   gateway === "nequi" ? "nequi" : "zille"
                 }.png`}

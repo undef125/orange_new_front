@@ -101,7 +101,10 @@ const ManageOrange = () => {
         className="h-[90vh] flex justify-center items-center"
       >
         <div className="h-[80%] ">
-          <Image
+          <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
             src="/home_page/cstore1.jpg"
             width="2438"
             height="3375"

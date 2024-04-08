@@ -52,7 +52,10 @@ const Page = () => {
                         </div>
                       </div>
                       <div className=" px-1">
-                        <Image
+                        <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                           src={`${cat.categoryImage}`}
                           width={40}
                           height={40}

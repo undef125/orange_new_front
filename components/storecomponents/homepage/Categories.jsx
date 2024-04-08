@@ -4,7 +4,7 @@ import Image from "next/image";
 import axios from "@/app/api/customerAxiosInterceptor";
 import { useRouter } from "next/navigation";
 
-const Categories = ({  company,slug }) => {
+const Categories = ({ company, slug }) => {
   const router = useRouter();
   const [categories, setcategories] = useState([]);
 
@@ -30,7 +30,12 @@ const Categories = ({  company,slug }) => {
           return (
             <div
               key={idx}
-              className="w-[22rem] h-[10rem] bg-white rounded-md grid grid-cols-2 place-items-center pl-2"
+              className="w-[22rem] h-[10rem] bg-white rounded-md grid grid-cols-2 place-items-center pl-2 hover:shadow-lg cursor-pointer group transition-all ease-in-out duration-300"
+              onClick={() => {
+                router.push(
+                  `/${slug}/categories?cmp=${company?._id}&nm=${company?.companyName}`
+                );
+              }}
             >
               <div className="">
                 <div className="font-semibold text-[1.3rem]">
@@ -39,14 +44,17 @@ const Categories = ({  company,slug }) => {
                 <div className="text-gray-500">{cat.categoryDescription}</div>
               </div>
               <div className=" px-1">
-                <Image
-                  src={`${cat?.categoryImage ? cat.categoryImage : ''}`}
+                <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
+                  src={`${cat?.categoryImage ? cat.categoryImage : ""}`}
                   width={40}
                   height={40}
                   alt="hello"
                   quality={100}
                   unoptimized
-                  className="w-[100%] h-[10rem] object-cover"
+                  className="w-[100%] h-[10rem] object-cover group-hover:scale-105  transition-all ease-in-out duration-300"
                 />
               </div>
             </div>
@@ -57,7 +65,9 @@ const Categories = ({  company,slug }) => {
         <div
           className="flex flex-col gap-2"
           onClick={() => {
-            router.push(`/${slug}/categories?cmp=${company?._id}&nm=${company?.companyName}`);
+            router.push(
+              `/${slug}/categories?cmp=${company?._id}&nm=${company?.companyName}`
+            );
           }}
         >
           <div className="transition-all ease-in-out duration-300 bg-white rounded-full w-fit p-2 cursor-pointer hover:scale-110">

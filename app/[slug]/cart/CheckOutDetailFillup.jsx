@@ -300,7 +300,10 @@ Total Price: ${totalAmount}
                 {/* one ra two ko photo here with proof input */}
                 {one ? (
                   <>
-                    <Image
+                    <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                       src={`${company?.paymentOne?.qrImage}`}
                       // src="/download.png"
                       height={100}
@@ -313,7 +316,10 @@ Total Price: ${totalAmount}
                 {two ? (
                   <div className="flex flex-col">
                     <div>
-                      <Image
+                      <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                         src={`${company?.paymentTwo?.qrImage}`}
                         // src="/download.png"
                         height={100}
@@ -327,7 +333,10 @@ Total Price: ${totalAmount}
 
                 {isChanged ? (
                   <>
-                    <Image
+                    <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                       src={paymentProof}
                       // src="/download.png"
                       height={100}

@@ -92,7 +92,10 @@ const Login = () => {
         <div className=" md:grid md:grid-cols-2 md:gap-x-[6rem] py-10  w-fit">
           <div className=" h-[70%] hidden md:flex  ">
             <div>
-              <Image
+              <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                 src="/login/login.svg"
                 height="500"
                 width="500"

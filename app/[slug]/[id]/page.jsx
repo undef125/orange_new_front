@@ -45,7 +45,10 @@ const Page = () => {
                     exit={{ opacity: 0 }}
                     className="m-auto"
                   >
-                    <Image
+                    <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                       src={currImage}
                       width={100}
                       height={100}
@@ -64,7 +67,10 @@ const Page = () => {
                           setcurrImage(img);
                         }}
                       >
-                        <Image
+                        <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                           className="px-3 bg-[#d5d4d415] h-[100%] object-contain"
                           src={`${img}`}
                           width={100}

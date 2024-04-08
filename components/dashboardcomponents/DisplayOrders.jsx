@@ -33,7 +33,6 @@ const DisplayOrders = ({ company }) => {
       toast.dismiss(toastId);
       toast.success("successfully deleted product!");
     } catch (error) {
-      console.log("error: " + error);
       toast.dismiss(toastId);
       toast.success("error deleting product!");
     }
@@ -250,7 +249,10 @@ const DisplayOrderDetails = ({ size, open, handleClose, currentOrder }) => {
           {currentOrder?.paymentProof ? (
             <div className="my-2 flex justify-center items-center flex-col">
               <p className="text-[.9rem] text-slate-400">Payment Proof Image</p>
-              <Image
+              <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                 src={`${currentOrder?.paymentProof}`}
                 width={300}
                 height={300}
@@ -325,7 +327,10 @@ const DisplayOrderDetails = ({ size, open, handleClose, currentOrder }) => {
                       <Tr key={index} className="border-b-2 ">
                         <Td>
                           <div className=" flex justify-center items-center">
-                            <Image
+                            <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                               src={`${product.image}`}
                               height="200"
                               width="200"

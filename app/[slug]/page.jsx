@@ -8,37 +8,51 @@ import { useStoreContext } from "@/context/storeContext";
 import StoreFooter from "@/components/storecomponents/StoreFooter";
 import StoreNav from "@/components/storecomponents/StoreNav";
 import { useRouter } from "next/navigation";
-import { Skeleton } from "@chakra-ui/react";
+import axios from "@/app/api/axiosinterceptor";
 
 const Page = () => {
   const router = useRouter();
   const params = useParams();
   const [loading, setLoading] = useState(false);
-  const { getCompanyDet, company } = useStoreContext();
+  const { getCompanyDet, company, colors } = useStoreContext();
 
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
       await getCompanyDet(params?.slug);
+      // await getColorMethod(company?._id);
       setLoading(false);
     };
     fetchData();
   }, []);
   return (
-    <>
-      {company?.companyName ? (
+    <div
+      style={{
+        backgroundColor: colors?.storeColor ? colors?.storeColor : "#FFFFFF",
+      }}
+    >
+      {company?.companyName && colors?.base ? (
         <>
           <div className="flex flex-col gap-4 items-center">
             <StoreNav />
-            <div className="flex flex-col md:flex-row rounded justify-around  gap-[4vh] bg-[#064C4F] h-[58vh] w-[95vw] mb-8 p-2">
+            <div
+              className={`flex flex-col md:flex-row rounded justify-around  gap-[4vh] h-[58vh] w-[95vw] mb-8 p-2`}
+              style={{ backgroundColor: colors?.base }}
+            >
               <div className="flex flex-col gap-8 justify-center pl-[6rem]">
                 <div>
-                  <p className="font-extrabold text-3xl md:text-5xl text-[#aee5bb]">
+                  <p
+                    className="font-extrabold text-3xl md:text-5xl text-[#aee5bb]"
+                    style={{ color: colors?.shortReview }}
+                  >
                     {company?.shortReview}
                   </p>
                 </div>
                 <div>
-                  <p className="text-[#eaf0eb] text-xl md:text-2xl">
+                  <p
+                    className="text-[#eaf0eb] text-xl md:text-2xl"
+                    style={{ color: colors?.description }}
+                  >
                     {company?.description}
                   </p>
                 </div>
@@ -49,7 +63,11 @@ const Page = () => {
                         `/${params?.slug}/products?cmp=${company?._id}&nm=${company?.companyName}`
                       );
                     }}
-                    className="bg-[#65B741] h-[5vh] px-[1rem] rounded hover:text-gray-200 font-semibold transition-all duration-300"
+                    className=" h-[5vh] px-[1rem] rounded hover:text-gray-200 font-semibold transition-all duration-300"
+                    style={{
+                      backgroundColor: colors?.shopNowBtnColor,
+                      color: colors?.shopNowBtnTextColor,
+                    }}
                   >
                     Shop Now
                   </button>
@@ -57,12 +75,15 @@ const Page = () => {
               </div>
               <div className="flex w-[100%] md:w-[50%] flex-end ">
                 {company?.coverImage && (
-                  <Image
+                  <Image  
                     src={company?.coverImage}
                     height={150}
                     width={300}
                     className="w-[100%] object-cover"
                     alt="banner image"
+                    onError={(e) => {
+                      e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                    }}
                   />
                 )}
               </div>
@@ -98,7 +119,7 @@ const Page = () => {
           <StoreFooter company={company} />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

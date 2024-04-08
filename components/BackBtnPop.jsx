@@ -15,7 +15,10 @@ export default function BackBtnPop() {
             router.back();
           }}
         >
-          <Image src="/back.png" width="60" height="60" />
+          <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }} src="/back.png" width="60" height="60" />
         </div>
       </div>
     </div>

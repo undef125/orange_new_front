@@ -79,7 +79,10 @@ const PaymentMethod = ({ company, getUserAndComapnyDetail }) => {
             <div className="relative group">
               {!editOnePayment ? (
                 <>
-                  <Image
+                  <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                     src={
                       changesOnePayment
                         ? updateValues?.onePayment
@@ -166,7 +169,10 @@ const PaymentMethod = ({ company, getUserAndComapnyDetail }) => {
             <div className="relative group">
               {!editTwoPayment ? (
                 <>
-                  <Image
+                  <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                     src={
                       changesTwoPayment
                         ? updateValues?.twoPayment

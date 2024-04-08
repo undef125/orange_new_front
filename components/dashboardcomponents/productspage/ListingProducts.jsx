@@ -35,7 +35,6 @@ const ListingProducts = ({ products, catNames, getProducts }) => {
       toast.dismiss(toastId);
       toast.success("successfully deleted product!");
     } catch (error) {
-      console.log("error: " + error);
       toast.dismiss(toastId);
       toast.success("error deleting product!");
     }
@@ -77,7 +76,10 @@ const ListingProducts = ({ products, catNames, getProducts }) => {
                     <Tr key={index}>
                       <Td>
                         <div className=" flex flex-col rounded   relative">
-                          <Image
+                          <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                             src={`${product.images[0]}`}
                             height="200"
                             width="200"
@@ -190,7 +192,10 @@ const ProductEditModal = ({
               return (
                 <div className="relative group" key={index}>
                   <div className=" flex flex-col flex-wrap rounded   relative">
-                    <Image
+                    <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                       src={`${image}`}
                       height="200"
                       width="200"
@@ -241,7 +246,10 @@ const ProductEditModal = ({
                     className=" flex flex-col flex-wrap rounded   relative"
                     key={index}
                   >
-                    <Image
+                    <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                       src={`${image}`}
                       height="200"
                       width="200"

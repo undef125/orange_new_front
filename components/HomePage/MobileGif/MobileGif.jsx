@@ -55,7 +55,10 @@ const MobileGif = () => {
         className={` ${styles.leftsection} h-fit  lg:h-[90vh] flex justify-center items-center z-10 px-28`}
       >
         <div className="relative">
-          <Image
+          <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
             src="/showgif2_1.png"
             alt="home-banner"
             width="1567"

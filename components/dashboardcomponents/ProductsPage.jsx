@@ -71,9 +71,10 @@ const ProductsPage = ({ company }) => {
                 Manage Your Products
               </h1>
             </div>
-            <div>
-              <InputGroup inside style={styles}>
+            <div className="flex gap-10">
+              <InputGroup inside style={styles} className="h-[2.4rem]">
                 <Input
+                  
                   onChange={(searchText) => {
                     if (searchText.trim("") === "") {
                       setproducts(backupProds);
@@ -91,7 +92,7 @@ const ProductsPage = ({ company }) => {
                   <SearchIcon />
                 </InputGroup.Button>
               </InputGroup>
-              <Button onClick={() => handleOpen("50rem")}>
+              <Button onClick={() => handleOpen("50rem")} className="h-[2.4rem]">
                 <code>Add Product</code>
               </Button>
             </div>

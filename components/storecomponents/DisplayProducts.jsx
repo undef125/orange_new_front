@@ -61,26 +61,29 @@ const DisplayProducts = ({
       ) : null}
 
       {filteredProd.length > 0 ? (
-        <div className="flex flex-wrap text-black justify-start gap-20 rounded w-[95vw] m-auto my-8">
+        <div className="flex flex-wrap text-black justify-start gap-20 rounded w-[95vw] m-auto my-8 ">
           {limit
             ? filteredProd.slice(0, 8).map((prod, idx) => {
                 return (
                   <div
                     key={idx}
-                    className="w-[15rem] min-h-[24rem] relative flex flex-col justify-start flex-wrap gap-3 bg-white rounded-md"
+                    className="w-[15rem] min-h-[24rem] relative cursor-pointer group flex flex-col justify-start flex-wrap gap-3 bg-white rounded-md hover:shadow-xl transition-all ease-in-out duration-300"
                   >
                     <div
                       onClick={() => {
                         router.push(`/${slug}/${prod?._id}`);
                       }}
-                      className="flex justify-end min-h-[12rem] cursor-pointer relative "
+                      className="flex justify-end min-h-[12rem]  relative  overflow-hidden group-hover:rounded"
                     >
-                      <Image
+                      <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                         src={`${prod.images[0] ? prod.images[0] : ""}`}
                         width={40}
                         height={40}
                         alt="hello"
-                        className="h-[12rem] w-[15rem] object-cover rounded-t-md"
+                        className="h-[12rem] w-[15rem] object-cover rounded-t-md group-hover:scale-105  transition-all ease-in-out duration-300 "
                         unoptimized
                       />
                       {prod?.discountPrice ? (
@@ -152,7 +155,10 @@ const DisplayProducts = ({
                       }}
                       className="flex justify-end min-h-[12rem] cursor-pointer relative "
                     >
-                      <Image
+                      <Image  
+onError={(e) => {
+                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                      }}
                         src={`${prod.images[0] ? prod.images[0] : ""}`}
                         width={40}
                         height={40}
