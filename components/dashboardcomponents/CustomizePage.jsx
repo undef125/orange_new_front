@@ -294,7 +294,7 @@ onError={(e) => {
             Store Color Customization
           </h1>
           <div className="h-[55vh] ">
-            <div className="grid grid-cols-2 gap-4 w-[95%] m-auto">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 w-[95%] m-auto">
               {colors
                 ? Object.entries(colors).map(([name, code], index) =>
                     name.includes("_id") ||
