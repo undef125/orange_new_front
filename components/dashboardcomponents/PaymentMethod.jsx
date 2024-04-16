@@ -7,7 +7,7 @@ import axios from "@/app/api/axiosinterceptor";
 import { Input, InputGroup } from "rsuite";
 import { toast } from "react-hot-toast";
 
-const PaymentMethod = ({ company, getUserAndComapnyDetail }) => {
+const PaymentMethod = ({ company, getUserAndCompanyDetail }) => {
   const [editOnePayment, seteditOnePayment] = useState(false);
   const [editTwoPayment, seteditTwoPayment] = useState(false);
   const [updateValues, setupdateValues] = useState({});
@@ -29,7 +29,7 @@ const PaymentMethod = ({ company, getUserAndComapnyDetail }) => {
       setpayOne(false);
       setpayTwo(false);
       setupdateValues({});
-      getUserAndComapnyDetail();
+      getUserAndCompanyDetail();
       toast.success("Image Updated Successfully!");
     } catch (error) {
       toast.dismiss(toastId);

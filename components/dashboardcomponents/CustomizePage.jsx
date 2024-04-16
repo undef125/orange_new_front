@@ -7,6 +7,7 @@ import axios from "@/app/api/axiosinterceptor";
 import { toast } from "react-hot-toast";
 
 const ColorDisplay = ({
+  originalName,
   name,
   code,
   color,
@@ -18,7 +19,7 @@ const ColorDisplay = ({
   const [newCode, setNewCode] = useState(code);
 
   const handleUpdate = () => {
-    onUpdateColor(name, newCode);
+    onUpdateColor(originalName, newCode);
     setEditing(false);
   };
 
@@ -77,7 +78,7 @@ const ColorDisplay = ({
   );
 };
 
-const CustomizePage = ({ company, getUserAndComapnyDetail }) => {
+const CustomizePage = ({ company, getUserAndCompanyDetail }) => {
   const [editLogo, seteditLogo] = useState(false);
   const [editCover, seteditCover] = useState(false);
   const [updateValues, setupdateValues] = useState({});
@@ -94,13 +95,13 @@ const CustomizePage = ({ company, getUserAndComapnyDetail }) => {
       setchangesCover(false);
       setchangesLogo(false);
       setupdateValues({});
-      getUserAndComapnyDetail();
       toast.success("Image Updated Successfully!");
     } catch (error) {
       toast.dismiss(toastId);
       toast.error("Image Updation Failed");
     }
   };
+  
   const handleUpdateColor = async (name, newCode) => {
     // onUpdateColor(name, newCode);
     const toastId = toast.loading("Updating color...");
@@ -138,6 +139,7 @@ const CustomizePage = ({ company, getUserAndComapnyDetail }) => {
   };
   useEffect(() => {
     setbackup(company);
+    getUserAndCompanyDetail();
     getColorMethod(company?._id);
   }, [company]);
 
@@ -178,7 +180,7 @@ const CustomizePage = ({ company, getUserAndComapnyDetail }) => {
               <div className="relative group">
                 {!editLogo ? (
                   <>
-                    <Image  
+                    <Image
                       src={
                         changesLogo
                           ? updateValues?.logoImage
@@ -237,8 +239,8 @@ const CustomizePage = ({ company, getUserAndComapnyDetail }) => {
               <div className="relative group">
                 {!editCover ? (
                   <>
-                    <Image  
-onError={(e) => {
+                    <Image
+                      onError={(e) => {
                         e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
                       }}
                       src={
@@ -302,13 +304,12 @@ onError={(e) => {
                     name.includes("companyId") ? null : (
                       <ColorDisplay
                         key={name}
+                        originalName={name}
                         name={
                           name == "base"
                             ? " Base Color"
                             : name == "searchBar"
-                            ? // ? "Store Color"
-                              // : name == "storeColor"
-                              "Search Bar Color"
+                            ? "Search Bar Color"
                             : name === "cartBg"
                             ? "Cart Background"
                             : name == "shortReview"

@@ -1,9 +1,9 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  // baseURL: "http://localhost:5000",
+  baseURL: "http://localhost:5001",
   // baseURL: "http://192.168.1.70:5001",
-  baseURL: "https://api.apexgoo.com",
+  // baseURL: "https://api.apexgoo.com",
 });
 
 axiosInstance.interceptors.response.use(

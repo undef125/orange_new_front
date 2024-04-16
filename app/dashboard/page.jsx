@@ -44,7 +44,7 @@ const Page = () => {
     }
   }
 
-  const getUserAndComapnyDetail = async () => {
+  const getUserAndCompanyDetail = async () => {
     try {
       const resp1 = await axios.get("/getmydetail");
       setUser(resp1.data.user);
@@ -61,7 +61,7 @@ const Page = () => {
     const handleRouteProtection = async () => {
       const resp = await protectRoute();
       if (resp === undefined) router.push("/login");
-      else if (resp[0] === true && resp[1] === true) getUserAndComapnyDetail();
+      else if (resp[0] === true && resp[1] === true) getUserAndCompanyDetail();
       else if (resp[0] === true && resp[1] === false) router.push("/payment");
       else if (resp[0] === false && resp[1] === false) router.push("/login");
       else router.push("/login");
@@ -243,17 +243,17 @@ onError={(e) => {
           ) : whichPage === 1 ? (
             <CustomizePage
               company={company}
-              getUserAndComapnyDetail={getUserAndComapnyDetail}
-              setUser={setUser}
+              getUserAndCompanyDetail={getUserAndCompanyDetail}
+              setCompany={setCompany}
             />
           ) : whichPage === 2 ? (
             <PersonalizePage
-              getUserAndComapnyDetail={getUserAndComapnyDetail}
+              getUserAndCompanyDetail={getUserAndCompanyDetail}
               company={company}
             />
           ) : whichPage === 3 ? (
             <PaymentMethod
-              getUserAndComapnyDetail={getUserAndComapnyDetail}
+              getUserAndCompanyDetail={getUserAndCompanyDetail}
               company={company}
             />
           ) : whichPage === 4 ? (

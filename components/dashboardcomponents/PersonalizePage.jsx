@@ -7,7 +7,7 @@ import axios from "@/app/api/axiosinterceptor";
 import { toast } from "react-hot-toast";
 
 
-const PersonalizePage = ({ getUserAndComapnyDetail,company }) => {
+const PersonalizePage = ({ getUserAndCompanyDetail,company }) => {
   const [updateValues, setupdateValues] = useState({});
   const [currIndex, setcurrIndex] = useState(-1);
   const [read, setread] = useState(true);
