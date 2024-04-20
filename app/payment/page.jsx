@@ -134,7 +134,7 @@ onError={(e) => {
                   src="/payment/stripe.png"
                   height={100}
                   width={100}
-                  alt=""
+                  alt="stripe payment image"
                 />
                 <Image  
 onError={(e) => {
@@ -144,7 +144,7 @@ onError={(e) => {
                   height="1013"
                   width="10126"
                   className="h-[60%] w-[70%] "
-                  alt=""
+                  alt="payment image"
                 />
               </div>
             </div>
@@ -162,7 +162,7 @@ onError={(e) => {
                   src="/payment/paypal.png"
                   height={100}
                   width={100}
-                  alt=""
+                  alt="paypal payment image"
                 />
               </div>
             </div>
@@ -181,7 +181,7 @@ onError={(e) => {
                   src="/payment/zille.png"
                   height={100}
                   width={100}
-                  alt=""
+                  alt="zille payment image"
                 />
               </div>
             </div>
@@ -200,7 +200,7 @@ onError={(e) => {
                   src="/payment/nequi.png"
                   height={100}
                   width={100}
-                  alt=""
+                  alt="nequi payment image"
                 />
               </div>
             </div>

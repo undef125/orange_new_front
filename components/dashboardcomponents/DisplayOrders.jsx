@@ -13,6 +13,8 @@ import axios from "@/app/api/axiosinterceptor";
 import { toast } from "react-hot-toast";
 import { Modal } from "rsuite";
 import { Dropdown } from "rsuite";
+import { MdOutlinePageview } from "react-icons/md";
+import FullImage from "./FullImage";
 
 const DisplayOrders = ({ company }) => {
   const [currentProduct, setcurrentProduct] = useState({});
@@ -20,6 +22,8 @@ const DisplayOrders = ({ company }) => {
   const [currentOrder, setcurrentOrder] = useState({});
   const [open, setOpen] = React.useState(false);
   const [size, setSize] = React.useState();
+  const [showFullImage, setShowFullImage] = React.useState(false);
+  const [fullImageUrl, setfullImageUrl] = React.useState("");
   const handleOpen = (value) => {
     setSize(value);
     setOpen(true);
@@ -79,7 +83,7 @@ const DisplayOrders = ({ company }) => {
   }, []);
 
   return (
-    <div className="w-[100vw] w-max-[100%] h-screen flex justify-center bg-slate-200">
+    <div className="w-[100vw] max-w-[100%] h-screen flex justify-center bg-slate-200">
       <div className="w-[95%] md:w-[80%] flex flex-col items-center mt-[1rem]">
         <div>
           <h1 className="text-[1.5rem] md:text-[2.5rem] text-orange-500 ">
@@ -87,7 +91,7 @@ const DisplayOrders = ({ company }) => {
           </h1>
         </div>
         <div className="my-2 mb-4 bg-red-200">
-          <Dropdown title="Sort Orders By" >
+          <Dropdown title="Sort Orders By">
             <Dropdown.Item>
               <p
                 onClick={() => {
@@ -218,11 +222,13 @@ const DisplayOrders = ({ company }) => {
                       );
                     })}
                   </>
-                ) : 
-                <div className="w-[100%]">
-                  <p className="text-[1.5rem] font-semibold text-center">No Orders Available</p>
-                </div>
-                }
+                ) : (
+                  <div className="w-[100%]">
+                    <p className="text-[1.5rem] font-semibold text-center">
+                      No Orders Available
+                    </p>
+                  </div>
+                )}
               </Tbody>
             </Table>
           </TableContainer>
@@ -232,13 +238,33 @@ const DisplayOrders = ({ company }) => {
           open={open}
           handleClose={handleClose}
           currentOrder={currentOrder}
+          setShowFullImage={setShowFullImage}
+          showFullImage={showFullImage}
+          fullImageUrl={fullImageUrl}
+          setfullImageUrl={setfullImageUrl}
         />
       </div>
     </div>
   );
 };
 
-const DisplayOrderDetails = ({ size, open, handleClose, currentOrder }) => {
+const DisplayOrderDetails = ({
+  setShowFullImage,
+  showFullImage,
+  setfullImageUrl,
+  fullImageUrl,
+  size,
+  open,
+  handleClose,
+  currentOrder,
+}) => {
+  const [openFI, setOpenFI] = React.useState(false);
+  const [sizeFI, setSizeFI] = React.useState();
+  const handleOpenFI = (value) => {
+    setSizeFI(value);
+    setOpenFI(true);
+  };
+  const handleCloseFI = () => setOpenFI(false);
   return (
     <Modal size={size} open={open} onClose={handleClose}>
       <Modal.Header>
@@ -247,17 +273,29 @@ const DisplayOrderDetails = ({ size, open, handleClose, currentOrder }) => {
       <Modal.Body className="">
         <div className=" ">
           {currentOrder?.paymentProof ? (
-            <div className="my-2 flex justify-center items-center flex-col">
+            <div className="my-2 flex justify-center items-center flex-col relative group">
               <p className="text-[.9rem] text-slate-400">Payment Proof Image</p>
-              <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+              <Image
+                onError={(e) => {
+                  e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                }}
                 src={`${currentOrder?.paymentProof}`}
                 width={300}
                 height={300}
                 alt="cross"
+                className="group-hover:bg-slate-200"
               />
+              <div
+                className="absolute hidden group-hover:flex"
+                onClick={() => {
+                  setShowFullImage(true);
+                  setfullImageUrl(currentOrder?.paymentProof);
+                  setOpenFI(true);
+                  handleOpenFI("calc(100% - 20%)")
+                }}
+              >
+                <MdOutlinePageview className="text-[3rem] cursor-pointer" />
+              </div>
             </div>
           ) : null}
           <div className="grid grid-cols-2 gap-y-2">
@@ -327,10 +365,10 @@ onError={(e) => {
                       <Tr key={index} className="border-b-2 ">
                         <Td>
                           <div className=" flex justify-center items-center">
-                            <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                            <Image
+                              onError={(e) => {
+                                e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                              }}
                               src={`${product.image}`}
                               height="200"
                               width="200"
@@ -369,7 +407,17 @@ onError={(e) => {
           {/* table for displaying products in order */}
         </div>
       </Modal.Body>
-      <Modal.Footer></Modal.Footer>
+      <div className="absolute z-50">
+        <FullImage
+          fullImageUrl={fullImageUrl}
+          openFI={openFI}
+          setOpenFI={setOpenFI}
+          sizeFI={sizeFI}
+          setSizeFI={setSizeFI}
+          handleOpenFI={handleOpenFI}
+          handleCloseFI={handleCloseFI}
+        />
+      </div>
     </Modal>
   );
 };

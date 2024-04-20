@@ -92,9 +92,9 @@ const CheckOutDetailFillup = ({
     const isIOS = () => navigator.userAgent.match(/iPhone|iPad|iPod/i);
 
     if (isAndroid()) {
-      setisAndroid(true)
+      setisAndroid(true);
     } else if (isIOS()) {
-      setisIos(true)
+      setisIos(true);
     } else {
       setisAndroid(false);
       setisIos(false);
@@ -250,7 +250,9 @@ Total Price: ${totalAmount}
                 </button>
               </a>
               <a
-                href={`sms:${company?.phone}${isAndroid ? "?" : isIos ? "$" : "?"}body=${encodeURIComponent(`
+                href={`sms:${company?.phone}${
+                  isAndroid ? "?" : isIos ? "$" : "?"
+                }body=${encodeURIComponent(`
                 Hello, I want to place an order.
                 
 My details are as follows:
@@ -300,8 +302,8 @@ Total Price: ${totalAmount}
                 {/* one ra two ko photo here with proof input */}
                 {one ? (
                   <>
-                    <Image  
-onError={(e) => {
+                    <Image
+                      onError={(e) => {
                         e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
                       }}
                       src={`${company?.paymentOne?.qrImage}`}
@@ -316,10 +318,10 @@ onError={(e) => {
                 {two ? (
                   <div className="flex flex-col">
                     <div>
-                      <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                      <Image
+                        onError={(e) => {
+                          e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                        }}
                         src={`${company?.paymentTwo?.qrImage}`}
                         // src="/download.png"
                         height={100}
@@ -333,8 +335,8 @@ onError={(e) => {
 
                 {isChanged ? (
                   <>
-                    <Image  
-onError={(e) => {
+                    <Image
+                      onError={(e) => {
                         e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
                       }}
                       src={paymentProof}
@@ -367,6 +369,18 @@ onError={(e) => {
                     </div>
                   </div>
                 )}
+              </div>
+              <div className="px-5 text-[1.1rem] mb-2">
+                <p>
+                  On left there is qr code for payment method{" "}
+                  <strong>
+                    {one
+                      ? company?.paymentOne?.methodName
+                      : company?.paymentTwo?.methodName}
+                  </strong>{" "}
+                  and after payment you have to save that screenshot for proof of payment and upload
+                  it by clicking on the plus sign on right side and then confirm the order.
+                </p>
               </div>
               <button
                 className="bg-orange-500 font-semibold text-white px-10 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "

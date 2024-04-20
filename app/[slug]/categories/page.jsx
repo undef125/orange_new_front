@@ -52,14 +52,14 @@ const Page = () => {
                         </div>
                       </div>
                       <div className=" px-1">
-                        <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                        <Image
+                          onError={(e) => {
+                            e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                          }}
                           src={`${cat.categoryImage}`}
                           width={40}
                           height={40}
-                          alt="hello"
+                          alt="category images"
                           quality={100}
                           unoptimized
                           className="w-[100%] h-[15rem] object-cover"

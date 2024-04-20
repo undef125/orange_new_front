@@ -5,7 +5,7 @@ import { RxCross2 } from "react-icons/rx";
 import { TbEdit } from "react-icons/tb";
 import axios from "@/app/api/axiosinterceptor";
 import { toast } from "react-hot-toast";
-
+import { MdOutlinePageview } from "react-icons/md";
 
 const PersonalizePage = ({ getUserAndCompanyDetail,company }) => {
   const [updateValues, setupdateValues] = useState({});
@@ -33,7 +33,7 @@ const PersonalizePage = ({ getUserAndCompanyDetail,company }) => {
     marginBottom: 10,
   };
   return (
-    <div className="w-[100vw] h-screen flex justify-center bg-slate-200">
+    <div className="w-[100vw] max-w-[100%] h-screen flex justify-center bg-slate-200">
       <div className="mt-2">
         <div>
           <h1 className="text-center font-semibold text-[1.5rem] md:text-[3rem]">
@@ -56,6 +56,7 @@ const PersonalizePage = ({ getUserAndCompanyDetail,company }) => {
                     "logoImage",
                     "image",
                     "paymentMethods",
+                    "paymentOne"
                   ].includes(item)
                 )
                   return;

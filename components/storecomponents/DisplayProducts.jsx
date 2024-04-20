@@ -82,7 +82,7 @@ onError={(e) => {
                         src={`${prod.images[0] ? prod.images[0] : ""}`}
                         width={40}
                         height={40}
-                        alt="hello"
+                        alt="Product image"
                         className="h-[12rem] w-[15rem] object-cover rounded-t-md group-hover:scale-105  transition-all ease-in-out duration-300 "
                         unoptimized
                       />
@@ -162,7 +162,7 @@ onError={(e) => {
                         src={`${prod.images[0] ? prod.images[0] : ""}`}
                         width={40}
                         height={40}
-                        alt="hello"
+                        alt="Poructs images"
                         className="h-[12rem] w-[15rem] object-cover rounded-t-md"
                         unoptimized
                       />

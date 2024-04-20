@@ -124,9 +124,6 @@ export default function Signup() {
       <div className="hidden md:flex">
         <div className="w-[30vw] h-[1px] bg-orange-500 m-auto"></div>
         <div
-          onClick={() => {
-            setStepOne(true);
-          }}
           className={`border-[2px] cursor-pointer border-orange-400 rounded-full h-[4rem] w-[4rem] flex justify-center items-center ${
             stepOne ? "bg-orange-500 text-white" : ""
           }`}
@@ -135,9 +132,6 @@ export default function Signup() {
         </div>
         <div className="w-[25vw] h-[1px] bg-orange-500 m-auto"></div>
         <div
-          onClick={() => {
-            setStepOne(false);
-          }}
           className={`border-[2px] cursor-pointer border-orange-400 rounded-full h-[4rem] w-[4rem] flex justify-center items-center ${
             stepOne ? "" : "bg-orange-500 text-white"
           }`}

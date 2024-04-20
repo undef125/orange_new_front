@@ -62,11 +62,11 @@ const Login = () => {
   useEffect(() => {
     const handleRouteProtection = async () => {
       const resp = await protectRoute();
-      if(resp === undefined) null
-      else if(resp[0] === true && resp[1] === true) router.push('/dashboard')
-      else if(resp[0] === true && resp[1]=== false) router.push('/payment');
-      else if(resp[0] === false && resp[1]=== false) null
-      else null
+      if (resp === undefined) null;
+      else if (resp[0] === true && resp[1] === true) router.push("/dashboard");
+      else if (resp[0] === true && resp[1] === false) router.push("/payment");
+      else if (resp[0] === false && resp[1] === false) null;
+      else null;
     };
     handleRouteProtection();
   }, [isLoading]);
@@ -92,15 +92,15 @@ const Login = () => {
         <div className=" md:grid md:grid-cols-2 md:gap-x-[6rem] py-10  w-fit">
           <div className=" h-[70%] hidden md:flex  ">
             <div>
-              <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+              <Image
+                onError={(e) => {
+                  e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                }}
                 src="/login/login.svg"
                 height="500"
                 width="500"
                 className="sm:min-w-[500px] lg:w-[500px]"
-                alt="login page random image"
+                alt="login page vector image"
               />
             </div>
           </div>
@@ -134,6 +134,11 @@ onError={(e) => {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     className="focus:border-orange-500 focus:outline-none px-2 text-[1.2rem] border-2 rounded-lg border-orange-200 w-[95vw] sm:w-[25rem] h-[3rem]"
+                    onKeyDown={(e) => {
+                      if (e.key == "Enter") {
+                        handleSubmit();
+                      }
+                    }}
                   />
                   {passwordShow ? (
                     <GoEyeClosed

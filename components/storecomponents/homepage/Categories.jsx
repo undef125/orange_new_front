@@ -25,12 +25,12 @@ const Categories = ({ company, slug }) => {
 
   return (
     <div className="flex w-[95vw] m-auto my-16">
-      <div className="grid grid-flow-col-dense  overflow-hidden text-black justify-start gap-6  rounded w-[80%]  md:w-[95vw]  ">
+      <div className="grid grid-flow-col-dense  overflow-hidden text-black justify-start gap-6  rounded w-[80%]  md:w-[95vw] py-2   ">
         {categories.slice(0, 5).map((cat, idx) => {
           return (
             <div
               key={idx}
-              className="w-[22rem] h-[10rem] bg-white rounded-md grid grid-cols-2 place-items-center pl-2 hover:shadow-lg cursor-pointer group transition-all ease-in-out duration-300"
+              className="w-[22rem] h-[10rem] bg-white shadow-xl  rounded-md grid grid-cols-2 place-items-center pl-2 hover:shadow-lg hover:bg-slate-100 cursor-pointer group transition-all ease-in-out duration-300"
               onClick={() => {
                 router.push(
                   `/${slug}/categories?cmp=${company?._id}&nm=${company?.companyName}`
@@ -44,10 +44,10 @@ const Categories = ({ company, slug }) => {
                 <div className="text-gray-500">{cat.categoryDescription}</div>
               </div>
               <div className=" px-1">
-                <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                <Image
+                  onError={(e) => {
+                    e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                  }}
                   src={`${cat?.categoryImage ? cat.categoryImage : ""}`}
                   width={40}
                   height={40}

@@ -5,14 +5,14 @@ const nextConfig = {
     //   locales: ['en', 'es'], // Replace with your desired locales (e.g., 'fr', 'de')
     //   defaultLocale: 'en', // Set the default language
     // },
-    localeDetection: true,
+    // localeDetection: true,
     images: {
         remotePatterns: [
             {
-              protocol: 'http',
-              hostname: 'localhost',
-              // protocol: 'https',
-              // hostname: 'api.apexgoo.com',
+              // protocol: 'http',
+              // hostname: 'localhost',
+              protocol: 'https',
+              hostname: 'api.apexgoo.com',
               // // pathname: '**',
             },
           ],

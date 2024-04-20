@@ -217,7 +217,7 @@ onError={(e) => {
                         src={"/home_page/company.png"}
                         height={200}
                         width={200}
-                        alt="store"
+                        alt="store image"
                       />
                     </div>
                     <hr />

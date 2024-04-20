@@ -12,7 +12,6 @@ import { MdDeleteForever } from "react-icons/md";
 const styles = {
   width: 300,
   marginBottom: 10,
-
 };
 
 const CategoriesPage = ({ company }) => {
@@ -113,6 +112,9 @@ const CategoriesPage = ({ company }) => {
               <SearchIcon />
             </InputGroup.Button>
           </InputGroup>
+          {/* <Button onClick={() => handleOpen("50rem")} className="h-[2.4rem]">
+                <code>Add Product</code>
+              </Button> */}
           <Button onClick={() => handleOpen("50rem")} className="h-[2.4rem]">
             <code>Add Category</code>
           </Button>
@@ -136,10 +138,10 @@ const CategoriesPage = ({ company }) => {
                     >
                       <div className=" flex flex-col rounded   relative">
                         <div className=" flex justify-center  group/image">
-                          <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                          <Image
+                            onError={(e) => {
+                              e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                            }}
                             src={
                               image && currentCatIndex === index
                                 ? `${
