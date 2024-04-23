@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import axios from "../api/axiosinterceptor";
 import { getCookie, deleteCookie } from "cookies-next";
 import Router from "next/router";
@@ -9,6 +9,7 @@ import PaymentVerificationUpload from "@/components/paymentpagecomponents/Paymen
 import { Modal } from "rsuite";
 import { makeStripePayment, makePaypalPayment } from "./paymentUtilities";
 import protectRoute from "@/utilis/protectRoute";
+import {toast} from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
@@ -18,10 +19,28 @@ const Page = () => {
   const [open, setOpen] = useState(false);
   const [size, setSize] = useState();
   const [gateway, setGateway] = useState("");
+  const [refCode, setrefCode] = useState("");
+
   const handleOpen = (value) => {
     setSize(value);
     setOpen(true);
   };
+
+  const sendLicenceVerificationReq = async () => {
+    const toastId = toast.loading("Sending Verification Request......");
+    try {
+      await axios.post(`/sendverificationrequestlicence`, {
+        reference: refCode,
+        paymentMethod: "Licence Code",
+      });
+      toast.dismiss(toastId);
+      toast.success("Verification Request Sent Successfully");
+    } catch (error) {
+      toast.dismiss(toastId);
+      toast.error(error.response.data.msg);
+    }
+  };
+
   const handleClose = () => setOpen(false);
 
   const [orange, setorange] = useState([]);
@@ -31,12 +50,6 @@ const Page = () => {
       let resp = await axios.get("/getorange");
       setorange(resp.data.data[0]);
     } catch (error) {}
-  };
-
-  const logOut = () => {
-    deleteCookie("accesstoken", { path: "/" });
-    Router.push("/orange");
-    toast.success("Desconectado", { autoClose: 1000, toastId: "loggedout" });
   };
 
   const getPrice = async () => {
@@ -50,36 +63,36 @@ const Page = () => {
     } catch (error) {}
   };
 
-  const sendVerReq = async () => {
-    toastId.current = toast.loading("Enviando pedido...", { autoClose: false });
-    try {
-      await axios.get("/verifyreq", {
-        headers: {
-          Authorization: `Bearer ${getCoookie("accesstoken")}`,
-        },
-      });
-      toast.update(toastId.current, {
-        render: "Solicitud enviada",
-        type: toast.TYPE.SUCCESS,
-        autoClose: 1000,
-        isLoading: false,
-      });
-    } catch (error) {
-      error.response !== undefined
-        ? toast.update(toastId.current, {
-            render: error.response.data.msg,
-            type: toast.TYPE.ERROR,
-            autoClose: 1000,
-            isLoading: false,
-          })
-        : toast.update(toastId.current, {
-            render: "Fallido",
-            type: toast.TYPE.ERROR,
-            autoClose: 1000,
-            isLoading: false,
-          });
-    }
-  };
+  // const sendVerReq = async () => {
+  //   toastId.current = toast.loading("Enviando pedido...", { autoClose: false });
+  //   try {
+  //     await axios.get("/verifyreq", {
+  //       headers: {
+  //         Authorization: `Bearer ${getCoookie("accesstoken")}`,
+  //       },
+  //     });
+  //     toast.update(toastId.current, {
+  //       render: "Solicitud enviada",
+  //       type: toast.TYPE.SUCCESS,
+  //       autoClose: 1000,
+  //       isLoading: false,
+  //     });
+  //   } catch (error) {
+  //     error.response !== undefined
+  //       ? toast.update(toastId.current, {
+  //           render: error.response.data.msg,
+  //           type: toast.TYPE.ERROR,
+  //           autoClose: 1000,
+  //           isLoading: false,
+  //         })
+  //       : toast.update(toastId.current, {
+  //           render: "Fallido",
+  //           type: toast.TYPE.ERROR,
+  //           autoClose: 1000,
+  //           isLoading: false,
+  //         });
+  //   }
+  // };
 
   useEffect(() => {
     const handleRouteProtection = async () => {
@@ -111,7 +124,7 @@ const Page = () => {
             <button
               onClick={() => {
                 deleteCookie("token");
-                toast.error("Logout Successfull", { duration: 1000  });
+                toast.error("Logout Successfull", { duration: 1000 });
                 router.push("/login");
               }}
               className=" border-[1px] transition-all ease-in-out duration-300 text-[1.2rem] bg-orange-500 cursor-pointer px-3  rounded font-semibold hover:bg-white hover:border-orange-500 hover:border-[1px]"
@@ -122,24 +135,52 @@ const Page = () => {
           <div className=" flex flex-col gap-6">
             <div
               onClick={() => {
+                sendLicenceVerificationReq();
+              }}
+              className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer  "
+            >
+              <div className="flex justify-between items-center flex-wrap w-[100%]">
+                <div>
+                  <p className="text-[1.4rem]">Use License Code</p>
+                </div>
+                <div className="flex gap-4">
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Enter your text here"
+                      onChange={(e) => {
+                        setrefCode(e.target.value);
+                      }}
+                      value={refCode}
+                      className="bg-white focus:outline-none text-[1rem] focus:shadow-outline border border-gray-300 rounded-xl py-2 px-4 block w-full appearance-none leading-normal"
+                    />
+                  </div>
+                  <button className="text-sm bg-orange-400 px-2 py-2 rounded text-black hover:shadow-sm hover:shadow-slate-800 ">
+                    Send Verification Request
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              onClick={() => {
                 makeStripePayment();
               }}
               className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div className="flex justify-between items-center">
-                <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                <Image
+                  onError={(e) => {
+                    e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                  }}
                   src="/payment/stripe.png"
                   height={100}
                   width={100}
                   alt="stripe payment image"
                 />
-                <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                <Image
+                  onError={(e) => {
+                    e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                  }}
                   src="/payment/stripe2.png"
                   height="1013"
                   width="10126"
@@ -155,10 +196,10 @@ onError={(e) => {
               className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div>
-                <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                <Image
+                  onError={(e) => {
+                    e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                  }}
                   src="/payment/paypal.png"
                   height={100}
                   width={100}
@@ -174,10 +215,10 @@ onError={(e) => {
               className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div>
-                <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                <Image
+                  onError={(e) => {
+                    e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                  }}
                   src="/payment/zille.png"
                   height={100}
                   width={100}
@@ -193,10 +234,10 @@ onError={(e) => {
               className="bg-white flex justify-between px-4 md:px-10 items-center border-[1px] border-slate-600 rounded-xl w-[100%] h-[6rem] text-[2rem] font-medium text-slate-600 cursor-pointer hover:bg-orange-100 hover:border-slate-700 hover:shadow-sm hover:shadow-slate-800  "
             >
               <div>
-                <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                <Image
+                  onError={(e) => {
+                    e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                  }}
                   src="/payment/nequi.png"
                   height={100}
                   width={100}

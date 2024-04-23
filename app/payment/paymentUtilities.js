@@ -10,15 +10,16 @@ export const makeStripePayment = async () => {
 
     const response = await axios.post(
       "/create-checkout-session",
-      { subPrice: 100 },
+      { subPrice: 300 },
       {
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
+    console.log(response)
     const result = stripe.redirectToCheckout({
-      sessionId: response.data.id,
+      sessionId: response.data.sessionId,
     });
     toast.dismiss(toastId);
   } catch (error) {
