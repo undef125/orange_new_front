@@ -265,6 +265,21 @@ const DisplayOrderDetails = ({
     setOpenFI(true);
   };
   const handleCloseFI = () => setOpenFI(false);
+
+  const confirmOrder = async (orderId) => {
+    const toastId = toast.loading("deleting....");
+
+    try {
+      await axios.get(`/confirmorder/${orderId}`);
+      toast.dismiss(toastId);
+      toast.success("order confirmed!");
+    } catch (error) {
+      console.log(`error confirming order`);
+      toast.dismiss(toastId);
+      toast.error("error confirming order!");
+    }
+  };
+
   return (
     <Modal size={size} open={open} onClose={handleClose}>
       <Modal.Header>
@@ -291,7 +306,7 @@ const DisplayOrderDetails = ({
                   setShowFullImage(true);
                   setfullImageUrl(currentOrder?.paymentProof);
                   setOpenFI(true);
-                  handleOpenFI("calc(100% - 20%)")
+                  handleOpenFI("calc(100% - 20%)");
                 }}
               >
                 <MdOutlinePageview className="text-[3rem] cursor-pointer" />
@@ -403,6 +418,16 @@ const DisplayOrderDetails = ({
                 </Tbody>
               </Table>
             </TableContainer>
+            <div className="flex justify-center items-center">
+              <button
+                onClick={() => {
+                  confirmOrder(currentOrder?._id);
+                }}
+                className="bg-orange-400 py-2 px-4 font-bold rounded mt-4 hover:text-white hover:shadow-md transition-all ease-in-out duration-300"
+              >
+                Confirm Order
+              </button>
+            </div>
           </div>
           {/* table for displaying products in order */}
         </div>

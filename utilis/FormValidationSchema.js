@@ -47,6 +47,7 @@ export const productsValidationSchema = Yup.object({
   price: Yup.number().required("Product price is required"),
   discountPrice: Yup.number(),
   categoryId: Yup.string().required("Please select any category"),
+  totalQuantity: Yup.number(),
   model: Yup.string(),
   servesFor: Yup.string(),
   howToUse: Yup.string(),

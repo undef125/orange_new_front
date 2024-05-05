@@ -45,8 +45,8 @@ const Page = () => {
                     exit={{ opacity: 0 }}
                     className="m-auto"
                   >
-                    <Image  
-onError={(e) => {
+                    <Image
+                      onError={(e) => {
                         e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
                       }}
                       src={currImage}
@@ -67,10 +67,10 @@ onError={(e) => {
                           setcurrImage(img);
                         }}
                       >
-                        <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                        <Image
+                          onError={(e) => {
+                            e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                          }}
                           className="px-3 bg-[#d5d4d415] h-[100%] object-contain"
                           src={`${img}`}
                           width={100}
@@ -104,7 +104,7 @@ onError={(e) => {
                       let item = { ...currProduct };
                       item.companyId = currProduct?.companyId?._id;
                       item.categoryId = currProduct?.categoryId?._id;
-                      item.size = ""
+                      item.size = "";
                       addItemToCart(item);
                       toast.success("Item Added To Cart", {
                         duration: 1000,
@@ -119,55 +119,98 @@ onError={(e) => {
                   </div>
                   <div>
                     <p className="text-gray-500">
-                      <span className="font-semibold text-[1.1rem] ">Category:</span>  {currProduct?.categoryId?.categoryName}
+                      <span className="font-semibold text-[1.1rem] ">
+                        Category:
+                      </span>{" "}
+                      {currProduct?.categoryId?.categoryName}
                     </p>
                   </div>
-                  <div>
-                    <p className="text-gray-500"><span className="font-semibold text-[1.1rem] ">Model:</span> {currProduct?.model}</p>
-                  </div>
+                  {currProduct?.model ? (
+                    <div>
+                      <p className="text-gray-500">
+                        <span className="font-semibold text-[1.1rem] ">
+                          Model:
+                        </span>{" "}
+                        {currProduct?.model}
+                      </p>
+                    </div>
+                  ) : null}
 
-                  <div className="flex-col gap-2">
-                    <p className="text-gray-500 font-semibold text-[1.1rem]">How To Use:</p>
-                    <div className="flex-col gap-4">
-                      {currProduct?.howToUse?.split("/").map((size, idx) => {
-                        return (
-                          <div key={idx}>
-                            <div className="flex gap-2 items-center">
-                              <div className="h-2 w-2 rounded-xl bg-slate-500"></div>
-                              <p className="text-gray-500">{size}</p>
+                  {currProduct?.howToUse ? (
+                    <div className="flex-col gap-2">
+                      <p className="text-gray-500 font-semibold text-[1.1rem]">
+                        How To Use:
+                      </p>
+                      <div className="flex-col gap-4">
+                        {currProduct?.howToUse?.split("/").map((size, idx) => {
+                          return (
+                            <div key={idx}>
+                              <div className="flex gap-2 items-center">
+                                <div className="h-2 w-2 rounded-xl bg-slate-500"></div>
+                                <p className="text-gray-500">{size}</p>
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex-col gap-2">
-                    <p className="text-gray-500 font-semibold text-[1.1rem]">Serves For:</p>
-                    <div className="flex-col gap-4">
-                      {currProduct?.servesFor?.split("/").map((size, idx) => {
-                        return (
-                          <div key={idx}>
-                            <div className="flex gap-2 items-center">
-                              <div className="h-2 w-2 rounded-xl bg-slate-500"></div>
-                              <p className="text-gray-500">{size}</p>
+                  ) : null}
+
+                  {currProduct?.servesFor ? (
+                    <div className="flex-col gap-2">
+                      <p className="text-gray-500 font-semibold text-[1.1rem]">
+                        Serves For:
+                      </p>
+                      <div className="flex-col gap-4">
+                        {currProduct?.servesFor?.split("/").map((size, idx) => {
+                          return (
+                            <div key={idx}>
+                              <div className="flex gap-2 items-center">
+                                <div className="h-2 w-2 rounded-xl bg-slate-500"></div>
+                                <p className="text-gray-500">{size}</p>
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <p className="text-gray-500 font-semibold text-[1.1rem]">Sizes:</p>
-                    <div className="flex gap-4">
-                      {currProduct?.sizes?.split("/").map((size, idx) => {
-                        return (
-                          <div key={idx}>
-                            <p className="text-gray-500">{size}</p>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
+                  ) : null}
+
+                  {currProduct?.sizes ? (
+                    <>
+                      <div className="flex gap-2">
+                        <p className="text-gray-500 font-semibold text-[1.1rem]">
+                          Sizes:
+                        </p>
+                        <div className="flex gap-4">
+                          {currProduct?.sizes?.map((item, idx) => {
+                            return (
+                              <div key={idx}>
+                                <p className="text-gray-500">
+                                  {item.size.toUpperCase()}
+                                </p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <p className="text-gray-500 font-semibold text-[1.1rem]">
+                          In Stock:
+                        </p>
+                        <div className="flex gap-4">
+                          <p className="text-gray-500">
+                            {currProduct?.sizes.reduce(
+                              (accumulator, currentItem) =>
+                                accumulator + currentItem.quantity,
+                              0
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  ) : null}
+
                   <div>
                     <p className="text-gray-500 mb-3">
                       {currProduct?.description}

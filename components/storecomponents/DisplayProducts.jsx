@@ -75,10 +75,10 @@ const DisplayProducts = ({
                       }}
                       className="flex justify-end min-h-[12rem]  relative  overflow-hidden group-hover:rounded"
                     >
-                      <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                      <Image
+                        onError={(e) => {
+                          e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                        }}
                         src={`${prod.images[0] ? prod.images[0] : ""}`}
                         width={40}
                         height={40}
@@ -117,7 +117,7 @@ onError={(e) => {
                           className="text-[2.2rem] font-semibold hover:scale-110 transition-all duration-300 "
                           onClick={() => {
                             getProductCountInCart(prod?._id) === 0
-                              ? removeCartItem(prod?._id)
+                              ? ""
                               : updateCartItem(prod?._id, "-");
                             toast.success("Cart Updated", {
                               duration: 1000,
@@ -155,10 +155,10 @@ onError={(e) => {
                       }}
                       className="flex justify-end min-h-[12rem] cursor-pointer relative "
                     >
-                      <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                      <Image
+                        onError={(e) => {
+                          e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                        }}
                         src={`${prod.images[0] ? prod.images[0] : ""}`}
                         width={40}
                         height={40}
@@ -197,7 +197,7 @@ onError={(e) => {
                           className="text-[2.2rem] font-semibold hover:scale-110 transition-all duration-300 "
                           onClick={() => {
                             getProductCountInCart(prod?._id) === 0
-                              ? removeCartItem(prod?._id)
+                              ? ""
                               : updateCartItem(prod?._id, "-");
                             toast.success("Cart Updated", {
                               duration: 1000,

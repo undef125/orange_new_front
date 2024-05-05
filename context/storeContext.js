@@ -28,6 +28,7 @@ export const StoreProvider = ({ children }) => {
   useEffect(() => {
     //setting cartItems here
     setcartItems(getCartItems());
+    deleteExpiredCartItems();
   }, [company]);
 
   const getCompanyDet = async (slug) => {
@@ -41,15 +42,31 @@ export const StoreProvider = ({ children }) => {
     }
   };
 
-  const addItemToCart = (item) => {
-    const updatedCartItems = cartItems.length > 0 ? [...cartItems] : [];
+  const deleteExpiredCartItems = () => {
+    if (cartItems.length > 0) {
+      console.log(cartItems[0]?.expiryDate > new Date().getTime());
+      let updatedCartItems = cartItems.filter(
+        (item) => item.expiryDate > new Date().getTime()
+      );
+      localStorage.setItem("cart", JSON.stringify(updatedCartItems));
+      setcartItems(updatedCartItems);
+    }
+  };
 
+  const addItemToCart = (item) => {
+    item.expiryDate = new Date().getTime() + 1800000;
+    const updatedCartItems = cartItems.length > 0 ? [...cartItems] : [];
     const existingItemIndex = updatedCartItems.findIndex(
       (prod) => prod._id === item._id
     );
 
     if (existingItemIndex !== -1) {
-      updatedCartItems[existingItemIndex].count += 1;
+      let toUpdateItem = updatedCartItems[existingItemIndex];
+      if (!updatedCartItems[existingItemIndex]?.sizes) {
+        if (toUpdateItem.count < toUpdateItem.totalQuantity) {
+          updatedCartItems[existingItemIndex].count += 1;
+        }
+      }
     } else {
       item.count = 1;
       updatedCartItems.push(item);
@@ -69,14 +86,31 @@ export const StoreProvider = ({ children }) => {
   };
 
   const updateCartItem = (itemId, todo) => {
+    console.log("updateMaAakoId: " + itemId)
     const udptedCartItem = cartItems.map((item) => {
       if (item._id === itemId) {
-        if(todo === "+") {
-          item.count += 1
-        } else if(todo === "-") {
-         item.count === 0 ? '' : item.count -= 1
+        if (todo === "+" && item.count < item.totalQuantity) {
+          console.log(`plus: ${item._id}`)
+          if (item?.sizes.length > 0) {
+            if (item.size == undefined ) {
+              item.size = item.sizes[0].size;
+            }
+            
+            let { quantity } = item.sizes.filter(
+              (sizeobj) => sizeobj.size === item.size
+              )[0];
+              if (item.count < quantity) {
+                item.count += 1;
+              }
+            } else {
+              item.count += 1;
+            }
+          } else if (todo === "-") {
+          console.log(`minus: ${item._id}`)
+          item.count === 0 ? "" : (item.count -= 1);
         }
       }
+      item.expiryDate = new Date().getTime() + 1800000;
       return item;
     });
     localStorage.setItem("cart", JSON.stringify(udptedCartItem));
@@ -85,7 +119,8 @@ export const StoreProvider = ({ children }) => {
   const updateCartItemSizes = (itemId, tosize) => {
     const udptedCartItem = cartItems.map((item) => {
       if (item._id === itemId) {
-        item.size = tosize
+        item.size = tosize;
+        item.count = 1;
       }
       return item;
     });
@@ -125,6 +160,7 @@ export const StoreProvider = ({ children }) => {
         updateCartItem,
         removeCartItem,
         updateCartItemSizes,
+        deleteExpiredCartItems,
       }}
     >
       {children}

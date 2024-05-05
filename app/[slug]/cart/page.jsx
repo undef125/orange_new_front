@@ -21,16 +21,18 @@ import BackBtnPop from "@/components/BackBtnPop";
 const Page = () => {
   const params = useParams();
   const [totalAmount, settotalAmount] = useState(0);
-  const { cartItems, updateCartItem, removeCartItem, updateCartItemSizes } = useStoreContext();
+  const { cartItems, updateCartItem, removeCartItem, updateCartItemSizes } =
+    useStoreContext();
   const [open, setOpen] = useState(false);
   const [size, setSize] = useState();
-  const [productSize, setproductSize] = useState();
+  // const [productSize, setproductSize] = useState();
 
   const handleOpen = (value) => {
     setSize(value);
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
+
   useEffect(() => {
     const totalPrice = cartItems.reduce(
       (acc, product) => acc + product.price * product.count,
@@ -90,10 +92,10 @@ const Page = () => {
                       </Td>
                       <Td>
                         <div className=" flex justify-center items-center">
-                          <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                          <Image
+                            onError={(e) => {
+                              e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                            }}
                             src={`${product.images[0]}`}
                             height="200"
                             width="200"
@@ -138,13 +140,20 @@ onError={(e) => {
                           <div>
                             {" "}
                             {product?.sizes ? (
-                              <Select placeholder="Select size"  onChange={(e) => {
-                                updateCartItemSizes(product?._id, e.target.value);
-                              }} value={product?.size } >
-                                {product?.sizes?.split("/")?.map((size, idx) => {
+                              <Select
+                                placeholder="Select size"
+                                onChange={(e) => {
+                                  updateCartItemSizes(
+                                    product?._id,
+                                    e.target.value
+                                  );
+                                }}
+                                value={product?.size}
+                              >
+                                {product?.sizes?.map((item, idx) => {
                                   return (
-                                    <option key={idx} value={size}>
-                                      {size}
+                                    <option key={idx} value={item?.size}>
+                                      {item?.size}
                                     </option>
                                   );
                                 })}
@@ -182,7 +191,7 @@ onError={(e) => {
           <div className="md:w-[30rem] flex flex-col gap-4 ">
             <div className="flex justify-between mt-4">
               <p>Shipping</p>
-              <p>Free</p>
+              <p>{}</p>
             </div>
             <div className="h-[1px] bg-gray-400 md:w-[30rem]"></div>
           </div>

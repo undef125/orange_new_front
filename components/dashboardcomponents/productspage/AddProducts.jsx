@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { productsValidationSchema } from "@/utilis/FormValidationSchema";
 import { Modal, SelectPicker } from "rsuite";
 import { useFormik } from "formik";
@@ -29,6 +29,23 @@ const AddProducts = ({
   catNames,
   getProducts,
 }) => {
+  const [sizes, setSizes] = useState([]);
+  const [newSize, setNewSize] = useState("");
+  const [newQuantity, setNewQuantity] = useState("");
+
+  const handleAddSizeQuantity = () => {
+    if (newSize && newQuantity) {
+      setSizes([...sizes, { size: newSize, quantity: newQuantity }]);
+      setNewSize("");
+      setNewQuantity("");
+    }
+  };
+
+  const handleRemoveSizeQuantity = (index) => {
+    const updatedSizes = sizes.filter((_, i) => i !== index);
+    setSizes(updatedSizes);
+  };
+
   const {
     values,
     handleBlur,
@@ -42,12 +59,21 @@ const AddProducts = ({
     validationSchema: productsValidationSchema,
     onSubmit: async (values) => {
       try {
-        const toastId = toast.loading("adding product......")
-         await axios.post(`/addproduct`, {
+        const toastId = toast.loading("adding product......");
+        console.log(values.totalQuantity);
+        await axios.post(`/addproduct`, {
           ...values,
-          companyId: company?._id
+          companyId: company?._id,
+          totalQuantity:
+            values.totalQuantity == undefined
+              ? sizes.reduce((accumulator, currentItem) => {
+                  return accumulator + parseInt(currentItem.quantity);
+                }, 0)
+              : values.totalQuantity,
+          sizes,
         });
         setOpen(false);
+        setSizes([]);
         getProducts();
         toast.dismiss(toastId);
         toast.success("Product Added Successfully");
@@ -60,13 +86,16 @@ const AddProducts = ({
   });
 
   return (
-    <div className="flex justify-center" >
-      <Modal size={size} open={open} onClose={handleClose} >
+    <div className="flex justify-center">
+      <Modal size={size} open={open} onClose={handleClose}>
         <Modal.Header>
           <Modal.Title>Add New Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-[95vw] md:w-auto">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-4 w-[95vw] md:w-auto"
+          >
             <div>
               <input
                 size="md"
@@ -160,17 +189,17 @@ const AddProducts = ({
                     setFieldValue("categoryId", value);
                   }}
                 />
-                {errors.name && (
-                  <div className="text-red-500">{errors.description}</div>
+                {errors.categoryId && (
+                  <div className="text-red-500">{errors.categoryId}</div>
                 )}
               </div>
               <div>
                 <input
                   size="md"
-                  type="text"
-                  placeholder="Model of your product..."
-                  name="model"
-                  value={values.model}
+                  type="number"
+                  placeholder="Total Quantity..."
+                  name="totalQuantity"
+                  value={values.totalQuantity}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
@@ -198,9 +227,9 @@ const AddProducts = ({
                 onBlur={handleBlur}
                 className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
               />
-              {errors.name && (
+              {/* {errors.name && (
                 <div className="text-red-500">{errors.description}</div>
-              )}
+              )} */}
             </div>
 
             <div className="flex flex-col gap-2 md:grid md:grid-cols-2 ">
@@ -226,26 +255,76 @@ const AddProducts = ({
               />
             </div>
             <div>
-              <input
-                size="md"
-                type="text"
-                placeholder="Product sizes available..."
-                name="sizes"
-                value={values.sizes}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
-              />
+                <input
+                  size="md"
+                  type="text"
+                  placeholder="Model of your product..."
+                  name="model"
+                  value={values.model}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
+                />
+                {/* <input
+                  size="md"
+                  type="text"
+                  placeholder="Shipping Cost of your product..."
+                  name="shippingCost"
+                  value={values.shippingCost}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="border-[2px] my-4 border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[90vw] md:w-[100%] "
+                /> */}
+            </div>
+            <div>
+              <h2>Product Sizes and Quantities</h2>
+              <div className="flex flex-wrap gap-4">
+                <input
+                  type="text"
+                  placeholder="Size"
+                  value={newSize}
+                  onChange={(e) => setNewSize(e.target.value)}
+                  className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[30%] md:min-w-[30%] "
+                />
+                <input
+                  type="number"
+                  placeholder="Quantity"
+                  value={newQuantity}
+                  onChange={(e) => setNewQuantity(e.target.value)}
+                  className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 w-[30%] md:min-w-[30%] "
+                />
+                <div
+                  onClick={() => {
+                    handleAddSizeQuantity();
+                  }}
+                  className="w-[20%] bg-slate-300 flex justify-center items-center text-3xl rounded cursor-pointer hover:shadow-md transition-all ease-in-out duration-300"
+                >
+                  ✔
+                </div>
+              </div>
+              <ul className="flex flex-wrap gap-4 mt-2">
+                {sizes.map((item, index) => (
+                  <li key={index} className="flex gap-2 items-center">
+                    {item.size} - {item.quantity}
+                    <button
+                      onClick={() => handleRemoveSizeQuantity(index)}
+                      className="bg-red-400 py-1 px-2 rounded text-white"
+                    >
+                      Remove
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </div>
             <div className="flex justify-center items-center">
               <button
                 type="button"
                 className="bg-orange-500 font-semibold text-white px-10 py-2 rounded text-[1.1rem] border-[2px] transition-all duration-300 ease-in-out hover:bg-white hover:border-[2px] hover:border-orange-500 hover:text-black "
                 onClick={() => {
-                    handleSubmit();
+                  handleSubmit();
                 }}
               >
-                Add Category
+                Add Product
               </button>
             </div>
           </form>

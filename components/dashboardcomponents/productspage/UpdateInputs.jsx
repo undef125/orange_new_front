@@ -55,12 +55,35 @@ const UpdateInputs = ({
             </>
           ) : keyName === "categoryId" ? (
             ""
+          ) : keyName === "sizes" ? (
+            <div>
+              {
+                product["sizes"]?.map((item, index)=> {
+                  return (
+                    <div key={index}>
+
+                      <p>{item.size}</p>
+                      <p>{item.quantity}</p>
+                    </div>
+                  )
+                })
+              }
+
+            </div>
           ) : (
             <p className="font-semibold text-[1.2rem] placeholder-black">
               {product[`${keyName}`] ? product[`${keyName}`] : "No Value"}
             </p>
           )}
         </div>
+        <div></div>
+        {/* {
+          editing === "sizes" ? ( 
+            <div>
+
+            </div>
+          ) : null
+        } */}
         <div>
           {editing === keyName ? (
             <div className="flex ">

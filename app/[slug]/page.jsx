@@ -8,13 +8,13 @@ import { useStoreContext } from "@/context/storeContext";
 import StoreFooter from "@/components/storecomponents/StoreFooter";
 import StoreNav from "@/components/storecomponents/StoreNav";
 import { useRouter } from "next/navigation";
-import axios from "@/app/api/axiosinterceptor";
 
 const Page = () => {
   const router = useRouter();
   const params = useParams();
   const [loading, setLoading] = useState(false);
-  const { getCompanyDet, company, colors } = useStoreContext();
+  const { getCompanyDet, company, colors, deleteExpiredCartItems } =
+    useStoreContext();
 
   useEffect(() => {
     setLoading(true);
@@ -75,7 +75,7 @@ const Page = () => {
               </div>
               <div className="flex w-[100%] md:w-[50%] flex-end ">
                 {company?.coverImage && (
-                  <Image  
+                  <Image
                     src={company?.coverImage}
                     height={150}
                     width={300}

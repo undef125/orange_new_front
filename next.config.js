@@ -9,11 +9,11 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        // protocol: 'http',
-        // hostname: 'localhost',
-        protocol: "https",
-        hostname: "api.apexgoo.com",
-        pathname: "**",
+        protocol: 'http',
+        hostname: 'localhost',
+        // protocol: "https",
+        // hostname: "api.apexgoo.com",
+        // pathname: "**",
       },
     ],
   },

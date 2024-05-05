@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   Table,
@@ -16,6 +16,7 @@ import UpdateInputs from "./UpdateInputs";
 import toBase64 from "@/utilis/FileToBase64";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-hot-toast";
+import { MdDeleteForever } from "react-icons/md";
 
 const ListingProducts = ({ products, catNames, getProducts }) => {
   const [editing, setediting] = useState("");
@@ -76,10 +77,10 @@ const ListingProducts = ({ products, catNames, getProducts }) => {
                     <Tr key={index}>
                       <Td>
                         <div className=" flex flex-col rounded   relative">
-                          <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                          <Image
+                            onError={(e) => {
+                              e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                            }}
                             src={`${product.images[0]}`}
                             height="200"
                             width="200"
@@ -179,8 +180,23 @@ const ProductEditModal = ({
     }
   };
 
+  const ftnToRemoveSize = (index) => {
+    const updatedSizes = [...(updateValues.sizes || product.sizes)];
+    updatedSizes.splice(index, 1);
+    setupdateValues({
+      ...updateValues,
+      sizes: updatedSizes,
+      totalQuantity: updatedSizes.reduce(
+        (accumulator, sizeobj) => accumulator + sizeobj.quantity,
+        0
+      ),
+    });
+    setchangesMade(true);
+  };
+
   return (
     <Modal size={"calc(100% - 120px)"} open={open} onClose={handleClose}>
+      {console.log(updateValues)}
       <Modal.Header>
         <Modal.Title>Edit Product</Modal.Title>
       </Modal.Header>
@@ -192,9 +208,9 @@ const ProductEditModal = ({
               return (
                 <div className="relative group" key={index}>
                   <div className=" flex flex-col flex-wrap rounded   relative">
-                    <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                    <Image
+                      onError={(e) => {
+                        e.target.src = "/fallbackimage.png";
                       }}
                       src={`${image}`}
                       height="200"
@@ -246,8 +262,8 @@ onError={(e) => {
                     className=" flex flex-col flex-wrap rounded   relative"
                     key={index}
                   >
-                    <Image  
-onError={(e) => {
+                    <Image
+                      onError={(e) => {
                         e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
                       }}
                       src={`${image}`}
@@ -264,7 +280,9 @@ onError={(e) => {
         </div>
         <div className="grid grid-cols-2 gap-y-6">
           {Object.keys(product).map((keyName, index) => {
-            if (!["__v", "_id", "images", "companyId"].includes(keyName)) {
+            if (
+              !["__v", "_id", "images", "companyId", "sizes"].includes(keyName)
+            ) {
               return (
                 <UpdateInputs
                   product={product}
@@ -280,6 +298,20 @@ onError={(e) => {
               );
             }
           })}
+          <div>
+            <p>Sizes:</p>
+            <div className="flex gap-4 ">
+              {(updateValues?.sizes || product?.sizes)?.map((item, index) => (
+                <div key={index} className="">
+                  <div className="flex gap-2 items-center">
+                    <p>{item.size.toUpperCase()} </p>
+                    <p>{item.quantity}</p>
+                    <MdDeleteForever onClick={() => ftnToRemoveSize(index)} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>{" "}
         </div>
       </Modal.Body>
       <Modal.Footer>

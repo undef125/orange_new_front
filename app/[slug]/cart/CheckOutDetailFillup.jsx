@@ -378,8 +378,9 @@ Total Price: ${totalAmount}
                       ? company?.paymentOne?.methodName
                       : company?.paymentTwo?.methodName}
                   </strong>{" "}
-                  and after payment you have to save that screenshot for proof of payment and upload
-                  it by clicking on the plus sign on right side and then confirm the order.
+                  and after payment you have to save that screenshot for proof
+                  of payment and upload it by clicking on the plus sign on right
+                  side and then confirm the order.
                 </p>
               </div>
               <button
@@ -397,6 +398,7 @@ Total Price: ${totalAmount}
                           : ""
                       );
                   handleSubmit();
+                  localStorage.setItem("cart", "");
                 }}
               >
                 Confirm Order
