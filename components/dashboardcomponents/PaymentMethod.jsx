@@ -6,6 +6,7 @@ import toBase64 from "@/utilis/FileToBase64";
 import axios from "@/app/api/axiosinterceptor";
 import { Input, InputGroup } from "rsuite";
 import { toast } from "react-hot-toast";
+import { MdDeleteForever } from "react-icons/md";
 
 const PaymentMethod = ({ company, getUserAndCompanyDetail }) => {
   const [editOnePayment, seteditOnePayment] = useState(false);
@@ -17,10 +18,24 @@ const PaymentMethod = ({ company, getUserAndCompanyDetail }) => {
   const [payTwo, setpayTwo] = useState(false);
   const [backup, setbackup] = useState([]);
 
+  const removePaymentMethod = async (companyId, number) => {
+    const toastId = toast.loading("Removing Payment Method...");
+    try {
+      await axios.post(`/removepaymentmethod/${companyId}`, {
+        paymentNumber: number,
+      });
+      toast.dismiss(toastId);
+      toast.success("Payment Method Removed!");
+    } catch (error) {
+      toast.dismiss(toastId);
+      toast.error("Failed to remove!");
+    }
+  };
+
   const updateCompanyPaymentImage = async () => {
     const toastId = toast.loading("Updating Image...");
     try {
-    await axios.put(`updatepaymentdetail/${company?._id}`, updateValues);
+      await axios.put(`updatepaymentdetail/${company?._id}`, updateValues);
       toast.dismiss(toastId);
       setchangesTwoPayment(false);
       setchangesOnePayment(false);
@@ -79,14 +94,16 @@ const PaymentMethod = ({ company, getUserAndCompanyDetail }) => {
             <div className="relative group">
               {!editOnePayment ? (
                 <>
-                  <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                  <Image
+                    onError={(e) => {
+                      e.target.src = "/fallbackimage.png";
+                    }}
                     src={
                       changesOnePayment
                         ? updateValues?.onePayment
-                        : company?.paymentOne?.qrImage ? `${company?.paymentOne?.qrImage }` : company?.paymentOne?.qrImage
+                        : company?.paymentOne?.qrImage
+                        ? `${company?.paymentOne?.qrImage}`
+                        : company?.paymentOne?.qrImage
                     }
                     height={300}
                     width={300}
@@ -140,11 +157,13 @@ onError={(e) => {
                   value={
                     payOne
                       ? updateValues.onePaymentName
-                      : company.paymentOne?.methodName ? company.paymentOne?.methodName : ''
+                      : company.paymentOne?.methodName
+                      ? company.paymentOne?.methodName
+                      : ""
                   }
                   readOnly={!payOne}
                   onChange={(value) => {
-                    setpayOne(true)
+                    setpayOne(true);
                     setupdateValues({
                       ...updateValues,
                       onePaymentName: value,
@@ -161,6 +180,19 @@ onError={(e) => {
                 </InputGroup.Addon>
               </InputGroup>
             </div>
+            {company?.paymentOne?.qrImage ? (
+              <div>
+                <button
+                  className="flex  gap-2 justify-center items-center bg-red-400 px-2 py-1 rounded mt-3  hover:shadow-lg transition-all ease-in-out duration-300"
+                  onClick={() => {
+                    console.log();
+                    removePaymentMethod(company?._id, "One");
+                  }}
+                >
+                  Remove <MdDeleteForever />
+                </button>
+              </div>
+            ) : null}
           </div>
           <div className="w-fit ">
             <h1 className="font-semibold text-[1.2rem] my-3 text-slate-500">
@@ -169,14 +201,16 @@ onError={(e) => {
             <div className="relative group">
               {!editTwoPayment ? (
                 <>
-                  <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                  <Image
+                    onError={(e) => {
+                      e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                    }}
                     src={
                       changesTwoPayment
                         ? updateValues?.twoPayment
-                        : company?.paymentTwo?.qrImage ? `${company?.paymentTwo?.qrImage }` : company?.paymentTwo?.qrImage
+                        : company?.paymentTwo?.qrImage
+                        ? `${company?.paymentTwo?.qrImage}`
+                        : company?.paymentTwo?.qrImage
                     }
                     height={300}
                     width={300}
@@ -230,7 +264,9 @@ onError={(e) => {
                   value={
                     payTwo
                       ? updateValues.twoPaymentName
-                      : company.paymentTwo?.methodName ? company.paymentTwo?.methodName : ''
+                      : company.paymentTwo?.methodName
+                      ? company.paymentTwo?.methodName
+                      : ""
                   }
                   readOnly={!payTwo}
                   onChange={(value) => {
@@ -251,6 +287,18 @@ onError={(e) => {
                 </InputGroup.Addon>
               </InputGroup>
             </div>
+            {company?.paymentTwo?.qrImage ? (
+              <div>
+                <button
+                  className="flex  gap-2 justify-center items-center bg-red-400 px-2 py-1 rounded mt-3  hover:shadow-lg transition-all ease-in-out duration-300"
+                  onClick={() => {
+                    removePaymentMethod(company?._id, "Two");
+                  }}
+                >
+                  Remove <MdDeleteForever />
+                </button>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

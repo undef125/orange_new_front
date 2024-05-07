@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Input, InputGroup } from "rsuite";
 import { MdOutlineDone } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
@@ -7,28 +7,44 @@ import axios from "@/app/api/axiosinterceptor";
 import { toast } from "react-hot-toast";
 import { MdOutlinePageview } from "react-icons/md";
 
-const PersonalizePage = ({ getUserAndCompanyDetail,company }) => {
+const PersonalizePage = ({ getUserAndCompanyDetail, company }) => {
   const [updateValues, setupdateValues] = useState({});
   const [currIndex, setcurrIndex] = useState(-1);
   const [read, setread] = useState(true);
   const [editing, setediting] = useState("");
   const [changesMade, setchangesMade] = useState(false);
   const [restoreValue, setrestoreValue] = useState("");
+  const [shippingChoosen, setshippingChoosen] = useState();
+  // const [shippingValue, setshippingValue] = useState();
 
- const updateCompanyDetails = async() => {
-  const toastId = toast.loading("Updating details...")
-  try {
-    await axios.post(`updatecompanydetails/${company?._id}`, updateValues)
-    setchangesMade(false);
-    setediting("");
-    setupdateValues({})
-    toast.dismiss(toastId);
-    toast.success("updated successfully!")
-  } catch (error) {
-    toast.dismiss(toastId);
-    toast.error("updation failed!")
-  }
- }
+  const shipValRef = useRef(null);
+
+  const updateCompanyDetails = async () => {
+    const toastId = toast.loading("Updating details...");
+    try {
+      await axios.post(`updatecompanydetails/${company?._id}`, {
+        ...updateValues,
+        shippingCost:
+          shippingChoosen == 0
+            ? 0
+            : shippingChoosen == 1
+            ? "atcheckout"
+            : shippingChoosen == 2
+            ? shipValRef.current.value
+            : "",
+      });
+      setchangesMade(false);
+      setshippingChoosen(-1);
+      setediting("");
+      setupdateValues({});
+      toast.dismiss(toastId);
+      toast.success("updated successfully!");
+    } catch (error) {
+      toast.dismiss(toastId);
+      toast.error("updation failed!");
+    }
+  };
+
   const styles = {
     marginBottom: 10,
   };
@@ -56,96 +72,158 @@ const PersonalizePage = ({ getUserAndCompanyDetail,company }) => {
                     "logoImage",
                     "image",
                     "paymentMethods",
-                    "paymentOne"
+                    "paymentOne",
+                    "paymentTwo",
+                    "shippingCost",
                   ].includes(item)
                 )
                   return;
                 return (
                   <div
-                  key={index}
+                    key={index}
                     className={`${item === "socialMedias" ? "order-last" : ""}`}
                   >
                     {item}
                     {item === "socialMedias" ? (
-                      <div className="order-last">
-                        {Object.keys(company[`${item}`]).map((smedia, idx) => {
-                          return (
-                            <InputGroup
-                              size="lg"
-                              inside
-                              style={styles}
-                              key={idx}
-                            >
-                              <Input
-                                value={company[`${item}`][`${smedia}`]}
-                                className="w-[40rem]"
-                                readOnly={
-                                  !read && currIndex === idx ? false : true
-                                }
-                                placeholder={`${smedia}`}
-                                onChange={(text) => {
-                                  setupdateValues({ 
-                                    ...updateValues,
-                                    [item]: {
-                                      ...updateValues[`${item}`],
-                                      [smedia]: text,
-                                    },
-                                  });
-                                  company[`${item}`][`${smedia}`] = text;
-                                }}
-                              />
-                              <InputGroup.Button>
-                                {editing === smedia ? (
-                                  <div className="flex ">
-                                    <MdOutlineDone
-                                      className="text-[2rem] hover:text-green-500 cursor-pointer "
-                                      onClick={() => {
-                                        setediting("");
-                                        setchangesMade(true);
-                                        setread(true);
-                                        company[`${item}`][`${smedia}`] =
-                                          updateValues[`${item}`][`${smedia}`];
-                                      }}
-                                    />
-                                    <RxCross2
-                                      className="text-[2rem] hover:text-red-500 cursor-pointer "
-                                      onClick={() => {
-                                        setediting("");
-                                        setread(true);
-                                        setupdateValues({
-                                          ...updateValues,
-                                          [item]: {
-                                            [smedia]: ""
-                                          },
-                                        });
-                                        company[`${item}`][`${smedia}`] = restoreValue;
-                                        setrestoreValue("");
-                                      }}
-                                    />
-                                  </div>
-                                ) : (
-                                  <TbEdit
-                                    className="text-[2rem] hover:text-orange-500 cursor-pointer "
-                                    onClick={() => {
-                                      setcurrIndex(idx);
-                                      setread(false);
-                                      setediting(smedia);
-                                      setrestoreValue(
-                                        company[`${item}`][`${smedia}`]
-                                      );
+                      <>
+                        <div className="order-last grid grid-cols-2 gap-x-1">
+                          {Object.keys(company[`${item}`]).map(
+                            (smedia, idx) => {
+                              return (
+                                <InputGroup
+                                  size="lg"
+                                  inside
+                                  style={styles}
+                                  key={idx}
+                                >
+                                  <Input
+                                    value={company[`${item}`][`${smedia}`]}
+                                    className="w-[40rem]"
+                                    readOnly={
+                                      !read && currIndex === idx ? false : true
+                                    }
+                                    placeholder={`${smedia}`}
+                                    onChange={(text) => {
+                                      setupdateValues({
+                                        ...updateValues,
+                                        [item]: {
+                                          ...updateValues[`${item}`],
+                                          [smedia]: text,
+                                        },
+                                      });
+                                      company[`${item}`][`${smedia}`] = text;
                                     }}
                                   />
-                                )}
-                              </InputGroup.Button>
-                            </InputGroup>
-                          );
-                        })}
-                      </div>
+                                  <InputGroup.Button>
+                                    {editing === smedia ? (
+                                      <div className="flex ">
+                                        <MdOutlineDone
+                                          className="text-[2rem] hover:text-green-500 cursor-pointer "
+                                          onClick={() => {
+                                            setediting("");
+                                            setchangesMade(true);
+                                            setread(true);
+                                            company[`${item}`][`${smedia}`] =
+                                              updateValues[`${item}`][
+                                                `${smedia}`
+                                              ];
+                                          }}
+                                        />
+                                        <RxCross2
+                                          className="text-[2rem] hover:text-red-500 cursor-pointer "
+                                          onClick={() => {
+                                            setediting("");
+                                            setread(true);
+                                            setupdateValues({
+                                              ...updateValues,
+                                              [item]: {
+                                                [smedia]: "",
+                                              },
+                                            });
+                                            company[`${item}`][`${smedia}`] =
+                                              restoreValue;
+                                            setrestoreValue("");
+                                          }}
+                                        />
+                                      </div>
+                                    ) : (
+                                      <TbEdit
+                                        className="text-[2rem] hover:text-orange-500 cursor-pointer "
+                                        onClick={() => {
+                                          setcurrIndex(idx);
+                                          setread(false);
+                                          setediting(smedia);
+                                          setrestoreValue(
+                                            company[`${item}`][`${smedia}`]
+                                          );
+                                        }}
+                                      />
+                                    )}
+                                  </InputGroup.Button>
+                                </InputGroup>
+                              );
+                            }
+                          )}
+                        </div>
+                        <div>
+                          <p>Choose Shipping Cost Option:</p>
+                          <div className="flex gap-3">
+                            <div
+                              className="bg-green-300 px-4 py-2 rounded my-3"
+                              onClick={() => {
+                                setshippingChoosen(0);
+                                setchangesMade(true);
+                                setupdateValues({
+                                  ...updateValues,
+                                  shippingCost: 0,
+                                });
+                              }}
+                            >
+                              Free
+                            </div>
+                            <div
+                              className="bg-green-300 px-4 py-2 rounded my-3"
+                              onClick={() => {
+                                setshippingChoosen(1);
+                                setchangesMade(true);
+                                setupdateValues({
+                                  ...updateValues,
+                                  shippingCost: "checkout",
+                                });
+                              }}
+                            >
+                              At Checkout
+                            </div>
+                            <div
+                              className="bg-green-300 px-4 py-2 rounded my-3"
+                              onClick={() => {
+                                setshippingChoosen(2);
+                                setchangesMade(true);
+                              }}
+                            >
+                              Set Cost
+                              {shippingChoosen === 2 ? (
+                                <>
+                                  <input
+                                    type="number"
+                                    name="shippingcost"
+                                    placeholder="shipping cost"
+                                    className="outline-0 py-1 px-2 rounded ml-3"
+                                    ref={shipValRef}
+                                  />
+                                </>
+                              ) : null}
+                            </div>
+                          </div>
+                        </div>
+                      </>
                     ) : (
                       <div>
                         <InputGroup size="lg" inside style={styles}>
                           <Input
-                           type={["postalCode"].includes(item) ? "number" : "text"}
+                            type={
+                              ["postalCode"].includes(item) ? "number" : "text"
+                            }
                             value={company[`${item}`]}
                             readOnly={
                               !read && currIndex === index ? false : true
@@ -208,12 +286,13 @@ const PersonalizePage = ({ getUserAndCompanyDetail,company }) => {
               })
             : ""}
         </div>
+
         <div>
           {changesMade ? (
             <>
-              <button className="rounded-xl px-6 py-3 bg-orange-500 text-[1.2rem] font-semibold "
-              
-              onClick={updateCompanyDetails}
+              <button
+                className="rounded-xl px-6 py-3 bg-orange-500 text-[1.2rem] font-semibold "
+                onClick={updateCompanyDetails}
               >
                 Update Details
               </button>

@@ -21,8 +21,14 @@ import BackBtnPop from "@/components/BackBtnPop";
 const Page = () => {
   const params = useParams();
   const [totalAmount, settotalAmount] = useState(0);
-  const { cartItems, updateCartItem, removeCartItem, updateCartItemSizes } =
-    useStoreContext();
+  const [shippingPrice, setshippingPrice] = useState(0);
+  const {
+    cartItems,
+    updateCartItem,
+    removeCartItem,
+    updateCartItemSizes,
+    company,
+  } = useStoreContext();
   const [open, setOpen] = useState(false);
   const [size, setSize] = useState();
   // const [productSize, setproductSize] = useState();
@@ -38,8 +44,13 @@ const Page = () => {
       (acc, product) => acc + product.price * product.count,
       0
     );
+    setshippingPrice(
+      company?.shippingCost == 0 || company.shippingCost == "atcheckout"
+        ? 0
+        : parseInt(company.shippingCost)
+    );
     settotalAmount(totalPrice);
-  }, [cartItems]);
+  }, [cartItems, company]);
 
   return (
     <div className="w-[96vw] grid grid-cols-1 md:grid-cols-3 ">
@@ -191,14 +202,20 @@ const Page = () => {
           <div className="md:w-[30rem] flex flex-col gap-4 ">
             <div className="flex justify-between mt-4">
               <p>Shipping</p>
-              <p>{}</p>
+              <p>
+                {company.shippingCost == "atcheckout"
+                  ? "At Check Out"
+                  : company.shippingCost}
+              </p>
             </div>
             <div className="h-[1px] bg-gray-400 md:w-[30rem]"></div>
           </div>
           <div className="md:w-[30rem] flex flex-col gap-4 ">
             <div className="flex justify-between">
               <p className="font-semibold text-[1.2rem] ">Total</p>
-              <p className="font-semibold text-[1.2rem] ">${totalAmount}</p>
+              <p className="font-semibold text-[1.2rem] ">
+                ${totalAmount + shippingPrice}
+              </p>
             </div>
           </div>
           {cartItems.length > 0 ? (
