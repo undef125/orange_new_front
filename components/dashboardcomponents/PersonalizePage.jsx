@@ -207,6 +207,7 @@ const PersonalizePage = ({ getUserAndCompanyDetail, company }) => {
                               }}
                               onClick={() => {
                                 setshippingChoosen(0);
+                                setshippingClicked(0);
                                 setchangesMade(true);
                                 setupdateValues({
                                   ...updateValues,
@@ -232,6 +233,7 @@ const PersonalizePage = ({ getUserAndCompanyDetail, company }) => {
                               }}
                               onClick={() => {
                                 setshippingChoosen(1);
+                                setshippingClicked(1);
                                 setchangesMade(true);
                                 setupdateValues({
                                   ...updateValues,
@@ -257,6 +259,7 @@ const PersonalizePage = ({ getUserAndCompanyDetail, company }) => {
                               }}
                               onClick={() => {
                                 setshippingChoosen(2);
+                                setshippingClicked(2);
                                 setchangesMade(true);
                               }}
                             >
