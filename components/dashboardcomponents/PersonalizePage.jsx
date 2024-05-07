@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Input, InputGroup } from "rsuite";
 import { MdOutlineDone } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
@@ -15,6 +15,7 @@ const PersonalizePage = ({ getUserAndCompanyDetail, company }) => {
   const [changesMade, setchangesMade] = useState(false);
   const [restoreValue, setrestoreValue] = useState("");
   const [shippingChoosen, setshippingChoosen] = useState();
+  const [shippingClicked, setshippingClicked] = useState();
   // const [shippingValue, setshippingValue] = useState();
 
   const shipValRef = useRef(null);
@@ -38,6 +39,7 @@ const PersonalizePage = ({ getUserAndCompanyDetail, company }) => {
       setediting("");
       setupdateValues({});
       toast.dismiss(toastId);
+      getUserAndCompanyDetail();
       toast.success("updated successfully!");
     } catch (error) {
       toast.dismiss(toastId);
@@ -45,11 +47,32 @@ const PersonalizePage = ({ getUserAndCompanyDetail, company }) => {
     }
   };
 
+  useEffect(() => {
+    setshippingChoosen(
+      company?.shippingCost == "0"
+        ? 0
+        : company.shippingCost == "atcheckout"
+        ? 1
+        : 2
+    );
+    setshippingClicked(
+      company?.shippingCost == "0"
+        ? 0
+        : company.shippingCost == "atcheckout"
+        ? 1
+        : 2
+    );
+    // if(company.shippingCost !== "atcheckout" && company.shippingCost !== "0") {
+    //   shipValRef.current.value = company.shippingCost
+    // }
+  }, [company]);
+
   const styles = {
     marginBottom: 10,
   };
   return (
     <div className="w-[100vw] max-w-[100%] h-screen flex justify-center bg-slate-200">
+      {console.log(shippingChoosen, shippingClicked)}
       <div className="mt-2">
         <div>
           <h1 className="text-center font-semibold text-[1.5rem] md:text-[3rem]">
@@ -169,7 +192,19 @@ const PersonalizePage = ({ getUserAndCompanyDetail, company }) => {
                           <p>Choose Shipping Cost Option:</p>
                           <div className="flex gap-3">
                             <div
-                              className="bg-green-300 px-4 py-2 rounded my-3"
+                              className="bg-green-300 px-4 py-2 rounded my-3 flex justify-center items-center"
+                              style={{
+                                backgroundColor:
+                                  shippingClicked == 0 ||
+                                  shippingChoosen == 0
+                                    ? "white"
+                                    : null,
+                                border:
+                                  shippingClicked == 0 ||
+                                  shippingChoosen == 0
+                                    ? "1px solid black"
+                                    : null,
+                              }}
                               onClick={() => {
                                 setshippingChoosen(0);
                                 setchangesMade(true);
@@ -182,7 +217,19 @@ const PersonalizePage = ({ getUserAndCompanyDetail, company }) => {
                               Free
                             </div>
                             <div
-                              className="bg-green-300 px-4 py-2 rounded my-3"
+                              className="bg-green-300 px-4 py-2 rounded my-3 flex justify-center items-center"
+                              style={{
+                                backgroundColor:
+                                  shippingClicked == 1 ||
+                                  shippingChoosen == 1
+                                    ? "white"
+                                    : null,
+                                border:
+                                  shippingClicked == 1 ||
+                                  shippingChoosen == 1
+                                    ? "1px solid black"
+                                    : null,
+                              }}
                               onClick={() => {
                                 setshippingChoosen(1);
                                 setchangesMade(true);
@@ -196,6 +243,18 @@ const PersonalizePage = ({ getUserAndCompanyDetail, company }) => {
                             </div>
                             <div
                               className="bg-green-300 px-4 py-2 rounded my-3"
+                              style={{
+                                backgroundColor:
+                                  shippingClicked == 2 ||
+                                  shippingChoosen == 2
+                                    ? "white"
+                                    : null,
+                                border:
+                                  shippingClicked == 2 ||
+                                  shippingChoosen == 2
+                                    ? "1px solid black"
+                                    : null,
+                              }}
                               onClick={() => {
                                 setshippingChoosen(2);
                                 setchangesMade(true);
@@ -207,8 +266,9 @@ const PersonalizePage = ({ getUserAndCompanyDetail, company }) => {
                                   <input
                                     type="number"
                                     name="shippingcost"
-                                    placeholder="shipping cost"
-                                    className="outline-0 py-1 px-2 rounded ml-3"
+                                    defaultValue={company.shippingCost}
+                                    placeholder="set shipping cost"
+                                    className="outline-0 py-1 px-2 rounded ml-3 border-2"
                                     ref={shipValRef}
                                   />
                                 </>
