@@ -8,7 +8,7 @@ import { Input, InputGroup } from "rsuite";
 import { toast } from "react-hot-toast";
 import { MdDeleteForever } from "react-icons/md";
 
-const PaymentMethod = ({ company, getUserAndCompanyDetail }) => {
+const PaymentMethod = ({ company, getCompanyDetail }) => {
   const [editOnePayment, seteditOnePayment] = useState(false);
   const [editTwoPayment, seteditTwoPayment] = useState(false);
   const [updateValues, setupdateValues] = useState({});
@@ -44,7 +44,7 @@ const PaymentMethod = ({ company, getUserAndCompanyDetail }) => {
       setpayOne(false);
       setpayTwo(false);
       setupdateValues({});
-      getUserAndCompanyDetail();
+      getCompanyDetail();
       toast.success("Image Updated Successfully!");
     } catch (error) {
       toast.dismiss(toastId);

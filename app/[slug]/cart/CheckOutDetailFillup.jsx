@@ -12,14 +12,6 @@ import { IoMdAdd } from "react-icons/io";
 import { FaWhatsapp } from "react-icons/fa";
 import { MdOutlineTextsms } from "react-icons/md";
 
-const initialValues = {
-  name: "",
-  number: "",
-  city: "",
-  country: "",
-  deliveryaddress: "",
-};
-
 const CheckOutDetailFillup = ({
   size,
   open,
@@ -27,6 +19,7 @@ const CheckOutDetailFillup = ({
   cartItems,
   totalAmount,
 }) => {
+  const [initialValues, setInitialValues] = useState({});
   const { company, getCompanyDet } = useStoreContext();
   const params = useParams();
   const [one, setone] = useState(false);
@@ -43,9 +36,10 @@ const CheckOutDetailFillup = ({
       initialValues: initialValues,
       validationSchema: checkoutValidationSchema,
       onSubmit: async (values) => {
+        console.log(values);
         const toastId = toast.loading("confirming order......");
         try {
-          let products = cartItems.map((item) => {
+          let products = cartItems?.map((item) => {
             return {
               productId: item._id,
               image: item.images[0],
@@ -55,7 +49,7 @@ const CheckOutDetailFillup = ({
               size: item.size ? item.size : "",
             };
           });
-          await axios.post("addorder", {
+          await axios.post("/addorder", {
             products: products,
             companyId: company?._id,
             ...values,
@@ -86,8 +80,21 @@ const CheckOutDetailFillup = ({
   };
 
   useEffect(() => {
+    //here get the details that should be captured according to the field available in company object
+    let keyObj;
+    for (const key in company?.checkoutDetails) {
+      if(company?.checkoutDetails[key]) {
+        keyObj = { ...keyObj, [key]: "" };
+      }
+    }
+    setInitialValues(keyObj);
+    // setInitialValues(company.checkoutDetails);
+  }, [company]);
+
+  useEffect(() => {
     getCompanyDet(params?.slug);
     getOrange();
+
     const isAndroid = () => navigator.userAgent.match(/Android/i);
     const isIOS = () => navigator.userAgent.match(/iPhone|iPad|iPod/i);
 
@@ -112,7 +119,34 @@ const CheckOutDetailFillup = ({
             onSubmit={handleSubmit}
             className="flex flex-col gap-4 w-[90vw] md:w-[100%]"
           >
-            <input
+            {company?.checkoutDetails
+              ? Object.keys(company?.checkoutDetails).map((key) => {
+                  return (
+                    <>
+                      {company?.checkoutDetails[`${key}`] === true ? (
+                        <>
+                          <input
+                            size="md"
+                            type="text"
+                            placeholder={`Enter ${key == "tableNumber" ? "table number" : key == "customerWhatsapp" ? "whatsapp number" : key == "deliveryAddress" ? "delivery address" : key}`}
+                            name={key}
+                            value={values[`${key}`]}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
+                          />
+                          {errors[`${key}`] && (
+                            <div className="text-red-500">
+                              {errors[`${key}`]}
+                            </div>
+                          )}
+                        </>
+                      ) : null}
+                    </>
+                  );
+                })
+              : null}
+            {/* <input
               size="md"
               type="text"
               placeholder="Name..."
@@ -165,7 +199,7 @@ const CheckOutDetailFillup = ({
             />
             {errors.deliveryaddress && (
               <div className="text-red-500">{errors.deliveryaddress}</div>
-            )}
+            )} */}
 
             <div className="flex justify-center items-center">
               {company?.paymentOne?.qrImage ? (
@@ -216,7 +250,7 @@ My details are as follows:
 * Delivery address: ${values.deliveryaddress}
 
 Products:
-${cartItems.map((prod) => {
+${cartItems?.map((prod) => {
   return `
 ------------------------------------------------------
 * Product Name: ${prod.name}
@@ -264,7 +298,7 @@ My details are as follows:
 * Delivery address: ${values.deliveryaddress}
 
 Products:
-${cartItems.map((prod) => {
+${cartItems?.map((prod) => {
   return `
 ------------------------------------------------------
 * Product Name: ${prod.name}

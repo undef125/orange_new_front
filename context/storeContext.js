@@ -43,9 +43,9 @@ export const StoreProvider = ({ children }) => {
   };
 
   const deleteExpiredCartItems = () => {
-    if (cartItems.length > 0) {
+    if (cartItems?.length > 0) {
       console.log(cartItems[0]?.expiryDate > new Date().getTime());
-      let updatedCartItems = cartItems.filter(
+      let updatedCartItems = cartItems?.filter(
         (item) => item.expiryDate > new Date().getTime()
       );
       localStorage.setItem("cart", JSON.stringify(updatedCartItems));
@@ -55,8 +55,8 @@ export const StoreProvider = ({ children }) => {
 
   const addItemToCart = (item) => {
     item.expiryDate = new Date().getTime() + 1800000;
-    const updatedCartItems = cartItems.length > 0 ? [...cartItems] : [];
-    const existingItemIndex = updatedCartItems.findIndex(
+    const updatedCartItems = cartItems?.length > 0 ? [...cartItems] : [];
+    const existingItemIndex = updatedCartItems?.findIndex(
       (prod) => prod._id === item._id
     );
 
@@ -69,7 +69,7 @@ export const StoreProvider = ({ children }) => {
       }
     } else {
       item.count = 1;
-      updatedCartItems.push(item);
+      updatedCartItems?.push(item);
     }
     localStorage.setItem("cart", JSON.stringify(updatedCartItems));
     setcartItems(updatedCartItems);
@@ -77,17 +77,17 @@ export const StoreProvider = ({ children }) => {
 
   const removeCartItem = (itemId) => {
     let indexOfItemToRemove;
-    cartItems.forEach((item, index) => {
+    cartItems?.forEach((item, index) => {
       if (item._id === itemId) indexOfItemToRemove = index;
     });
-    const updatedCartItems = cartItems.toSpliced(indexOfItemToRemove, 1);
+    const updatedCartItems = cartItems?.toSpliced(indexOfItemToRemove, 1);
     localStorage.setItem("cart", JSON.stringify(updatedCartItems));
     setcartItems(updatedCartItems);
   };
 
   const updateCartItem = (itemId, todo) => {
     console.log("updateMaAakoId: " + itemId)
-    const udptedCartItem = cartItems.map((item) => {
+    const udptedCartItem = cartItems?.map((item) => {
       if (item._id === itemId) {
         if (todo === "+" && item.count < item.totalQuantity) {
           console.log(`plus: ${item._id}`)
@@ -117,7 +117,7 @@ export const StoreProvider = ({ children }) => {
     setcartItems(udptedCartItem);
   };
   const updateCartItemSizes = (itemId, tosize) => {
-    const udptedCartItem = cartItems.map((item) => {
+    const udptedCartItem = cartItems?.map((item) => {
       if (item._id === itemId) {
         item.size = tosize;
         item.count = 1;

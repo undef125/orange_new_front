@@ -98,6 +98,7 @@ const PersonalizePage = ({ getUserAndCompanyDetail, company }) => {
                     "paymentOne",
                     "paymentTwo",
                     "shippingCost",
+                    "checkoutDetails"
                   ].includes(item)
                 )
                   return;

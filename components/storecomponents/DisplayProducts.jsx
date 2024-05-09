@@ -20,7 +20,7 @@ const DisplayProducts = ({
   const [filteredProd, setfilteredProd] = useState([]);
 
   const getProductCountInCart = (productId) => {
-    const productInCart = cartItems.find(
+    const productInCart = cartItems?.find(
       (product) => product._id === productId
     );
 

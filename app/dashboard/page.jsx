@@ -8,7 +8,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { PiStackLight } from "react-icons/pi";
 import { BsHddStack } from "react-icons/bs";
 import PersonalizePage from "@/components/dashboardcomponents/PersonalizePage";
-import CustomizePage from "@/components/dashboardcomponents/CustomizePage";
+import CustomizePage from "@/components/dashboardcomponents/Customizepage/CustomizePage";
 import CategoriesPage from "@/components/dashboardcomponents/CategoriesPage";
 import ProductsPage from "@/components/dashboardcomponents/ProductsPage";
 import axios from "@/app/api/axiosinterceptor";
@@ -35,14 +35,12 @@ const Page = () => {
     setOpen(true);
     setPlacement(key);
   };
-  const getColorMethod = async(companyId) => {
+  const getColorMethod = async (companyId) => {
     try {
       const resp3 = await axios.get(`/getcolors/${companyId}`);
       setColors(resp3.data[0]);
-    } catch (error) {
-      
-    }
-  }
+    } catch (error) {}
+  };
 
   const getUserAndCompanyDetail = async () => {
     try {
@@ -51,6 +49,15 @@ const Page = () => {
       const resp2 = await axios.get("/getcompanydetails");
       setCompany(resp2.data.data[0]);
       getColorMethod(resp2.data.data[0]._id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getCompanyDetail = async () => {
+    try {
+      const resp2 = await axios.get("/getcompanydetails");
+      setCompany(resp2.data.data[0]);
+      console.log("gotted:" + resp2.data.data[0]._id);
     } catch (error) {
       console.log(error);
     }
@@ -210,10 +217,10 @@ const Page = () => {
                 <div className=" items-center w-screen h-screen max-w-[100%] flex flex-1 justify-center bg-slate-200">
                   <div className="bg-slate-300 rounded px-4">
                     <div className="flex justify-center items-center mb-4 p-2 ">
-                      <Image  
-onError={(e) => {
-                        e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
-                      }}
+                      <Image
+                        onError={(e) => {
+                          e.target.src = "/fallbackimage.png"; // Provide the URL of your fallback image
+                        }}
                         src={"/home_page/company.png"}
                         height={200}
                         width={200}
@@ -243,8 +250,9 @@ onError={(e) => {
           ) : whichPage === 1 ? (
             <CustomizePage
               company={company}
-              getUserAndCompanyDetail={getUserAndCompanyDetail}
-              setCompany={setCompany}
+              // getUserAndCompanyDetail={getUserAndCompanyDetail}
+              // setCompany={setCompany}
+              getCompanyDetail={getCompanyDetail}
             />
           ) : whichPage === 2 ? (
             <PersonalizePage
@@ -253,7 +261,7 @@ onError={(e) => {
             />
           ) : whichPage === 3 ? (
             <PaymentMethod
-              getUserAndCompanyDetail={getUserAndCompanyDetail}
+              getCompanyDetail={getCompanyDetail}
               company={company}
             />
           ) : whichPage === 4 ? (

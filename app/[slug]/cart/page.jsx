@@ -40,12 +40,12 @@ const Page = () => {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    const totalPrice = cartItems.reduce(
+    const totalPrice = cartItems?.reduce(
       (acc, product) => acc + product.price * product.count,
       0
     );
     setshippingPrice(
-      company?.shippingCost == 0 || company.shippingCost == "atcheckout"
+      company?.shippingCost == 0 || company?.shippingCost == "atcheckout"
         ? 0
         : parseInt(company.shippingCost)
     );
@@ -88,7 +88,7 @@ const Page = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {cartItems.map((product, index) => {
+                {cartItems?.map((product, index) => {
                   return (
                     <Tr key={index} className="border-b-2 ">
                       <Td>
@@ -214,11 +214,11 @@ const Page = () => {
             <div className="flex justify-between">
               <p className="font-semibold text-[1.2rem] ">Total</p>
               <p className="font-semibold text-[1.2rem] ">
-                ${totalAmount + shippingPrice}
+                ${totalAmount + shippingPrice == NaN ? 0 : totalAmount + shippingPrice}
               </p>
             </div>
           </div>
-          {cartItems.length > 0 ? (
+          {cartItems?.length > 0 ? (
             <div className="flex justify-center">
               <button
                 onClick={() => {

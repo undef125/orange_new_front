@@ -134,6 +134,11 @@ const DisplayOrders = ({ company }) => {
                   </Th>
                   <Th>
                     <p className="text-orange-500 text-[1.2rem] font-medium">
+                      Table Number
+                    </p>
+                  </Th>
+                  <Th>
+                    <p className="text-orange-500 text-[1.2rem] font-medium">
                       Delivery Address
                     </p>
                   </Th>
@@ -167,22 +172,35 @@ const DisplayOrders = ({ company }) => {
                         <Tr key={index}>
                           <Td>
                             <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                              <div>{order?.orderedFrom}</div>
+                              <div>
+                                {order?.orderedFrom ? order?.orderedFrom : "--"}
+                              </div>
                             </div>
                           </Td>
                           <Td>
                             <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                              <div>{order?.name}</div>
+                              <div>{order?.name ? order?.name : "--"}</div>
                             </div>
                           </Td>
                           <Td>
                             <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                              <div>{order?.deliveryaddress}</div>
+                              <div>
+                                {order?.tableNumber ? order?.tableNumber : "--"}
+                              </div>
                             </div>
                           </Td>
                           <Td>
                             <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
-                              <div>{order?.number}</div>
+                              <div>
+                                {order?.deliveryaddress
+                                  ? order?.deliveryaddress
+                                  : "--"}
+                              </div>
+                            </div>
+                          </Td>
+                          <Td>
+                            <div className="flex flex-col gap-4 px-3 py-2 h-[100%] ">
+                              <div>{order?.number ? order?.number : "--"}</div>
                             </div>
                           </Td>
                           <Td>
@@ -314,34 +332,47 @@ const DisplayOrderDetails = ({
             </div>
           ) : null}
           <div className="grid grid-cols-2 gap-y-2">
-            <div className="flex flex-col">
-              <p className="text-[.9rem] text-slate-400">Name</p>
-              <p className="text-[1rem] font-semibold">{currentOrder?.name}</p>
-            </div>
-            <div className="flex flex-col">
-              <p className="text-[.9rem] text-slate-400">Number</p>
-              <p className="text-[1rem] font-semibold">
-                {currentOrder?.number}
-              </p>
-            </div>
-            <div className="flex flex-col">
-              <p className="text-[.9rem] text-slate-400">Delivery Address</p>
-              <p className="text-[1rem] font-semibold">
-                {currentOrder?.deliveryaddress}
-              </p>
-            </div>
+            {currentOrder?.name ? (
+              <div className="flex flex-col">
+                <p className="text-[.9rem] text-slate-400">Name</p>
+                <p className="text-[1rem] font-semibold">
+                  {currentOrder?.name}
+                </p>
+              </div>
+            ) : null}
+
+            {currentOrder?.customerWhatsapp ? (
+              <div className="flex flex-col">
+                <p className="text-[.9rem] text-slate-400">Number</p>
+                <p className="text-[1rem] font-semibold">
+                  {currentOrder?.customerWhatsapp}
+                </p>
+              </div>
+            ) : null}
+
+            {currentOrder?.deliveryAddress ? (
+              <div className="flex flex-col">
+                <p className="text-[.9rem] text-slate-400">Delivery Address</p>
+                <p className="text-[1rem] font-semibold">
+                  {currentOrder?.deliveryAddress}
+                </p>
+              </div>
+            ) : null}
+
             <div className="flex flex-col">
               <p className="text-[.9rem] text-slate-400">Ordered Date</p>
               <p className="text-[1rem] font-semibold">
                 {currentOrder?.createdAt?.split("T")[0]}
               </p>
             </div>
-            <div className="flex flex-col">
-              <p className="text-[.9rem] text-slate-400">Country</p>
-              <p className="text-[1rem] font-semibold">
-                {currentOrder?.country}
-              </p>
-            </div>
+            {currentOrder?.country ? (
+              <div className="flex flex-col">
+                <p className="text-[.9rem] text-slate-400">Country</p>
+                <p className="text-[1rem] font-semibold">
+                  {currentOrder?.country}
+                </p>
+              </div>
+            ) : null}
             <div className="flex flex-col">
               <p className="text-[.9rem] text-slate-400">Total Amount</p>
               <p className="text-[1rem] font-semibold">
