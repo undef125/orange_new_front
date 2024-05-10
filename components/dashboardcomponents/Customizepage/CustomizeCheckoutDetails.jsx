@@ -6,7 +6,9 @@ import { toast } from "react-hot-toast";
 const CustomizeCheckoutDetails = ({ company }) => {
   // console.log(company.checkoutDetails)
   const [toggleChange, settoggleChange] = useState(false);
+  const [inputChange, setinputChange] = useState(false);
   const [updateValues, setupdateValues] = useState({});
+  const [labelTextUpdateValue, setlabelTextUpdateValue] = useState("");
 
   const updateCheckoutDetails = async (req, res) => {
     const toastId = toast.loading("Updating Image...");
@@ -22,6 +24,22 @@ const CustomizeCheckoutDetails = ({ company }) => {
       console.log(error);
       toast.dismiss(toastId);
       toast.error("Error Updating Details!");
+    }
+  };
+  const updateLabelText = async (req, res) => {
+    const toastId = toast.loading("Updating Image...");
+    try {
+      await axios.post(`/updatecheckoutlabeltext/${company?._id}`, {
+        updatedLabel: labelTextUpdateValue,
+      });
+      toast.dismiss(toastId);
+      setlabelTextUpdateValue();
+      setinputChange(false);
+      toast.success("Label Updated Successfully!");
+    } catch (error) {
+      console.log(error);
+      toast.dismiss(toastId);
+      toast.error("Error Updating Label!");
     }
   };
 
@@ -88,6 +106,41 @@ const CustomizeCheckoutDetails = ({ company }) => {
           </div>
         </div>
       ) : null}
+      <div>
+        <p className="text-orange-500 font-semibold text-[1.5rem] md:text-[2.5rem] text-center my-2 mt-4 " >
+          Checkout Payment Option Heading Text Customization
+        </p>
+        <div className="w-[90vw] m-auto mt-2 flex flex-col">
+          <input
+            type="text"
+            className="border-[2px] w-[40%] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
+            defaultValue={company?.checkoutLabelText}
+            onChange={(e) => {
+              setinputChange(true);
+              setlabelTextUpdateValue(e.target.value);
+            }}
+          />
+          {inputChange ? (
+            <div className="flex gap-2">
+              <button
+                className="rounded-xl py-1 px-2 w-[9rem] mt-2 md:px-6 md:py-3 bg-orange-500 text-[1.2rem] font-semibold "
+                onClick={updateLabelText}
+              >
+                Update
+              </button>
+              <button
+                className="rounded-xl py-1 px-2 w-[9rem] mt-2 md:px-6 md:py-3 bg-orange-500 text-[1.2rem] font-semibold "
+                onClick={() => {
+                  setinputChange(false);
+                  setlabelTextUpdateValue();
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          ) : null}
+        </div>
+      </div>
     </div>
   );
 };

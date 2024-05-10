@@ -83,7 +83,7 @@ const CheckOutDetailFillup = ({
     //here get the details that should be captured according to the field available in company object
     let keyObj;
     for (const key in company?.checkoutDetails) {
-      if(company?.checkoutDetails[key]) {
+      if (company?.checkoutDetails[key]) {
         keyObj = { ...keyObj, [key]: "" };
       }
     }
@@ -128,7 +128,15 @@ const CheckOutDetailFillup = ({
                           <input
                             size="md"
                             type="text"
-                            placeholder={`Enter ${key == "tableNumber" ? "table number" : key == "customerWhatsapp" ? "whatsapp number" : key == "deliveryAddress" ? "delivery address" : key}`}
+                            placeholder={`Enter ${
+                              key == "tableNumber"
+                                ? "table number"
+                                : key == "customerWhatsapp"
+                                ? "whatsapp number"
+                                : key == "deliveryAddress"
+                                ? "delivery address"
+                                : key
+                            }`}
                             name={key}
                             value={values[`${key}`]}
                             onChange={handleChange}
@@ -146,61 +154,10 @@ const CheckOutDetailFillup = ({
                   );
                 })
               : null}
-            {/* <input
-              size="md"
-              type="text"
-              placeholder="Name..."
-              name="name"
-              value={values.name}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
-            />
-            {errors.name && <div className="text-red-500">{errors.name}</div>}
 
-            <input
-              placeholder="Your whatsapp number..."
-              size="md"
-              name="number"
-              value={values.number}
-              className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
-              onChange={handleChange}
-            />
-            {errors.number && (
-              <div className="text-red-500">{errors.number}</div>
-            )}
-            <input
-              placeholder="Enter your city..."
-              size="md"
-              name="city"
-              value={values.city}
-              className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
-              onChange={handleChange}
-            />
-            {errors.city && <div className="text-red-500">{errors.city}</div>}
-            <input
-              placeholder="Enter your country..."
-              size="md"
-              name="country"
-              value={values.country}
-              className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
-              onChange={handleChange}
-            />
-            {errors.country && (
-              <div className="text-red-500">{errors.country}</div>
-            )}
-            <input
-              placeholder="Enter your delivery address..."
-              size="md"
-              name="deliveryaddress"
-              value={values.deliveryaddress}
-              className="border-[2px] border-[#B6BBC4] border-solid rounded-md px-2 py-2 focus:outline-none focus:border-[2px] focus:border-orange-500 "
-              onChange={handleChange}
-            />
-            {errors.deliveryaddress && (
-              <div className="text-red-500">{errors.deliveryaddress}</div>
-            )} */}
-
+            <div>
+              <p className="text-center font-bold text-lg">{company?.checkoutLabelText}</p>
+            </div>
             <div className="flex justify-center items-center">
               {company?.paymentOne?.qrImage ? (
                 <button
